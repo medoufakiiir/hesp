@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riyada Ventures | Industrial Excellence</title>
+    <link rel="icon" href="images/logo.ico" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Noto+Sans+Arabic:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #e8530a;
+            --brown: #2c1810;
+            --cream: #f7f3ee;
+            --steel: #1c1c1e;
+            --muted: #8a8078;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Barlow', 'Noto Sans Arabic', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            background: var(--cream);
+        }
+        body.dark { background: var(--steel); }
+
+        /* Grain overlay */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.025; pointer-events: none; z-index: 9998;
+        }
+
+        .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; }
+
+        /* Custom cursor */
+        body { cursor: none; }
+        #cursor {
+            width: 12px; height: 12px;
+            background: var(--orange);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 99999;
+            transition: transform 0.15s ease, width 0.2s, height 0.2s;
+            transform: translate(-50%, -50%);
+        }
+        #cursor-ring {
+            width: 36px; height: 36px;
+            border: 1.5px solid var(--orange);
+            border-radius: 50%;
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; z-index: 99998;
+            transition: transform 0.4s ease, opacity 0.2s;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+        }
+        a:hover ~ #cursor, button:hover ~ #cursor { transform: translate(-50%,-50%) scale(2.5); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--cream); }
+        ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+        body.dark ::-webkit-scrollbar-track { background: var(--steel); }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Marquee */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee { display: flex; width: fit-content; animation: marquee 35s linear infinite; }
+
+        /* Counter animation */
+        @keyframes countUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+        .count-up { animation: countUp 0.8s ease forwards; }
+
+        /* Line reveal */
+        @keyframes lineGrow { from { width: 0; } to { width: 100%; } }
+
+        /* Hover lift */
+        .lift { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease; }
+        .lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.12); }
+
+        /* Orange glow */
+        .glow-orange { box-shadow: 0 0 40px rgba(232,83,10,0.25); }
+
+        /* Section divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,83,10,0.4), transparent);
+        }
+
+        /* Text stroke */
+        .stroke-text {
+            -webkit-text-stroke: 2px var(--orange);
+            color: transparent;
+        }
+
+        /* Parallax hero image */
+        .hero-img {
+            transition: transform 0.1s linear;
+        }
+
+        /* Stats number */
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--orange);
+            line-height: 1;
+        }
+
+        /* Card hover border animation */
+        .card-border {
+            position: relative;
+            overflow: hidden;
+        }
+        .card-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 3px;
+            background: var(--orange);
+            transition: width 0.4s ease;
+        }
+        .card-border:hover::after { width: 100%; }
+
+        /* Pill tag */
+        .pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(232,83,10,0.3);
+            background: rgba(232,83,10,0.06);
+            color: var(--orange);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* Input focus glow */
+        .input-field {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 18px 24px;
+            width: 100%;
+            color: white;
+            font-family: 'Barlow', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-field::placeholder { color: rgba(255,255,255,0.35); }
+        .input-field:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(232,83,10,0.15); }
+
+        /* Mobile menu */
+        @keyframes slideDown { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
+        .menu-open { animation: slideDown 0.25s ease forwards; }
+
+        /* Tabs underline */
+        .tab-active { color: var(--orange); border-bottom: 2px solid var(--orange); }
+
+        /* Hero diagonal cut */
+        .hero-cut {
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+        }
+
+        /* Dark mode adjustments */
+        body.dark .bg-cream { background: #111 !important; }
+        body.dark .text-brown { color: #fff !important; }
+
+        /* Smooth image load */
+        img { transition: opacity 0.3s; }
+
+        /* Stagger children */
+        .stagger > * { opacity: 0; animation: countUp 0.6s ease forwards; }
+        .stagger > *:nth-child(1) { animation-delay: 0.05s; }
+        .stagger > *:nth-child(2) { animation-delay: 0.15s; }
+        .stagger > *:nth-child(3) { animation-delay: 0.25s; }
+        .stagger > *:nth-child(4) { animation-delay: 0.35s; }
+        .stagger > *:nth-child(5) { animation-delay: 0.45s; }
+        .stagger > *:nth-child(6) { animation-delay: 0.55s; }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        orange: '#e8530a',
+                        brown: '#2c1810',
+                        cream: '#f7f3ee',
+                        steel: '#1c1c1e',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body id="body-el">
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+    <div id="root"></div>
+
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+        function animRing() { rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
+        animRing();
+        document.querySelectorAll('a,button').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; ring.style.opacity='0'; });
+            el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='0.5'; });
+        });
+    </script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+        const { motion, AnimatePresence, useScroll, useTransform } = window.Motion;
+
+        const Icon = ({ name, size = 20, className = "" }) =>
+            <i data-lucide={name} style={{ width: size, height: size, display:'inline-block' }} className={className}></i>;
+
+        const translations = {
+            EN: {
+                nav: { home:"Home", about:"About", products:"Products", brands:"Brands", industries:"Industries", why:"Why Us", contact:"Contact" },
+                hero: {
+                    tag: "Saudi Arabia's Premier Parts Partner",
+                    tagline1: "Uncompromising",
+                    tagline2: "Reliability",
+                    tagline3: "In Every Gear.",
+                    subtext: "Premium Heavy Equipment Spare Parts & Aftermarket Solutions for Saudi Arabia's Industrial Giants.",
+                    cta1: "Explore Products", cta2: "Get a Quote"
+                },
+                stats: [
+                    { num: "500+", label: "OEM Brands Covered" },
+                    { num: "24h", label: "Express Response" },
+                    { num: "15+", label: "Years Experience" },
+                    { num: "99%", label: "Client Retention" }
+                ],
+                about: {
+                    title: "Our Story",
+                    text: "Riyada Ventures was established to solve a common market problem: customers need the correct part, quickly, from reliable sources — without guesswork. We are the backbone of Saudi industrial maintenance.",
+                    vision: "To be the most trusted heavy equipment partner in the Middle East.",
+                    mission: "Delivering engineering excellence through precision global sourcing."
+                },
+                products: {
+                    title: "Engineered Solutions",
+                    subtitle: "Comprehensive range for CAT, Komatsu, Volvo, and more.",
+                    categories: ["All","Engine","Hydraulic","Cooling","Filters","Sensors","Consumables"]
+                },
+                brandsSection: {
+                    title: "Brands & Applications",
+                    subtitle: "Extensive coverage for global industrial leaders.",
+                    tabs: ["Supported Brands","Equipment Types","Applications"]
+                },
+                industries: {
+                    title: "Industries We Serve",
+                    items: [
+                        { name:"Construction", desc:"Foundations for the future.", icon:"hard-hat" },
+                        { name:"Mining", desc:"Hard-wearing parts for harsh environments.", icon:"pickaxe" },
+                        { name:"Rental Fleets", desc:"Ensuring maximum uptime for assets.", icon:"truck" },
+                        { name:"Workshops", desc:"Supply lines for maintenance specialists.", icon:"wrench" },
+                        { name:"Energy", desc:"Powering the Kingdom's progress.", icon:"factory" }
+                    ]
+                },
+                why: {
+                    title: "Why Riyada?",
+                    sub: "We don't just supply parts — we supply time.",
+                    items: [
+                        { title:"Global Sourcing", desc:"Direct access to OEM & Premium Aftermarket manufacturers worldwide.", icon:"globe-2" },
+                        { title:"Rapid Lead Times", desc:"Express air-freight and optimized local logistics for urgent repairs.", icon:"zap" },
+                        { title:"Fleet Readiness", desc:"Inventory management designed for large-scale project continuity.", icon:"shield-check" },
+                        { title:"Expert Support", desc:"Engineering-grade technical consultation for every procurement decision.", icon:"headphones" }
+                    ],
+                    times: [
+                        { label:"Express Air", val:"3–5 Days" },
+                        { label:"Standard Sea", val:"21–30 Days" },
+                        { label:"Local Pickup", val:"Same Day" }
+                    ]
+                },
+                contact: {
+                    title: "Let's Work Together",
+                    sub: "Ready to keep your fleet running?",
+                    send: "Send Message",
+                    name: "Full Name", email: "Email Address", company: "Company (optional)", message: "How can we help?",
+                    hours: "Sun – Thu  ·  8:00 AM – 6:00 PM"
+                },
+                footer: {
+                    tagline: "The backbone of Saudi industrial maintenance and machinery spare parts.",
+                    links: "Quick Links", solutions: "Products", newsletter: "Industry Insights",
+                    subscribe: "Subscribe",
+                    rights: "All rights reserved. Riyada Ventures."
+                }
+            },
+            AR: {
+                nav: { home:"الرئيسية", about:"من نحن", products:"المنتجات", brands:"العلامات", industries:"الصناعات", why:"لماذا نحن", contact:"اتصل بنا" },
+                hero: {
+                    tag: "الشريك الأول لقطع الغيار في المملكة",
+                    tagline1: "موثوقية",
+                    tagline2: "لا تضاهى",
+                    tagline3: "في كل قطعة غيار.",
+                    subtext: "قطع غيار المعدات الثقيلة وحلول ما بعد البيع المتميزة للعمالقة الصناعيين في المملكة العربية السعودية.",
+                    cta1: "استكشف المنتجات", cta2: "طلب اقتباس"
+                },
+                stats: [
+                    { num: "500+", label: "علامة تجارية مدعومة" },
+                    { num: "24h", label: "وقت استجابة سريع" },
+                    { num: "15+", label: "سنوات خبرة" },
+                    { num: "99%", label: "رضا العملاء" }
+                ],
+                about: {
+                    title: "قصتنا",
+                    text: "تأسست ريادة فنتشرز لحل مشكلة شائعة في السوق: العملاء يحتاجون القطعة الصحيحة، بسرعة، من مصادر موثوقة. نحن العمود الفقري للصيانة الصناعية السعودية.",
+                    vision: "أن نكون الشريك الأكثر ثقة في قطاع المعدات الثقيلة بالشرق الأوسط.",
+                    mission: "تقديم التميز الهندسي من خلال المصادر العالمية الدقيقة."
+                },
+                products: {
+                    title: "حلول هندسية",
+                    subtitle: "مجموعة شاملة لقطع غيار كاتربيلر، كوماتسو، فولفو، وأكثر.",
+                    categories: ["الكل","المحرك","الهيدروليك","التبريد","الفلاتر","المستشعرات","المستهلكات"]
+                },
+                brandsSection: {
+                    title: "العلامات والتطبيقات",
+                    subtitle: "تغطية واسعة للقادة الصناعيين العالميين.",
+                    tabs: ["العلامات التجارية","أنواع المعدات","التطبيقات"]
+                },
+                industries: {
+                    title: "الصناعات التي نخدمها",
+                    items: [
+                        { name:"البناء", desc:"أساسات للمستقبل.", icon:"hard-hat" },
+                        { name:"التعدين", desc:"قطع متينة للبيئات القاسية.", icon:"pickaxe" },
+                        { name:"أساطيل التأجير", desc:"ضمان أقصى وقت تشغيل.", icon:"truck" },
+                        { name:"ورش العمل", desc:"خطوط إمداد لمتخصصي الصيانة.", icon:"wrench" },
+                        { name:"الطاقة", desc:"دعم مشاريع الطاقة في المملكة.", icon:"factory" }
+                    ]
+                },
+                why: {
+                    title: "لماذا ريادة؟",
+                    sub: "نحن لا نوفر قطعاً فحسب — بل نوفر الوقت.",
+                    items: [
+                        { title:"مصادر عالمية", desc:"وصول مباشر إلى الشركات المصنعة للمعدات الأصلية.", icon:"globe-2" },
+                        { title:"أوقات استجابة سريعة", desc:"شحن جوي سريع ولوجستيات محلية محسنة.", icon:"zap" },
+                        { title:"جاهزية الأسطول", desc:"إدارة مخزون مصممة لاستمرارية المشاريع.", icon:"shield-check" },
+                        { title:"دعم متخصص", desc:"استشارات هندسية متخصصة لكل قرار شراء.", icon:"headphones" }
+                    ],
+                    times: [
+                        { label:"شحن جوي سريع", val:"3–5 أيام" },
+                        { label:"شحن بحري", val:"21–30 يوم" },
+                        { label:"استلام محلي", val:"نفس اليوم" }
+                    ]
+                },
+                contact: {
+                    title: "لنعمل معاً",
+                    sub: "هل أنت مستعد للحفاظ على تشغيل أسطولك؟",
+                    send: "إرسال الرسالة",
+                    name: "الاسم الكامل", email: "البريد الإلكتروني", company: "الشركة (اختياري)", message: "كيف يمكننا مساعدتك؟",
+                    hours: "الأحد – الخميس  ·  ٨:٠٠ صباحاً – ٦:٠٠ مساءً"
+                },
+                footer: {
+                    tagline: "العمود الفقري للصيانة الصناعية وقطع غيار المعدات في المملكة.",
+                    links: "روابط سريعة", solutions: "المنتجات", newsletter: "نشرة إخبارية",
+                    subscribe: "اشتراك",
+                    rights: "جميع الحقوق محفوظة. ريادة فنتشرز."
+                }
+            }
+        };
+
+        const ProductData = [
+            { id:1, name:"Hydraulic Pump Assembly", category:"Hydraulic", brand:"CAT Compatible", img:"images/Hydraulic Pump Assembly.jpg" },
+            { id:2, name:"Turbocharger Series X", category:"Engine", brand:"Volvo / Perkins", img:"images/Turbocharger Series X.jpg" },
+            { id:3, name:"Heavy Duty Air Filter", category:"Filters", brand:"Fleetguard", img:"images/Heavy Duty Air Filter.jpg" },
+            { id:4, name:"Control Module ECU", category:"Sensors", brand:"Bosch Industrial", img:"images/Control Module ECU.jpg" },
+            { id:5, name:"Industrial Radiator", category:"Cooling", brand:"Heavy-Duty OEM", img:"images/Industrial Radiator.avif" },
+            { id:6, name:"High-Temp Bearing Grease", category:"Consumables", brand:"Premium Lubricants", img:"images/High-Temp Bearing Grease.jpg" }
+        ];
+
+        const Brands = ["Caterpillar","Komatsu","Volvo","JCB","Cummins","Perkins","Doosan","Hitachi","Liebherr","Bobcat","John Deere","Deutz"];
+
+        const EquipmentTypes = [
+            { name:"Excavators", icon:"hard-hat" },
+            { name:"Wheel Loaders", icon:"truck" },
+            { name:"Bulldozers", icon:"mountain" },
+            { name:"Articulated Haulers", icon:"container" },
+            { name:"Generators", icon:"zap" },
+            { name:"Forklifts", icon:"box" }
+        ];
+
+        const ApplicationData = [
+            { title:"Earthmoving", icon:"shovel", desc:"Heavy-duty chassis and drivetrain components for massive soil displacement." },
+            { title:"Material Handling", icon:"package", desc:"Precision hydraulics and sensors for safe, efficient warehouse and port operations." },
+            { title:"Power Generation", icon:"battery-charging", desc:"Critical engine parts for prime and standby power systems." },
+            { title:"Paving & Roadwork", icon:"milestone", desc:"Specialized wear parts for asphalt and concrete laying equipment." }
+        ];
+
+        const SolidBrandIcon = ({ name, size = 26, className = "" }) => {
+            const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true };
+            const cls = className;
+
+            switch (name) {
+                // Equipment Types
+                case "hard-hat":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M12 3a4 4 0 0 0-4 4v1.1L5 9.4V12l3 1v2c0 1.7 1.3 3 3 3h2c1.7 0 3-1.3 3-3v-2l3-1V9.4l-3-1.3V7a4 4 0 0 0-4-4Zm-2 5.5V7c0-1.1.9-2 2-2s2 .9 2 2v1.5l2 1V12l-7 2-7-2v-.5l2-1Z" />
+                        </svg>
+                    );
+                case "truck":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M3 6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2h1.2a2 2 0 0 1 1.6.8l1.2 1.6V16a2 2 0 0 1-2 2h-1a3 3 0 0 1-6 0H8a3 3 0 0 1-6 0H3V6Zm14 4V6H5v10h2.1a3 3 0 0 1 5.8 0H17v-4Zm-3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
+                        </svg>
+                    );
+                case "mountain":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M3 20 10 8l3 5 2-3 4 10H3Zm7-9 2 3h3l-2-4-3 1Zm-2 6h6l-3-5-3 5Z" />
+                        </svg>
+                    );
+                case "container":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Zm3-1a1 1 0 0 0-1 1v1h12V7a1 1 0 0 0-1-1H7Zm-1 6v4a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-4H6Z" />
+                        </svg>
+                    );
+                case "zap":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" />
+                        </svg>
+                    );
+                case "box":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M12 2 2 7l10 5 10-5-10-5Zm-8 7v8l8 4 8-4V9l-8 4-8-4Z" />
+                        </svg>
+                    );
+
+                // Applications
+                case "shovel":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M21 2 9 14l-1.5 5.5L4 18l1-3.5L17 2l4 0Zm-8.5 13.5L15 14l2-2 1 1-2 2-2 1.5Z" />
+                        </svg>
+                    );
+                case "package":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M21 8a2 2 0 0 0-1-1.7l-8-4a2 2 0 0 0-2 0l-8 4A2 2 0 0 0 0 8v8a2 2 0 0 0 1 1.7l8 4a2 2 0 0 0 2 0l8-4A2 2 0 0 0 21 16V8ZM7.5 10 3 8l4.5-2L12 8l-4.5 2ZM12 10l4.5-2 3 1.5v5L12 20v-10Z" />
+                        </svg>
+                    );
+                case "battery-charging":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M2 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm16 2H6v10h12V8Zm-8 2 2-1v3l2-1-1 4-3-2V10Z" />
+                        </svg>
+                    );
+                case "milestone":
+                    return (
+                        <svg {...common} className={cls}>
+                            <path d="M12 2a4 4 0 0 1 4 4c0 1.4-.7 2.6-1.7 3.3l.7 1.7h4.7v2h-6l-2-5-2 5H4v-2h4.7l.7-1.7A4 4 0 0 1 12 2Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+                        </svg>
+                    );
+
+                default:
+                    return <Icon name={name} size={size} className={cls} />;
+            }
+        };
+
+        /* ─── Motion variants ─── */
+        const fadeUp = { hidden:{opacity:0,y:40}, visible:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} };
+        const fadeIn  = { hidden:{opacity:0}, visible:{opacity:1,transition:{duration:0.5}} };
+        const stagger = { hidden:{opacity:0}, visible:{opacity:1,transition:{staggerChildren:0.08}} };
+
+        /* ─── App ─── */
+        const App = () => {
+            const [lang, setLang] = useState('EN');
+            const [isDark, setIsDark] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+            const [filter, setFilter] = useState('All');
+            const [search, setSearch] = useState('');
+            const [brandTab, setBrandTab] = useState(0);
+            const [menuOpen, setMenuOpen] = useState(false);
+            const heroRef = useRef(null);
+
+            useEffect(() => {
+                document.documentElement.dir = lang === 'AR' ? 'rtl' : 'ltr';
+            }, [lang]);
+
+            useEffect(() => {
+                const onScroll = () => setScrolled(window.scrollY > 40);
+                window.addEventListener('scroll', onScroll);
+                return () => window.removeEventListener('scroll', onScroll);
+            }, []);
+
+            const ensureLucide = () => {
+                try { lucide.createIcons(); } catch (e) {}
+                // Some Lucide builds scan DOM only once; call again after DOM settles.
+                setTimeout(() => { try { lucide.createIcons(); } catch (e) {} }, 50);
+                setTimeout(() => { try { lucide.createIcons(); } catch (e) {} }, 250);
+            };
+
+            useEffect(() => {
+                ensureLucide();
+            }, []);
+
+            useEffect(() => {
+                ensureLucide();
+            }, [brandTab]);
+
+            useEffect(() => {
+                const body = document.getElementById('body-el');
+                if (isDark) { body.classList.add('dark'); document.documentElement.classList.add('dark'); }
+                else { body.classList.remove('dark'); document.documentElement.classList.remove('dark'); }
+            }, [isDark]);
+
+            const t = translations[lang];
+
+            const filteredProducts = useMemo(() => ProductData.filter(p => {
+                const mf = filter === 'All' || filter === 'الكل' || p.category === filter;
+                const ms = p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase());
+                return mf && ms;
+            }), [filter, search]);
+
+            const scrollTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior:'smooth' }); setMenuOpen(false); };
+
+            return (
+                <div className={`min-h-screen ${isDark ? 'bg-[#111] text-white' : 'bg-[#f7f3ee] text-[#2c1810]'} transition-colors duration-500`}>
+
+                    {/* ════════════════════════════════
+                        NAVBAR
+                    ════════════════════════════════ */}
+                    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+                        scrolled
+                            ? 'bg-[#1a1008]/95 backdrop-blur-xl shadow-2xl border-b border-orange-900/20 h-16'
+                            : 'bg-[#1a1008] h-20'
+                    }`}>
+                        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+                            {/* Logo */}
+                            <a href="#home" onClick={e=>{e.preventDefault();scrollTo('home')}} className="flex items-center gap-3 flex-shrink-0">
+                                <img src="images/logo.png" alt="Riyada Ventures" style={{height: scrolled ? '69px' : '105px', width:'auto', transition:'height 0.4s ease'}} />
+                            </a>
+
+                            {/* Desktop nav */}
+                            <div className="hidden lg:flex items-center gap-1">
+                                {Object.entries(t.nav).map(([key, label], i) => (
+                                    <motion.a
+                                        key={key}
+                                        initial={{opacity:0,y:-8}} animate={{opacity:1,y:0}} transition={{delay:i*0.06}}
+                                        href={`#${key}`}
+                                        onClick={e=>{e.preventDefault();scrollTo(key)}}
+                                        className="px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70 hover:text-[#e8530a] transition-colors duration-200 relative group"
+                                    >
+                                        {label}
+                                        <span className="absolute bottom-0 left-4 right-4 h-px bg-[#e8530a] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                                    </motion.a>
+                                ))}
+                            </div>
+
+                            {/* Controls */}
+                            <div className="flex items-center gap-3">
+                                <button onClick={()=>setIsDark(!isDark)}
+                                    className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all">
+                                    <Icon name={isDark ? "sun" : "moon"} size={16} />
+                                </button>
+                                <button onClick={()=>setLang(lang==='EN'?'AR':'EN')}
+                                    className="text-[10px] font-bold text-white/70 border border-white/20 px-4 py-2 rounded-full hover:border-[#e8530a] hover:text-[#e8530a] transition-all uppercase tracking-wider">
+                                    {lang==='EN' ? 'العربية' : 'English'}
+                                </button>
+                                <button onClick={()=>scrollTo('contact')}
+                                    className="hidden lg:flex items-center gap-2 bg-[#e8530a] text-white text-[10px] font-bold uppercase tracking-[0.2em] px-5 py-2.5 rounded-full hover:bg-[#c94309] transition-all">
+                                    {t.nav.contact}
+                                </button>
+                                <button onClick={()=>setMenuOpen(!menuOpen)}
+                                    className="lg:hidden w-9 h-9 flex items-center justify-center text-white rounded-full hover:bg-white/10 transition-all">
+                                    <Icon name={menuOpen ? "x" : "menu"} size={20} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile menu */}
+                        <AnimatePresence>
+                            {menuOpen && (
+                                <motion.div
+                                    initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-10}}
+                                    className="lg:hidden bg-[#1a1008] border-t border-white/10 py-4"
+                                >
+                                    {Object.entries(t.nav).map(([key,label]) => (
+                                        <a key={key} href={`#${key}`}
+                                            onClick={e=>{e.preventDefault();scrollTo(key)}}
+                                            className="block px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 hover:text-[#e8530a] hover:bg-white/5 transition-all">
+                                            {label}
+                                        </a>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </nav>
+
+                    {/* ════════════════════════════════
+                        HERO
+                    ════════════════════════════════ */}
+                    <section id="home" ref={heroRef} className={`relative min-h-screen flex items-center overflow-hidden ${isDark ? 'bg-[#0d0d0d]' : 'bg-[#1a1008]'}`}>
+                        {/* Background image */}
+                        <div className="absolute inset-0 z-0">
+                            <img
+                                src="https://images.unsplash.com/photo-1586864387917-f729d50da87a?auto=format&fit=crop&q=80&w=1800"
+                                className="w-full h-full object-cover opacity-20 grayscale scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#1a1008] via-[#1a1008]/80 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#1a1008] via-transparent to-transparent" />
+                        </div>
+
+                        {/* Decorative orange line */}
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#e8530a] to-transparent z-10" />
+
+                        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
+                            <motion.div initial="hidden" animate="visible" variants={stagger} className="max-w-4xl">
+                                {/* Tag */}
+                                <motion.div variants={fadeUp} className="pill mb-8">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#e8530a] animate-pulse"></span>
+                                    {t.hero.tag}
+                                </motion.div>
+
+                                {/* Headline */}
+                                <motion.div variants={fadeUp} className="mb-8 overflow-hidden">
+                                    <h1 className="font-display text-[clamp(4rem,10vw,9rem)] leading-none text-white">
+                                        {t.hero.tagline1}<br/>
+                                        <span className="text-[#e8530a]">{t.hero.tagline2}</span><br/>
+                                        <span className="text-white/30">{t.hero.tagline3}</span>
+                                    </h1>
+                                </motion.div>
+
+                                <motion.p variants={fadeUp} className="text-lg text-white/50 max-w-xl font-medium leading-relaxed mb-12">
+                                    {t.hero.subtext}
+                                </motion.p>
+
+                                <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+                                    <button onClick={()=>scrollTo('products')}
+                                        className="group flex items-center gap-3 bg-[#e8530a] text-white font-bold uppercase text-xs tracking-[0.25em] px-8 py-4 rounded-full hover:bg-[#c94309] transition-all hover:gap-5">
+                                        {t.hero.cta1}
+                                        <Icon name="arrow-right" size={16} />
+                                    </button>
+                                    <button onClick={()=>scrollTo('contact')}
+                                        className="flex items-center gap-3 border border-white/25 text-white font-bold uppercase text-xs tracking-[0.25em] px-8 py-4 rounded-full hover:border-[#e8530a] hover:text-[#e8530a] transition-all">
+                                        {t.hero.cta2}
+                                    </button>
+                                </motion.div>
+                            </motion.div>
+
+                            {/* Stats row */}
+                            <motion.div
+                                initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{delay:0.6,duration:0.8}}
+                                className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 rounded-2xl overflow-hidden"
+                            >
+                                {t.stats.map((s,i) => (
+                                    <div key={i} className="bg-white/5 backdrop-blur-sm px-8 py-6 text-center hover:bg-white/10 transition-colors">
+                                        <div className="font-display text-5xl text-[#e8530a] leading-none mb-2">{s.num}</div>
+                                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">{s.label}</div>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        </div>
+
+                        {/* Scroll indicator */}
+                        <motion.div
+                            initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.2}}
+                            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 z-10"
+                        >
+                            <div className="text-[9px] uppercase tracking-[0.3em] font-bold">Scroll</div>
+                            <motion.div animate={{y:[0,8,0]}} transition={{repeat:Infinity,duration:1.6}} className="w-px h-8 bg-gradient-to-b from-[#e8530a] to-transparent"></motion.div>
+                        </motion.div>
+                    </section>
+
+                    {/* Brands ticker */}
+                    <div className={`py-6 border-y overflow-hidden ${isDark ? 'bg-[#111] border-white/5' : 'bg-white border-stone-200'}`}>
+                        <div className="marquee whitespace-nowrap">
+                            {[...Brands,...Brands,...Brands].map((b,i) => (
+                                <span key={i} className="mx-12 text-2xl font-display tracking-wider opacity-[0.08] hover:opacity-60 transition-opacity cursor-default inline-block">
+                                    {b}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* ════════════════════════════════
+                        ABOUT
+                    ════════════════════════════════ */}
+                    <section id="about" className={`py-32 lg:py-44 ${isDark ? 'bg-[#111]' : 'bg-[#f7f3ee]'}`}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="grid lg:grid-cols-2 gap-20 items-center">
+                                {/* Left */}
+                                <motion.div initial="hidden" whileInView="visible" viewport={{once:true,margin:"-80px"}} variants={stagger} className="space-y-10">
+                                    <motion.div variants={fadeUp}>
+                                        <div className="pill mb-6">{t.nav.about}</div>
+                                        <h2 className={`font-display text-[clamp(4rem,8vw,7rem)] leading-none ${isDark?'text-white':'text-[#2c1810]'}`}>
+                                            {t.about.title}
+                                        </h2>
+                                    </motion.div>
+                                    <motion.p variants={fadeUp} className="text-xl leading-relaxed text-[#8a8078] max-w-lg">
+                                        {t.about.text}
+                                    </motion.p>
+                                    <motion.div variants={fadeUp} className="space-y-6">
+                                        {[
+                                            { label:"Vision", text:t.about.vision, icon:"eye" },
+                                            { label:"Mission", text:t.about.mission, icon:"target" }
+                                        ].map((item,i) => (
+                                            <div key={i} className={`flex gap-5 p-6 rounded-2xl border lift card-border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-stone-200'}`}>
+                                                <div className="w-12 h-12 rounded-xl bg-[#e8530a]/10 flex items-center justify-center flex-shrink-0">
+                                                    <Icon name={item.icon} size={20} className="text-[#e8530a]" />
+                                                </div>
+                                                <div>
+                                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#e8530a] mb-1">{item.label}</div>
+                                                    <p className={`text-sm leading-relaxed ${isDark?'text-white/60':'text-stone-600'}`}>{item.text}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </motion.div>
+                                </motion.div>
+
+                                {/* Right – image stack */}
+                                <motion.div initial={{opacity:0,x:40}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{duration:0.8}} className="relative hidden lg:block">
+                                    <div className="relative h-[600px]">
+                                        <img
+                                            src="images/ourstory.jpeg"
+                                            className="absolute inset-0 w-full h-full object-cover rounded-[3rem] grayscale"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#e8530a]/30 to-transparent rounded-[3rem]" />
+                                        {/* Floating card */}
+                                        <div className={`absolute -bottom-8 -left-8 p-6 rounded-2xl shadow-2xl ${isDark?'bg-[#1a1a1a]':'bg-white'} border ${isDark?'border-white/10':'border-stone-100'}`}>
+                                            <div className="font-display text-5xl text-[#e8530a]">15+</div>
+                                            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8a8078] mt-1">Years in Industry</div>
+                                        </div>
+                                        {/* Orange circle accent */}
+                                        <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-[#e8530a]/20 blur-2xl" />
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div className="divider" />
+
+                    {/* ════════════════════════════════
+                        PRODUCTS
+                    ════════════════════════════════ */}
+                    <section id="products" className={`py-32 lg:py-44 ${isDark ? 'bg-[#0d0d0d]' : 'bg-white'}`}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <motion.div initial="hidden" whileInView="visible" viewport={{once:true}} variants={stagger} className="mb-16 space-y-8">
+                                <motion.div variants={fadeUp} className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
+                                    <div>
+                                        <div className="pill mb-4">{t.nav.products}</div>
+                                        <h2 className={`font-display text-[clamp(3.5rem,7vw,6.5rem)] leading-none ${isDark?'text-white':'text-[#2c1810]'}`}>
+                                            {t.products.title}
+                                        </h2>
+                                        <p className="text-[#8a8078] font-semibold text-sm mt-3">{t.products.subtitle}</p>
+                                    </div>
+                                    <div className="relative w-full lg:w-72">
+                                        <input
+                                            type="text"
+                                            placeholder="Search parts or brands..."
+                                            onChange={e=>setSearch(e.target.value)}
+                                            className={`w-full rounded-xl px-5 py-3.5 pl-12 text-sm font-semibold outline-none border transition-all ${isDark ? 'bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#e8530a]' : 'bg-stone-100 border-transparent text-stone-800 placeholder:text-stone-400 focus:border-[#e8530a]'}`}
+                                        />
+                                        <Icon name="search" size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8a8078]" />
+                                    </div>
+                                </motion.div>
+
+                                {/* Filter tabs */}
+                                <motion.div variants={fadeUp} className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                                    {t.products.categories.map(c => (
+                                        <button key={c} onClick={()=>setFilter(c)}
+                                            className={`whitespace-nowrap px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.18em] transition-all ${
+                                                filter===c
+                                                    ? 'bg-[#e8530a] text-white shadow-lg shadow-orange-500/20'
+                                                    : isDark ? 'bg-white/5 text-white/50 hover:bg-white/10' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'
+                                            }`}>
+                                            {c}
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            </motion.div>
+
+                            <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                                <AnimatePresence mode="popLayout">
+                                    {filteredProducts.map(p => (
+                                        <motion.div
+                                            layout key={p.id}
+                                            initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}} exit={{opacity:0,scale:0.95}}
+                                            transition={{duration:0.35}}
+                                            className={`group rounded-3xl overflow-hidden border card-border lift ${isDark ? 'bg-white/5 border-white/10 hover:border-[#e8530a]/40' : 'bg-stone-50 border-stone-200 hover:border-[#e8530a]/40'}`}
+                                        >
+                                            <div className="relative h-56 overflow-hidden">
+                                                <img src={p.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-6">
+                                                    <button onClick={()=>scrollTo('contact')}
+                                                        className="bg-[#e8530a] text-white text-[10px] font-bold uppercase px-6 py-3 rounded-full tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform">
+                                                        Request Quote
+                                                    </button>
+                                                </div>
+                                                {/* Category badge */}
+                                                <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
+                                                    {p.category}
+                                                </div>
+                                            </div>
+                                            <div className="p-7">
+                                                <div className="text-[9px] font-bold text-[#e8530a] uppercase tracking-[0.3em] mb-2">{p.brand}</div>
+                                                <h3 className={`text-xl font-display tracking-wide leading-tight mb-5 ${isDark?'text-white':'text-[#2c1810]'}`}>{p.name}</h3>
+                                                <div className={`pt-4 border-t flex justify-between items-center ${isDark?'border-white/10':'border-stone-200'}`}>
+                                                    <span className="text-[10px] font-bold uppercase text-green-500">● In Stock</span>
+                                                    <div className="w-8 h-8 rounded-full bg-[#e8530a]/10 flex items-center justify-center group-hover:bg-[#e8530a] transition-colors">
+                                                        <Icon name="arrow-up-right" size={14} className="text-[#e8530a] group-hover:text-white transition-colors" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </motion.div>
+                        </div>
+                    </section>
+
+                    <div className="divider" />
+
+                    {/* ════════════════════════════════
+                        BRANDS & APPLICATIONS
+                    ════════════════════════════════ */}
+                    <section id="brands" className={`py-32 lg:py-44 ${isDark ? 'bg-[#111]' : 'bg-[#f7f3ee]'}`}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <motion.div initial="hidden" whileInView="visible" viewport={{once:true}} variants={stagger} className="text-center mb-20 space-y-6">
+                                <motion.div variants={fadeUp} className="flex justify-center">
+                                    <div className="pill">{t.nav.brands}</div>
+                                </motion.div>
+                                <motion.h2 variants={fadeUp} className={`font-display text-[clamp(3rem,7vw,6rem)] leading-none ${isDark?'text-white':'text-[#2c1810]'}`}>
+                                    {t.brandsSection.title}
+                                </motion.h2>
+                                <motion.p variants={fadeUp} className="text-[#8a8078] font-semibold text-sm">{t.brandsSection.subtitle}</motion.p>
+                                {/* Tabs */}
+                                <motion.div variants={fadeUp} className={`inline-flex gap-1 p-1.5 rounded-2xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-stone-200'} shadow-lg`}>
+                                    {t.brandsSection.tabs.map((tab,idx) => (
+                                        <button key={idx} onClick={()=>setBrandTab(idx)}
+                                            className={`px-7 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${
+                                                brandTab===idx ? 'bg-[#e8530a] text-white shadow' : isDark ? 'text-white/40 hover:text-white' : 'text-stone-400 hover:text-stone-700'
+                                            }`}>
+                                            {tab}
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            </motion.div>
+
+                            <AnimatePresence mode="wait">
+                                {brandTab===0 && (
+                                    <motion.div key="b0" initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-16}} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                        {Brands.map((b,i) => (
+                                            <motion.div key={i} initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{delay:i*0.04}}
+                                                className={`p-6 rounded-2xl text-center border lift card-border cursor-default ${isDark ? 'bg-white/5 border-white/10 hover:border-[#e8530a]/40' : 'bg-white border-stone-200 hover:border-[#e8530a]/40'}`}>
+                                                <div className="w-10 h-10 rounded-xl bg-[#e8530a]/10 mx-auto mb-4 flex items-center justify-center">
+                                                    <Icon name="shield-check" size={18} className="text-[#e8530a]" />
+                                                </div>
+                                                <div className={`text-sm font-bold uppercase tracking-tight ${isDark?'text-white':'text-[#2c1810]'}`}>{b}</div>
+                                                <div className="text-[8px] uppercase text-[#8a8078] tracking-widest mt-1">Coverage</div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                                {brandTab===1 && (
+                                    <motion.div key="b1" initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-16}} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                        {EquipmentTypes.map((eq,i) => (
+                                            <motion.div key={i} initial={{opacity:0,x:-16}} animate={{opacity:1,x:0}} transition={{delay:i*0.07}}
+                                                className={`group flex gap-5 items-center p-7 rounded-2xl border lift ${isDark ? 'bg-white/5 border-white/10 hover:bg-[#2c1810]/80' : 'bg-white border-stone-200 hover:bg-[#2c1810]'} transition-all`}>
+                                                <div className="w-14 h-14 rounded-2xl bg-[#e8530a] flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform">
+                                                    <SolidBrandIcon name={eq.icon} size={26} />
+                                                </div>
+                                                <div>
+                                                    <h4 className={`text-xl font-display tracking-wide group-hover:text-white transition-colors ${isDark?'text-white':'text-[#2c1810]'}`}>{eq.name}</h4>
+                                                    <p className="text-[10px] uppercase font-bold text-[#8a8078] tracking-widest group-hover:text-white/50 transition-colors">Full Catalog</p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                                {brandTab===2 && (
+                                    <motion.div key="b2" initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-16}} className="grid md:grid-cols-2 gap-6">
+                                        {ApplicationData.map((app,i) => (
+                                            <motion.div key={i} initial={{opacity:0,scale:0.96}} animate={{opacity:1,scale:1}} transition={{delay:i*0.1}}
+                                                className="relative group overflow-hidden rounded-3xl h-72">
+                                                <div className={`absolute inset-0 ${isDark ? 'bg-[#1a1008]' : 'bg-[#2c1810]'} group-hover:bg-[#e8530a] transition-all duration-500 z-10`} />
+                                                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800"
+                                                    className="absolute inset-0 w-full h-full object-cover grayscale opacity-30 group-hover:scale-110 transition-transform duration-700 z-0" />
+                                                <div className="relative z-20 p-10 h-full flex flex-col justify-between text-white">
+                                                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+                                                        <SolidBrandIcon name={app.icon || "cog"} size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-display text-4xl tracking-wide mb-3">{app.title}</h4>
+                                                        <p className="text-white/60 text-sm leading-relaxed max-w-xs">{app.desc}</p>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </section>
+
+                    {/* ════════════════════════════════
+                        WHY RIYADA
+                    ════════════════════════════════ */}
+                    <section id="why" className="py-32 lg:py-44 bg-[#2c1810] text-white relative overflow-hidden">
+                        {/* Decorative */}
+                        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#e8530a]/10 blur-3xl pointer-events-none" />
+                        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#e8530a]/5 blur-3xl pointer-events-none" />
+
+                        <div className="max-w-7xl mx-auto px-6 relative z-10">
+                            <div className="grid lg:grid-cols-12 gap-16">
+                                {/* Left */}
+                                <div className="lg:col-span-4 space-y-10">
+                                    <div>
+                                        <div className="pill mb-6">{t.nav.why}</div>
+                                        <h2 className="font-display text-[clamp(3.5rem,6vw,5.5rem)] leading-none">{t.why.title}</h2>
+                                    </div>
+                                    <p className="text-white/50 text-lg leading-relaxed">{t.why.sub}</p>
+
+                                    {/* Lead times card */}
+                                    <div className="bg-[#e8530a] rounded-2xl p-8 space-y-5">
+                                        <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#2c1810]">Lead Time Standards</div>
+                                        {t.why.times.map((item,i) => (
+                                            <div key={i} className="flex justify-between items-center border-b border-black/10 pb-4 last:border-0 last:pb-0">
+                                                <span className="text-sm font-semibold text-[#2c1810]">{item.label}</span>
+                                                <span className="font-display text-xl tracking-wide text-[#2c1810]">{item.val}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Right – cards */}
+                                <div className="lg:col-span-8 grid sm:grid-cols-2 gap-5">
+                                    {t.why.items.map((item,i) => (
+                                        <motion.div key={i}
+                                            initial={{opacity:0,y:24}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
+                                            className="group p-10 bg-white/5 border border-white/10 rounded-3xl hover:bg-[#e8530a] hover:border-[#e8530a] transition-all duration-500 lift"
+                                        >
+                                            <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-8 group-hover:bg-white transition-colors">
+                                                <Icon name={item.icon} size={22} className="text-white group-hover:text-[#e8530a] transition-colors" />
+                                            </div>
+                                            <h3 className="font-display text-3xl tracking-wide mb-4">{item.title}</h3>
+                                            <p className="text-white/40 group-hover:text-white/80 text-sm leading-relaxed transition-colors">{item.desc}</p>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ════════════════════════════════
+                        INDUSTRIES
+                    ════════════════════════════════ */}
+                    <section id="industries" className={`py-32 lg:py-44 ${isDark ? 'bg-[#0d0d0d]' : 'bg-white'}`}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <motion.div initial="hidden" whileInView="visible" viewport={{once:true}} variants={stagger} className="text-center mb-20">
+                                <motion.div variants={fadeUp} className="flex justify-center mb-6">
+                                    <div className="pill">{t.nav.industries}</div>
+                                </motion.div>
+                                <motion.h2 variants={fadeUp} className={`font-display text-[clamp(3rem,7vw,6rem)] leading-none ${isDark?'text-white':'text-[#2c1810]'}`}>
+                                    {t.industries.title}
+                                </motion.h2>
+                            </motion.div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+                                {t.industries.items.map((item,i) => (
+                                    <motion.div key={i}
+                                        initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
+                                        whileHover={{y:-8}}
+                                        className={`group p-10 rounded-3xl border card-border lift cursor-default ${isDark ? 'bg-white/5 border-white/10' : 'bg-stone-50 border-stone-200'}`}
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-[#e8530a]/10 flex items-center justify-center mb-8 group-hover:bg-[#e8530a] transition-colors">
+                                            <Icon name={item.icon} size={26} className="text-[#e8530a] group-hover:text-white transition-colors" />
+                                        </div>
+                                        <h3 className={`font-display text-2xl tracking-wide mb-3 ${isDark?'text-white':'text-[#2c1810]'}`}>{item.name}</h3>
+                                        <p className={`text-sm leading-relaxed ${isDark?'text-white/40':'text-stone-500'}`}>{item.desc}</p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ════════════════════════════════
+                        CONTACT
+                    ════════════════════════════════ */}
+                    <section id="contact" className={`py-32 lg:py-44 ${isDark ? 'bg-[#111]' : 'bg-[#f7f3ee]'}`}>
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="rounded-[3rem] bg-[#2c1810] overflow-hidden relative">
+                                {/* Pattern overlay */}
+                                <div className="absolute inset-0 opacity-10 pointer-events-none"
+                                    style={{backgroundImage:"url('https://www.transparenttextures.com/patterns/carbon-fibre.png')"}} />
+                                {/* Orange accent */}
+                                <div className="absolute top-0 right-0 w-80 h-80 bg-[#e8530a]/15 rounded-full blur-3xl pointer-events-none" />
+                                <div className="absolute bottom-0 left-0 w-60 h-60 bg-[#e8530a]/10 rounded-full blur-3xl pointer-events-none" />
+
+                                <div className="relative z-10 grid lg:grid-cols-2">
+                                    {/* Info */}
+                                    <div className="p-12 lg:p-20 space-y-12 border-b lg:border-b-0 lg:border-r border-white/10">
+                                        <div>
+                                            <div className="pill mb-6">{t.nav.contact}</div>
+                                            <h2 className="font-display text-[clamp(3rem,5vw,5rem)] leading-none text-white">{t.contact.title}</h2>
+                                            <p className="text-white/40 mt-4 text-lg">{t.contact.sub}</p>
+                                        </div>
+                                        <div className="space-y-6">
+                                            {[
+                                                { icon:"phone", val:"+966 55 228 2868" },
+                                                { icon:"mail", val:"info@riyada-ventures.com" },
+                                                { icon:"map-pin", val:"Al Faisaliyyah, Riyadh 12882, Saudi Arabia" }
+                                            ].map((c,i) => (
+                                                <div key={i} className="group flex gap-5 items-start p-5 rounded-2xl hover:bg-white/5 transition-colors cursor-pointer">
+                                                    <div className="w-12 h-12 rounded-xl bg-[#e8530a]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#e8530a] transition-colors">
+                                                        <Icon name={c.icon} size={20} className="text-[#e8530a] group-hover:text-white transition-colors" />
+                                                    </div>
+                                                    <p className="text-white/70 font-semibold leading-relaxed pt-2.5">{c.val}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">{t.contact.hours}</div>
+                                    </div>
+
+                                    {/* Form */}
+                                    <div className="p-12 lg:p-20">
+                                        <form className="space-y-5" onSubmit={e=>e.preventDefault()}>
+                                            <div className="grid sm:grid-cols-2 gap-4">
+                                                <input type="text" placeholder={t.contact.name} className="input-field" />
+                                                <input type="email" placeholder={t.contact.email} className="input-field" />
+                                            </div>
+                                            <input type="text" placeholder={t.contact.company} className="input-field" />
+                                            <textarea placeholder={t.contact.message} rows="5" className="input-field resize-none" />
+                                            <button type="submit"
+                                                className="w-full flex items-center justify-center gap-3 bg-[#e8530a] text-white font-bold uppercase text-sm tracking-[0.2em] py-5 rounded-2xl hover:bg-[#c94309] transition-all hover:shadow-xl hover:shadow-orange-500/20 active:scale-[0.98]">
+                                                {t.contact.send}
+                                                <Icon name="send" size={16} />
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                                                        {/* ════════════════════════════════
+                                                                Made by Mohamed Oufakir
+                                                            ════════════════════════════════ */}
+                    {/* ════════════════════════════════
+                        FOOTER
+                    ════════════════════════════════ */}
+                    <footer className="bg-[#111] text-white pt-24 pb-10 border-t border-white/5">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+                                {/* Brand */}
+                                <div className="lg:col-span-4 space-y-6">
+                                    <img src="images/logo.png" alt="Riyada Ventures" style={{height:'70px',width:'auto'}} />
+                                    <p className="text-white/40 text-sm leading-relaxed max-w-xs">{t.footer.tagline}</p>
+                                    <div className="flex gap-3">
+                                        {[
+                                            { icon:'facebook', url:'https://www.facebook.com/profile.php?id=61585739796353' },
+                                            { icon:'instagram', url:'https://www.instagram.com/rv_hesp/' }
+                                        
+                                        ].map(s => (
+                                            <a key={s.icon} href={s.url} target="_blank" rel="noreferrer"
+                                                className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#e8530a] hover:border-[#e8530a] hover:text-white transition-all">
+                                                {s.icon === 'facebook' ? (
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                        <path d="M13.5 22v-9h3l.5-4h-3.5V7.5c0-1.1.3-1.8 1.9-1.8H17V2.1c-.4-.1-1.7-.2-3.1-.2-3 0-5 1.8-5 5.1V9H6v4h2.9v9h4.6Z" />
+                                                    </svg>
+                                                ) : s.icon === 'instagram' ? (
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14A5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14A3.5 3.5 0 0 0 12 10.5ZM18 7.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1Z" />
+                                                    </svg>
+                                                ) : (
+                                                    <Icon name={s.icon} size={15} />
+                                                )}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Links */}
+                                <div className="lg:col-span-2 space-y-5">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#e8530a]">{t.footer.links}</h4>
+                                    <ul className="space-y-3">
+                                        {Object.entries(t.nav).map(([key,label]) => (
+                                            <li key={key}>
+                                                <a href={`#${key}`} onClick={e=>{e.preventDefault();scrollTo(key)}}
+                                                    className="text-sm text-white/40 hover:text-white hover:translate-x-1 transition-all inline-block font-semibold">
+                                                    {label}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                {/* Products */}
+                                <div className="lg:col-span-2 space-y-5">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#e8530a]">{t.footer.solutions}</h4>
+                                    <ul className="space-y-3">
+                                        {ProductData.map(p => (
+                                            <li key={p.id}>
+                                                <a href="#products" onClick={e=>{e.preventDefault();scrollTo('products')}}
+                                                    className="text-sm text-white/40 hover:text-white hover:translate-x-1 transition-all inline-block font-semibold">
+                                                    {p.name}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                {/* Newsletter */}
+                                <div className="lg:col-span-4 space-y-5">
+                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#e8530a]">{t.footer.newsletter}</h4>
+                                    <p className="text-sm text-white/40">Stay updated with the latest in heavy machinery technology and parts sourcing.</p>
+                                    <div className="flex bg-white/5 border border-white/10 rounded-xl p-1.5 focus-within:border-[#e8530a] transition-all">
+                                        <input type="email" placeholder="Email address"
+                                            className="bg-transparent flex-grow px-4 py-2 text-sm font-semibold text-white outline-none placeholder:text-white/30" />
+                                        <button className="bg-[#e8530a] px-5 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-[#c94309] transition-all">
+                                            {t.footer.subscribe}
+                                        </button>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 pt-2">
+                                        {[{n:'24/7',l:'Support Line'},{n:'100%',l:'Genuine Parts'}].map((s,i) => (
+                                            <div key={i} className="p-4 bg-white/5 rounded-xl border border-white/5 text-center">
+                                                <div className="font-display text-2xl text-[#e8530a]">{s.n}</div>
+                                                <div className="text-[8px] uppercase font-bold text-white/30 tracking-widest mt-1">{s.l}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                                <div className="flex items-center gap-2 text-white/20">
+                                    <div className="w-7 h-7 rounded-full bg-white/5 flex items-center justify-center">
+                                        <Icon name="award" size={11} />
+                                    </div>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest">Saudi Vision 2030</span>
+                                </div>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+                                    © {new Date().getFullYear()} {t.footer.rights}
+                                </p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

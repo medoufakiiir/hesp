@@ -1,0 +1,5 @@
+- [ ] Add inline solid SVG icons for Equipment Types (brandTab===1) and Applications (brandTab===2)
+- [ ] Replace `<Icon name={eq.icon} .../>` and `<Icon name={app.icon ...}/>` in those two tab blocks with the new inline SVG component
+- [ ] Keep Lucide icons unchanged for other sections
+- [ ] Verify footer social icons still render
+- [ ] Smoke-test by reloading the page and switching between the three tabs
