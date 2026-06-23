@@ -9,10 +9,10 @@ import Footer from "@/components/Footer"
 import PageHeader from "@/components/shared/PageHeader"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
-import { blogPosts } from "@/data/blog"
 import { staggerContainer, scaleIn } from "@/lib/motion"
 
-export default function BlogPageClient() {
+export default function BlogPageClient({ postsData }: { postsData: any[] }) {
+  const blogPosts = postsData
   const { isArabic } = useLang()
 
   return (

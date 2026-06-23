@@ -5,7 +5,6 @@ import Link from "next/link"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { useLang } from "@/context/LangContext"
-import { categories } from "@/data/categories"
 import { useRef } from "react"
 
 function Card3D({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -46,8 +45,9 @@ function Card3D({ children, className = "" }: { children: React.ReactNode; class
   )
 }
 
-export default function ProductCategories() {
+export default function ProductCategories({ categoriesData }: { categoriesData: any[] }) {
   const { isArabic } = useLang()
+  const categories = categoriesData
 
   return (
     <section className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden">

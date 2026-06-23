@@ -54,7 +54,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://riyada-ventures.com" },
 }
 
-export default function Home() {
+export default async function Home() {
+  const { prisma } = await import("@/lib/db")
+  const [categoriesData, featuredData] = await Promise.all([
+    prisma.category.findMany({ orderBy: { nameEN: "asc" } }),
+    prisma.product.findMany({ where: { featured: true } }),
+  ])
+  const cats = JSON.parse(JSON.stringify(categoriesData))
+  const featured = JSON.parse(JSON.stringify(featuredData))
   return (
     <main className="min-h-screen bg-brand-iron">
       <script
@@ -75,9 +82,9 @@ export default function Home() {
 
       {/* ── Existing sections ── */}
       <div className="section-divider" />
-      <ProductCategories />
+      <ProductCategories categoriesData={cats} />
       <div className="section-divider" />
-      <FeaturedProducts />
+      <FeaturedProducts productsData={featured} />
       <div className="section-divider" />
       <WhyChooseUs />
       <div className="section-divider" />

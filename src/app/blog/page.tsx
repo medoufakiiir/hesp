@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { prisma } from "@/lib/db"
 import BlogPageClient from "./BlogPageClient"
 
 export const metadata: Metadata = {
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://riyada-ventures.com/blog" },
 }
 
-export default function BlogPage() {
-  return <BlogPageClient />
+export default async function BlogPage() {
+  const posts = await prisma.blogPost.findMany({ orderBy: { date: "desc" } })
+  return <BlogPageClient postsData={JSON.parse(JSON.stringify(posts))} />
 }

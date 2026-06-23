@@ -7,10 +7,10 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
-import { brands } from "@/data/brands"
 
-export default function BrandsPageClient() {
+export default function BrandsPageClient({ brandsData }: { brandsData: any[] }) {
   const { isArabic } = useLang()
+  const brands = brandsData
 
   return (
     <main className="min-h-screen bg-brand-iron">

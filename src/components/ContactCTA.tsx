@@ -4,22 +4,32 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { MessageCircle, Phone, Mail, MapPin, Clock, Send } from "lucide-react"
 import { useLang } from "@/context/LangContext"
+import { createInquiry } from "@/actions/inquiries"
 
 export default function ContactCTA() {
   const { t, isArabic } = useLang()
   const [form, setForm] = useState({ name: "", company: "", phone: "", part: "" })
   const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    try {
+      await createInquiry({
+        name: form.name, company: form.company, phone: form.phone,
+        details: form.part, source: "contact",
+      })
+    } catch {}
     const text = isArabic
       ? `اسم: ${form.name}\nالشركة: ${form.company}\nالهاتف: ${form.phone}\nالقطعة المطلوبة: ${form.part}`
       : `Name: ${form.name}\nCompany: ${form.company}\nPhone: ${form.phone}\nPart Needed: ${form.part}`
     window.open(`https://wa.me/966552282868?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer")
+    setSubmitted(true)
+    setForm({ name: "", company: "", phone: "", part: "" })
   }
 
   return (

@@ -5,11 +5,10 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Package } from "lucide-react"
 import { useLang } from "@/context/LangContext"
-import { getFeaturedProducts } from "@/data/products"
 
-export default function FeaturedProducts() {
+export default function FeaturedProducts({ productsData }: { productsData: any[] }) {
   const { isArabic } = useLang()
-  const featured = getFeaturedProducts()
+  const featured = productsData
 
   return (
     <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden">

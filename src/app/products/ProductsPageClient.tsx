@@ -9,15 +9,21 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
-import { categories } from "@/data/categories"
-import { products } from "@/data/products"
-import { brands } from "@/data/brands"
 
-export default function ProductsPageClient() {
+interface Props {
+  productsData: any[]
+  categoriesData: any[]
+  brandsData: any[]
+}
+
+export default function ProductsPageClient({ productsData, categoriesData, brandsData }: Props) {
   const { isArabic } = useLang()
   const [search, setSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
+  const products = productsData
+  const categories = categoriesData
+  const brands = brandsData
 
   const filtered = products.filter((p) => {
     const matchesSearch = search === "" ||

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { prisma } from "@/lib/db"
 import BrandsPageClient from "./BrandsPageClient"
 import { breadcrumbJsonLd } from "@/lib/seo"
 
@@ -8,16 +9,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://riyada-ventures.com/brands" },
 }
 
-export default function BrandsPage() {
+export default async function BrandsPage() {
+  const brands = await prisma.brand.findMany({ orderBy: { name: "asc" } })
+
   return (
     <>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([
-          { name: "Home", url: "/" },
-          { name: "Brands", url: "/brands" },
+          { name: "Home", url: "/" }, { name: "Brands", url: "/brands" },
         ])) }}
       />
-      <BrandsPageClient />
+      <BrandsPageClient brandsData={JSON.parse(JSON.stringify(brands))} />
     </>
   )
 }
