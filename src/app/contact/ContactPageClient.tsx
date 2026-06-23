@@ -187,8 +187,8 @@ export default function ContactPageClient() {
                     font-bold uppercase text-sm tracking-widest py-5 rounded-xl
                     hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20 cursor-pointer
                     ${isArabic ? "font-arabic flex-row-reverse" : ""}`}>
-                  <MessageCircle size={18} />
-                  {isArabic ? "إرسال عبر واتساب" : "Send via WhatsApp"}
+                  <Send size={18} />
+                  {isArabic ? "إرسال الرسالة" : "Send Message"}
                 </motion.button>
               </form>
             )}
