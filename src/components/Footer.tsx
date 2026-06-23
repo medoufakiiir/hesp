@@ -1,22 +1,27 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
 import { useLang } from "@/context/LangContext"
+import { staggerContainer, blurFadeIn, fadeInUp } from "@/lib/motion"
 
 const navLinks = [
-  { id: "home",     labelEN: "Home",     labelAR: "الرئيسية" },
-  { id: "products", labelEN: "Products", labelAR: "المنتجات" },
-  { id: "about",    labelEN: "About",    labelAR: "عن الشركة" },
-  { id: "contact",  labelEN: "Contact",  labelAR: "اتصل بنا" },
+  { href: "/",         labelEN: "Home",     labelAR: "الرئيسية" },
+  { href: "/products", labelEN: "Products", labelAR: "المنتجات" },
+  { href: "/brands",   labelEN: "Brands",   labelAR: "العلامات التجارية" },
+  { href: "/about",    labelEN: "About",    labelAR: "عن الشركة" },
+  { href: "/blog",     labelEN: "Blog",     labelAR: "المدونة" },
+  { href: "/contact",  labelEN: "Contact",  labelAR: "اتصل بنا" },
 ]
 
 const productLinks = [
-  { labelEN: "Excavator Parts",   labelAR: "قطع حفارات" },
-  { labelEN: "Bulldozer Parts",   labelAR: "قطع جرافات" },
-  { labelEN: "Crane Parts",       labelAR: "قطع رافعات" },
-  { labelEN: "Loader Parts",      labelAR: "قطع لودرات" },
-  { labelEN: "Engine & Hydraulic",labelAR: "محركات وهيدروليك" },
+  { href: "/products/excavator-parts",       labelEN: "Excavator Parts",   labelAR: "قطع حفارات" },
+  { href: "/products/bulldozer-parts",       labelEN: "Bulldozer Parts",   labelAR: "قطع جرافات" },
+  { href: "/products/crane-parts",           labelEN: "Crane Parts",       labelAR: "قطع رافعات" },
+  { href: "/products/loader-parts",          labelEN: "Loader Parts",      labelAR: "قطع لودرات" },
+  { href: "/products/engine-hydraulic-parts", labelEN: "Engine & Hydraulic", labelAR: "محركات وهيدروليك" },
 ]
 
 const FacebookIcon = () => (
@@ -40,128 +45,161 @@ const socials = [
 ]
 
 export default function Footer() {
-  const { t, isArabic } = useLang()
-
-  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+  const { isArabic } = useLang()
 
   return (
-    <footer className="bg-black border-t border-brand-amber/20 pt-20 pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
+    <footer className="bg-black border-t border-brand-amber/20 pt-20 pb-10 relative overflow-hidden">
+      {/* Subtle amber glow at top */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-brand-amber/40 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 mb-16"
           dir={isArabic ? "rtl" : "ltr"}
         >
-          {/* Brand col */}
-          <div className="lg:col-span-4 space-y-6">
-            <Image
-              src="/images/logo.png"
-              alt="Riyada Ventures"
-              width={140}
-              height={56}
-              className="h-12 w-auto object-contain"
-            />
+          {/* Brand */}
+          <motion.div variants={blurFadeIn} className="lg:col-span-4 space-y-6">
+            <Link href="/">
+              <Image src="/images/logo.png" alt="Riyada Ventures - Heavy Equipment Spare Parts Saudi Arabia"
+                width={140} height={56} className="h-12 w-auto object-contain" />
+            </Link>
             <p className={`text-brand-muted text-sm leading-relaxed max-w-xs ${isArabic ? "font-arabic text-right" : ""}`}>
-              {t.footer.tagline}
+              {isArabic
+                ? "العمود الفقري للصيانة الصناعية وقطع غيار المعدات الثقيلة في المملكة العربية السعودية."
+                : "The backbone of Saudi industrial maintenance and heavy equipment spare parts."}
             </p>
             <div className={`flex gap-3 ${isArabic ? "flex-row-reverse" : ""}`}>
-              {socials.map(({ Icon, href, label }) => (
-                <a
+              {socials.map(({ Icon, href, label }, i) => (
+                <motion.a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
+                  whileHover={{ scale: 1.15, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, type: "spring", stiffness: 200 }}
                   className="w-10 h-10 rounded-full border border-brand-white/10 flex items-center justify-center
-                    text-brand-white/40 hover:bg-brand-amber hover:border-brand-amber hover:text-white
-                    transition-all duration-200 cursor-pointer"
+                    text-brand-white/40 hover:bg-brand-amber hover:border-brand-amber hover:text-white transition-all cursor-pointer"
                 >
                   <Icon />
-                </a>
+                </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Quick links */}
-          <div className="lg:col-span-2 space-y-5">
+          {/* Quick Links */}
+          <motion.div variants={blurFadeIn} className="lg:col-span-2 space-y-5">
             <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
-              {t.footer.links}
+              {isArabic ? "روابط سريعة" : "Quick Links"}
             </h4>
             <ul className="space-y-3">
-              {navLinks.map((link) => (
-                <li key={link.id}>
-                  <a
-                    href={`#${link.id}`}
-                    onClick={(e) => { e.preventDefault(); scrollTo(link.id) }}
-                    className={`text-brand-muted hover:text-brand-amber text-sm font-medium
-                      transition-colors cursor-pointer ${isArabic ? "font-arabic block text-right" : "hover:translate-x-1 inline-block transition-transform"}`}
-                  >
+              {navLinks.map((link, i) => (
+                <motion.li
+                  key={link.href}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.4 }}
+                >
+                  <Link href={link.href}
+                    className={`text-brand-muted hover:text-brand-amber text-sm font-medium transition-all duration-200
+                      ${isArabic ? "font-arabic block text-right hover:-translate-x-1" : "hover:translate-x-1 inline-block"}`}>
                     {isArabic ? link.labelAR : link.labelEN}
-                  </a>
-                </li>
+                  </Link>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Products */}
-          <div className="lg:col-span-3 space-y-5">
+          <motion.div variants={blurFadeIn} className="lg:col-span-3 space-y-5">
             <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
-              {t.footer.products}
+              {isArabic ? "المنتجات" : "Products"}
             </h4>
             <ul className="space-y-3">
               {productLinks.map((p, i) => (
-                <li key={i}>
-                  <a
-                    href="#products"
-                    onClick={(e) => { e.preventDefault(); scrollTo("products") }}
-                    className={`text-brand-muted hover:text-brand-amber text-sm font-medium
-                      transition-colors cursor-pointer ${isArabic ? "font-arabic block text-right" : "hover:translate-x-1 inline-block transition-transform"}`}
-                  >
+                <motion.li
+                  key={p.href}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.4 }}
+                >
+                  <Link href={p.href}
+                    className={`text-brand-muted hover:text-brand-amber text-sm font-medium transition-all duration-200
+                      ${isArabic ? "font-arabic block text-right hover:-translate-x-1" : "hover:translate-x-1 inline-block"}`}>
                     {isArabic ? p.labelAR : p.labelEN}
-                  </a>
-                </li>
+                  </Link>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div className="lg:col-span-3 space-y-5">
+          <motion.div variants={blurFadeIn} className="lg:col-span-3 space-y-5">
             <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
-              {t.footer.contact}
+              {isArabic ? "اتصل بنا" : "Contact"}
             </h4>
             <div className="space-y-3">
-              {[
-                t.contact.phone,
-                t.contact.email,
-                t.contact.address,
-              ].map((item, i) => (
-                <p key={i} className={`text-brand-muted text-sm leading-relaxed ${isArabic ? "font-arabic text-right" : ""}`}>
-                  {item}
-                </p>
-              ))}
+              <p className={`text-brand-muted text-sm ${isArabic ? "font-arabic text-right" : ""}`} dir="ltr">
+                +966 55 228 2868
+              </p>
+              <p className={`text-brand-muted text-sm ${isArabic ? "font-arabic text-right" : ""}`}>
+                info@riyada-ventures.com
+              </p>
+              <p className={`text-brand-muted text-sm leading-relaxed ${isArabic ? "font-arabic text-right" : ""}`}>
+                {isArabic ? "الفيصلية، الرياض 12882، المملكة العربية السعودية" : "Al Faisaliyyah, Riyadh 12882, KSA"}
+              </p>
             </div>
             <div className="flex items-center gap-2 mt-4">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <motion.span
+                className="w-2 h-2 rounded-full bg-green-500"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              />
               <span className={`text-green-400 text-xs font-semibold ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "نخدمك الآن" : "We're open now"}
               </span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Bottom bar */}
-        <div
-          className="pt-8 border-t border-brand-white/5 flex flex-col sm:flex-row justify-between items-center gap-4"
-          dir={isArabic ? "rtl" : "ltr"}
+        {/* Bottom */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="pt-8 border-t border-brand-white/5"
         >
-          <div className="flex items-center gap-2 text-brand-white/20">
-            <span className="text-[10px] font-bold uppercase tracking-widest">
-              {t.footer.vision2030}
-            </span>
+          {/* Animated line */}
+          <motion.div
+            className="h-px bg-gradient-to-r from-transparent via-brand-amber/20 to-transparent mb-8 -mt-8"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          />
+
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4" dir={isArabic ? "rtl" : "ltr"}>
+            <div className="flex items-center gap-2 text-brand-white/20">
+              <span className="text-[10px] font-bold uppercase tracking-widest">
+                {isArabic ? "رؤية المملكة 2030" : "Saudi Vision 2030"}
+              </span>
+            </div>
+            <p className={`text-[10px] font-bold uppercase tracking-widest text-brand-white/20 ${isArabic ? "font-arabic" : ""}`}>
+              © {new Date().getFullYear()} {isArabic ? "جميع الحقوق محفوظة. ريادة فنتشرز." : "All rights reserved. Riyada Ventures."}
+            </p>
           </div>
-          <p className={`text-[10px] font-bold uppercase tracking-widest text-brand-white/20 ${isArabic ? "font-arabic" : ""}`}>
-            © {new Date().getFullYear()} {t.footer.rights}
-          </p>
-        </div>
+        </motion.div>
       </div>
     </footer>
   )

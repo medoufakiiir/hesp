@@ -1,126 +1,157 @@
 "use client"
 
 import Image from "next/image"
-import { motion } from "framer-motion"
+import Link from "next/link"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { useLang } from "@/context/LangContext"
-import { staggerContainer, scaleIn, fadeInUp } from "@/lib/motion"
+import { categories } from "@/data/categories"
+import { useRef } from "react"
 
-const categoryImages = [
-  "/images/equipment/excavator-1.jpg",
-  "/images/equipment/bulldozer-1.jpg",
-  "/images/equipment/crane-1.jpg",
-  "/images/equipment/loader-1.jpg",
-  "/images/equipment/compactor-1.jpg",
-  "/images/equipment/hydraulic-parts.jpg",
-]
+function Card3D({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const x = useMotionValue(0.5)
+  const y = useMotionValue(0.5)
+  const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), { stiffness: 200, damping: 25 })
+  const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), { stiffness: 200, damping: 25 })
+  const brightness = useTransform(y, [0, 0.5, 1], [1.15, 1, 0.9])
+  const glareX = useTransform(x, [0, 1], ["-50%", "150%"])
+  const glareY = useTransform(y, [0, 1], ["-50%", "150%"])
 
-export default function ProductCategories() {
-  const { t, isArabic } = useLang()
-
-  const scrollToContact = () => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+  const handleMouse = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect()
+    if (!rect) return
+    x.set((e.clientX - rect.left) / rect.width)
+    y.set((e.clientY - rect.top) / rect.height)
+  }
+  const handleLeave = () => { x.set(0.5); y.set(0.5) }
 
   return (
-    <section id="products" className="py-20 lg:py-28 bg-brand-iron">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={handleLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", filter: `brightness(${brightness.get()})` }}
+      className={className}
+    >
+      {children}
+      {/* Glare overlay */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(circle at ${glareX}px ${glareY}px, rgba(255,255,255,0.08) 0%, transparent 60%)`,
+        }}
+      />
+    </motion.div>
+  )
+}
+
+export default function ProductCategories() {
+  const { isArabic } = useLang()
+
+  return (
+    <section className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden">
+      {/* 3D depth background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 -right-32 w-96 h-96 rounded-full bg-brand-amber/[0.04] blur-[120px]" />
+        <div className="absolute bottom-20 -left-32 w-72 h-72 rounded-full bg-brand-amber/[0.03] blur-[100px]" />
+        <div className="absolute inset-0 opacity-[0.015]" style={{
+          backgroundImage: "linear-gradient(rgba(217,119,6,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(217,119,6,0.3) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className={`mb-16 ${isArabic ? "text-right" : ""}`}
           dir={isArabic ? "rtl" : "ltr"}
         >
-          <motion.p variants={fadeInUp} className="text-brand-amber text-xs font-semibold uppercase tracking-widest mb-3">
-            {t.categories.eyebrow}
-          </motion.p>
-          <motion.h2
-            variants={fadeInUp}
-            className={`text-brand-white leading-none mb-4 ${
-              isArabic
-                ? "font-arabic font-bold text-[clamp(2.5rem,6vw,5rem)]"
-                : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,7vw,6rem)]"
-            }`}
-          >
-            {t.categories.title}
-          </motion.h2>
-          <motion.p
-            variants={fadeInUp}
-            className={`text-brand-muted max-w-xl ${isArabic ? "font-arabic mr-auto" : ""}`}
-          >
-            {t.categories.sub}
-          </motion.p>
+          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            {isArabic ? "فئات المنتجات" : "Product Categories"}
+          </p>
+          <h2 className={`text-brand-white leading-[0.95] mb-4 ${
+            isArabic
+              ? "font-arabic font-bold text-[clamp(2.5rem,6vw,5rem)]"
+              : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,7vw,6rem)]"
+          }`}>
+            {isArabic ? "مصنوعة لكل آلة" : "Engineered for\nEvery Machine"}
+          </h2>
+          <p className={`text-brand-muted max-w-xl text-base leading-relaxed ${isArabic ? "font-arabic" : ""}`}>
+            {isArabic
+              ? "قطع غيار متميزة تغطي الطيف الكامل من المعدات الثقيلة."
+              : "Premium spare parts covering the full spectrum of heavy equipment."}
+          </p>
         </motion.div>
 
-        {/* 3×2 grid */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {t.categories.items.map((item, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" style={{ perspective: "1200px" }}>
+          {categories.map((cat, i) => (
             <motion.div
-              key={i}
-              variants={scaleIn}
-              whileHover={{ y: -6, scale: 1.01 }}
-              onClick={scrollToContact}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer h-64
-                border border-brand-amber/10 hover:border-brand-amber/40
-                shadow-2xl shadow-black/40 transition-all duration-300"
+              key={cat.id}
+              initial={{ opacity: 0, y: 40, rotateX: 8 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* Background image */}
-              <Image
-                src={categoryImages[i]}
-                alt={item.nameEN}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105
-                  transition-all duration-500"
-              />
+              <Link href={`/products/${cat.slug}`}>
+                <Card3D className="group relative rounded-2xl overflow-hidden cursor-pointer h-72 border border-brand-white/[0.06] hover:border-brand-amber/30 shadow-2xl shadow-black/50 transition-[border] duration-500">
+                  <Image
+                    src={cat.image}
+                    alt={isArabic ? cat.nameAR : cat.nameEN}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Multi-layer gradient for 3D depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-amber/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10
-                group-hover:from-brand-iron/90 group-hover:via-brand-amber/10 transition-all duration-500" />
-
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6">
-                <div>
-                  <h3
-                    className={`text-brand-white font-bold leading-tight mb-1 ${
-                      isArabic ? "font-arabic text-xl" : "font-display font-extrabold uppercase text-2xl"
-                    }`}
-                    dir={isArabic ? "rtl" : "ltr"}
-                  >
-                    {item.nameEN}
-                  </h3>
-                  <p
-                    className={`text-brand-muted text-sm leading-snug ${isArabic ? "font-arabic" : ""}`}
-                    dir={isArabic ? "rtl" : "ltr"}
-                  >
-                    {item.descEN}
-                  </p>
-                </div>
-                <div className={`mt-4 flex ${isArabic ? "justify-start flex-row-reverse" : "justify-between"} items-center`}>
-                  <span className="text-brand-amber text-xs font-semibold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                    {isArabic ? "اطلب الآن" : "Request Quote"}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-brand-amber/20 group-hover:bg-brand-amber
-                    flex items-center justify-center transition-all duration-300">
-                    <ArrowUpRight size={16} className="text-brand-amber group-hover:text-white transition-colors" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-6" style={{ transform: "translateZ(20px)" }}>
+                    <h3
+                      className={`text-brand-white font-bold leading-tight mb-2 ${
+                        isArabic ? "font-arabic text-xl" : "font-display font-extrabold uppercase text-2xl tracking-tight"
+                      }`}
+                      dir={isArabic ? "rtl" : "ltr"}
+                    >
+                      {isArabic ? cat.nameAR : cat.nameEN}
+                    </h3>
+                    <p className={`text-brand-white/40 text-sm leading-snug line-clamp-2 ${isArabic ? "font-arabic" : ""}`} dir={isArabic ? "rtl" : "ltr"}>
+                      {isArabic ? cat.descriptionAR.slice(0, 80) + "..." : cat.descriptionEN.slice(0, 80) + "..."}
+                    </p>
+                    <div className={`mt-4 flex ${isArabic ? "justify-start flex-row-reverse" : "justify-between"} items-center`}>
+                      <span className="text-brand-amber text-xs font-semibold uppercase tracking-widest
+                        opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        {isArabic ? `${cat.productCount}+ قطعة` : `${cat.productCount}+ parts`}
+                      </span>
+                      <div className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm border border-white/10
+                        group-hover:bg-brand-amber group-hover:border-brand-amber flex items-center justify-center transition-all duration-300">
+                        <ArrowUpRight size={18} className="text-brand-white/60 group-hover:text-white transition-colors" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Top tag */}
-              <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm border border-brand-white/10
-                text-brand-white/70 text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                {isArabic ? "قطع غيار" : "Spare Parts"}
-              </div>
+                </Card3D>
+              </Link>
             </motion.div>
           ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-14 text-center"
+        >
+          <Link
+            href="/products"
+            className="group inline-flex items-center gap-3 text-brand-amber text-sm font-semibold uppercase tracking-widest hover:text-brand-gold transition-colors"
+          >
+            {isArabic ? "عرض جميع المنتجات" : "View All Products"}
+            <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
         </motion.div>
       </div>
     </section>
