@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from "lucide-react"
+import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle } from "lucide-react"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
@@ -15,19 +15,28 @@ export default function ContactPageClient() {
   const [submitted, setSubmitted] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
+  const [formError, setFormError] = useState("")
+  const [savedForm, setSavedForm] = useState(form)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setFormError("")
+    setSavedForm(form)
     try {
       await createInquiry({
         name: form.name, company: form.company, phone: form.phone, email: form.email,
         details: form.message, source: "contact",
       })
-    } catch {}
-    const text = isArabic
-      ? `اسم: ${form.name}\nالشركة: ${form.company}\nالبريد: ${form.email}\nالهاتف: ${form.phone}\nالرسالة: ${form.message}`
-      : `Name: ${form.name}\nCompany: ${form.company}\nEmail: ${form.email}\nPhone: ${form.phone}\nMessage: ${form.message}`
-    window.open(`https://wa.me/966552282868?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer")
-    setSubmitted(true)
+      setSubmitted(true)
+    } catch {
+      setFormError(isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again.")
+    }
+  }
+
+  const whatsappUrl = () => {
+    const f = savedForm
+    const text = `Name: ${f.name}\nCompany: ${f.company}\nEmail: ${f.email}\nPhone: ${f.phone}\nMessage: ${f.message}`
+    return `https://wa.me/966552282868?text=${encodeURIComponent(text)}`
   }
 
   const contactInfo = [
@@ -113,13 +122,20 @@ export default function ContactPageClient() {
                 <h3 className={`text-brand-white font-bold text-xl mb-2 ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
                   {isArabic ? "تم إرسال رسالتك!" : "Message Sent!"}
                 </h3>
-                <p className={`text-brand-muted ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "سنرد عليك في أقرب وقت." : "We'll get back to you shortly."}
+                <p className={`text-brand-muted mb-6 ${isArabic ? "font-arabic" : ""}`}>
+                  {isArabic ? "سنرد عليك خلال ساعتين." : "We'll respond within 2 hours."}
                 </p>
-                <button onClick={() => setSubmitted(false)}
-                  className="mt-6 text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer">
-                  {isArabic ? "إرسال رسالة أخرى" : "Send Another Message"}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors">
+                    <MessageCircle size={16} />
+                    {isArabic ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
+                  </a>
+                  <button onClick={() => { setSubmitted(false); setForm({ name: "", company: "", email: "", phone: "", message: "" }) }}
+                    className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer py-3">
+                    {isArabic ? "إرسال رسالة أخرى" : "Send Another Message"}
+                  </button>
+                </div>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" dir={isArabic ? "rtl" : "ltr"}>

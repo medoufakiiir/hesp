@@ -19,28 +19,33 @@ export default function QuotePageClient() {
   const [submitted, setSubmitted] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
+  const [formError, setFormError] = useState("")
+  const [savedForm, setSavedForm] = useState(form)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setFormError("")
+    setSavedForm(form)
     try {
       await createInquiry({
         name: form.name, company: form.company, phone: form.phone, email: form.email,
         category: form.category, brand: form.brand, partNumber: form.partNumber,
         quantity: form.quantity, details: form.details, source: "quote",
       })
-    } catch {}
+      setSubmitted(true)
+    } catch {
+      setFormError(isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again.")
+    }
+  }
+
+  const whatsappUrl = () => {
+    const f = savedForm
     const text = [
-      `${isArabic ? "اسم" : "Name"}: ${form.name}`,
-      `${isArabic ? "الشركة" : "Company"}: ${form.company}`,
-      `${isArabic ? "البريد" : "Email"}: ${form.email}`,
-      `${isArabic ? "الهاتف" : "Phone"}: ${form.phone}`,
-      `${isArabic ? "الفئة" : "Category"}: ${form.category}`,
-      `${isArabic ? "العلامة" : "Brand"}: ${form.brand}`,
-      `${isArabic ? "رقم القطعة" : "Part No"}: ${form.partNumber}`,
-      `${isArabic ? "الكمية" : "Qty"}: ${form.quantity}`,
-      `${isArabic ? "التفاصيل" : "Details"}: ${form.details}`,
+      `Name: ${f.name}`, `Company: ${f.company}`, `Email: ${f.email}`,
+      `Phone: ${f.phone}`, `Category: ${f.category}`, `Brand: ${f.brand}`,
+      `Part No: ${f.partNumber}`, `Qty: ${f.quantity}`, `Details: ${f.details}`,
     ].join("\n")
-    window.open(`https://wa.me/966552282868?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer")
-    setSubmitted(true)
+    return `https://wa.me/966552282868?text=${encodeURIComponent(text)}`
   }
 
   const benefits = [
@@ -158,13 +163,20 @@ export default function QuotePageClient() {
               <h3 className={`text-brand-white font-bold text-2xl mb-3 ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
                 {isArabic ? "تم إرسال طلبك بنجاح!" : "Quote Request Submitted!"}
               </h3>
-              <p className={`text-brand-muted mb-6 ${isArabic ? "font-arabic" : ""}`}>
+              <p className={`text-brand-muted mb-8 ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic ? "سنرد عليك خلال ساعتين عمل." : "We'll respond within 2 business hours."}
               </p>
-              <button onClick={() => { setSubmitted(false); setForm({ name: "", company: "", email: "", phone: "", category: "", brand: "", partNumber: "", quantity: "1", details: "" }) }}
-                className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer">
-                {isArabic ? "إرسال طلب آخر" : "Submit Another Request"}
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors">
+                  <MessageCircle size={16} />
+                  {isArabic ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
+                </a>
+                <button onClick={() => { setSubmitted(false); setForm({ name: "", company: "", email: "", phone: "", category: "", brand: "", partNumber: "", quantity: "1", details: "" }) }}
+                  className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer py-3">
+                  {isArabic ? "إرسال طلب آخر" : "Submit Another Request"}
+                </button>
+              </div>
             </motion.div>
           ) : (
             <div className="relative rounded-2xl overflow-hidden
