@@ -1,13 +1,17 @@
 import type { MetadataRoute } from "next"
-import { categories } from "@/data/categories"
-import { brands } from "@/data/brands"
-import { blogPosts } from "@/data/blog"
-import { products } from "@/data/products"
+import { prisma } from "@/lib/db"
 
 const BASE = "https://riyada-ventures.com"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString()
+
+  const [categories, brands, blogPosts, products] = await Promise.all([
+    prisma.category.findMany({ select: { slug: true } }),
+    prisma.brand.findMany({ select: { slug: true } }),
+    prisma.blogPost.findMany({ select: { slug: true, date: true } }),
+    prisma.product.findMany({ select: { slug: true, category: true } }),
+  ])
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1 },

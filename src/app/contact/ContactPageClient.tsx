@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
+import { createInquiry, type InquiryInput } from "@/actions/inquiries"
 
 export default function ContactPageClient() {
   const { isArabic } = useLang()
@@ -14,8 +15,14 @@ export default function ContactPageClient() {
   const [submitted, setSubmitted] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    try {
+      await createInquiry({
+        name: form.name, company: form.company, phone: form.phone, email: form.email,
+        details: form.message, source: "contact",
+      })
+    } catch {}
     const text = isArabic
       ? `اسم: ${form.name}\nالشركة: ${form.company}\nالبريد: ${form.email}\nالهاتف: ${form.phone}\nالرسالة: ${form.message}`
       : `Name: ${form.name}\nCompany: ${form.company}\nEmail: ${form.email}\nPhone: ${form.phone}\nMessage: ${form.message}`

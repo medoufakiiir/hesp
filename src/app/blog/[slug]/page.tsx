@@ -1,16 +1,17 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getBlogBySlug, getAllBlogSlugs, blogPosts } from "@/data/blog"
+import { prisma } from "@/lib/db"
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
 export async function generateStaticParams() {
-  return getAllBlogSlugs().map((slug) => ({ slug }))
+  const posts = await prisma.blogPost.findMany({ select: { slug: true } })
+  return posts.map((p) => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = getBlogBySlug(slug)
+  const post = await prisma.blogPost.findUnique({ where: { slug } })
   if (!post) return {}
 
   return {
@@ -29,10 +30,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = getBlogBySlug(slug)
-  if (!post) notFound()
+  const [post, related] = await Promise.all([
+    prisma.blogPost.findUnique({ where: { slug } }),
+    prisma.blogPost.findMany({ where: { slug: { not: slug } }, take: 2 }),
+  ])
 
-  const related = blogPosts.filter((p) => p.slug !== slug).slice(0, 2)
+  if (!post) notFound()
 
   return (
     <>

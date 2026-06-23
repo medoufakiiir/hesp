@@ -1,40 +1,39 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getBrandBySlug, getAllBrandSlugs } from "@/data/brands"
-import { getProductsByBrand } from "@/data/products"
-import { getCategoryBySlug } from "@/data/categories"
+import { prisma } from "@/lib/db"
 import { breadcrumbJsonLd } from "@/lib/seo"
 import BrandPageClient from "./BrandPageClient"
 
 export async function generateStaticParams() {
-  return getAllBrandSlugs().map((slug) => ({ slug }))
+  const brands = await prisma.brand.findMany({ select: { slug: true } })
+  return brands.map((b) => ({ slug: b.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const brand = getBrandBySlug(slug)
+  const brand = await prisma.brand.findUnique({ where: { slug } })
   if (!brand) return {}
 
   return {
     title: brand.metaTitleEN,
     description: brand.metaDescEN,
     alternates: { canonical: `https://riyada-ventures.com/brands/${slug}` },
-    openGraph: {
-      title: brand.metaTitleEN,
-      description: brand.metaDescEN,
-    },
+    openGraph: { title: brand.metaTitleEN, description: brand.metaDescEN },
   }
 }
 
 export default async function BrandPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const brand = getBrandBySlug(slug)
+  const [brand, brandProducts] = await Promise.all([
+    prisma.brand.findUnique({ where: { slug } }),
+    prisma.product.findMany({ where: { brand: slug } }),
+  ])
+
   if (!brand) notFound()
 
-  const brandProducts = getProductsByBrand(slug)
-  const relatedCategories = brand.categories
-    .map((slug) => getCategoryBySlug(slug))
-    .filter(Boolean) as NonNullable<ReturnType<typeof getCategoryBySlug>>[]
+  const relatedCategories = await prisma.category.findMany({
+    where: { slug: { in: brand.categories } },
+  })
 
   return (
     <>

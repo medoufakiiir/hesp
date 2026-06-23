@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { motion } from "framer-motion"
 import { MessageCircle, Send, CheckCircle, Clock, Shield, Truck } from "lucide-react"
 import Navbar from "@/components/Navbar"
@@ -8,6 +8,7 @@ import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 import { categories } from "@/data/categories"
+import { createInquiry } from "@/actions/inquiries"
 
 export default function QuotePageClient() {
   const { isArabic } = useLang()
@@ -18,8 +19,15 @@ export default function QuotePageClient() {
   const [submitted, setSubmitted] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    try {
+      await createInquiry({
+        name: form.name, company: form.company, phone: form.phone, email: form.email,
+        category: form.category, brand: form.brand, partNumber: form.partNumber,
+        quantity: form.quantity, details: form.details, source: "quote",
+      })
+    } catch {}
     const text = [
       `${isArabic ? "اسم" : "Name"}: ${form.name}`,
       `${isArabic ? "الشركة" : "Company"}: ${form.company}`,

@@ -11,6 +11,7 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["@prisma/client", "bcryptjs"],
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,

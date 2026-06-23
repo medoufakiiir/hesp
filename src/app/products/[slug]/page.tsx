@@ -1,17 +1,17 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { categories, getCategoryBySlug, getAllCategorySlugs } from "@/data/categories"
-import { getProductsByCategory } from "@/data/products"
+import { prisma } from "@/lib/db"
 import { breadcrumbJsonLd } from "@/lib/seo"
 import CategoryPageClient from "./CategoryPageClient"
 
 export async function generateStaticParams() {
-  return getAllCategorySlugs().map((slug) => ({ slug }))
+  const cats = await prisma.category.findMany({ select: { slug: true } })
+  return cats.map((c) => ({ slug: c.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const category = getCategoryBySlug(slug)
+  const category = await prisma.category.findUnique({ where: { slug } })
   if (!category) return {}
 
   return {
@@ -29,10 +29,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const category = getCategoryBySlug(slug)
-  if (!category) notFound()
+  const [category, categoryProducts, otherCategories] = await Promise.all([
+    prisma.category.findUnique({ where: { slug } }),
+    prisma.product.findMany({ where: { category: slug } }),
+    prisma.category.findMany({ where: { slug: { not: slug } } }),
+  ])
 
-  const categoryProducts = getProductsByCategory(slug)
+  if (!category) notFound()
 
   return (
     <>
@@ -48,7 +51,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           ),
         }}
       />
-      <CategoryPageClient category={category} products={categoryProducts} otherCategories={categories.filter((c) => c.slug !== slug)} />
+      <CategoryPageClient category={category} products={categoryProducts} otherCategories={otherCategories} />
     </>
   )
 }
