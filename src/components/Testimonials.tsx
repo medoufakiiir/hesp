@@ -8,7 +8,7 @@ export default function Testimonials() {
   const { t, isArabic } = useLang()
 
   return (
-    <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden">
+    <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
       {/* Decorative depth */}
       <div className="absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-brand-amber/[0.02] blur-[120px] pointer-events-none" />
 

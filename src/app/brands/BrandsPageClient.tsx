@@ -8,7 +8,7 @@ import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 
-export default function BrandsPageClient({ brandsData }: { brandsData: any[] }) {
+export default function BrandsPageClient({ brandsData }: { brandsData: Record<string, any>[] }) {
   const { isArabic } = useLang()
   const brands = brandsData
 

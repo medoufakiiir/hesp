@@ -6,12 +6,12 @@ import { motion } from "framer-motion"
 import { ArrowUpRight, Package } from "lucide-react"
 import { useLang } from "@/context/LangContext"
 
-export default function FeaturedProducts({ productsData }: { productsData: any[] }) {
+export default function FeaturedProducts({ productsData }: { productsData: Record<string, any>[] }) {
   const { isArabic } = useLang()
   const featured = productsData
 
   return (
-    <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden">
+    <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-brand-amber/[0.03] blur-[150px]" />
         <div className="absolute inset-0 opacity-[0.012]" style={{

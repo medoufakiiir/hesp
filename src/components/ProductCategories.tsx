@@ -45,12 +45,12 @@ function Card3D({ children, className = "" }: { children: React.ReactNode; class
   )
 }
 
-export default function ProductCategories({ categoriesData }: { categoriesData: any[] }) {
+export default function ProductCategories({ categoriesData }: { categoriesData: Record<string, any>[] }) {
   const { isArabic } = useLang()
   const categories = categoriesData
 
   return (
-    <section className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden">
+    <section className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
       {/* 3D depth background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 -right-32 w-96 h-96 rounded-full bg-brand-amber/[0.04] blur-[120px]" />

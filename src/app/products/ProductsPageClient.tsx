@@ -11,9 +11,9 @@ import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 
 interface Props {
-  productsData: any[]
-  categoriesData: any[]
-  brandsData: any[]
+  productsData: Record<string, any>[]
+  categoriesData: Record<string, any>[]
+  brandsData: Record<string, any>[]
 }
 
 export default function ProductsPageClient({ productsData, categoriesData, brandsData }: Props) {

@@ -11,7 +11,7 @@ import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 import { staggerContainer, scaleIn } from "@/lib/motion"
 
-export default function BlogPageClient({ postsData }: { postsData: any[] }) {
+export default function BlogPageClient({ postsData }: { postsData: Record<string, any>[] }) {
   const blogPosts = postsData
   const { isArabic } = useLang()
 
