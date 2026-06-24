@@ -1,51 +1,79 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { blogPosts } from "@/data/blog"
+import { prisma } from "@/lib/db"
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = blogPosts.find((p) => p.slug === slug)
-  if (!post) return {}
+  const post = await prisma.blogPost.findUnique({ where: { slug } })
+  if (!post || !post.published) return {}
 
   return {
-    title: post.metaTitleEN || post.titleEN,
-    description: post.metaDescEN || post.excerptEN,
+    title: post.metaTitleEn || post.titleEn,
+    description: post.metaDescEn || post.excerptEn || "",
     alternates: { canonical: `https://riyada-ventures.com/blog/${slug}` },
     openGraph: {
       type: "article",
-      title: post.metaTitleEN || post.titleEN,
-      description: post.metaDescEN || post.excerptEN,
-      images: [{ url: post.image, width: 1200, height: 630, alt: post.titleEN }],
-      publishedTime: post.date,
+      title: post.metaTitleEn || post.titleEn,
+      description: post.metaDescEn || post.excerptEn || "",
+      images: post.coverImageUrl ? [{ url: post.coverImageUrl, width: 1200, height: 630, alt: post.titleEn }] : [],
+      publishedTime: (post.publishedAt || post.createdAt).toISOString(),
     },
   }
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = blogPosts.find((p) => p.slug === slug)
-  if (!post) notFound()
+  const post = await prisma.blogPost.findUnique({ where: { slug } })
+  if (!post || !post.published) notFound()
 
-  const related = blogPosts.filter((p) => p.slug !== slug).slice(0, 2)
+  const relatedRaw = await prisma.blogPost.findMany({
+    where: { published: true, slug: { not: slug } },
+    orderBy: { publishedAt: "desc" },
+    take: 2,
+  })
+
+  const toClient = (p: typeof post) => ({
+    id: p.id,
+    slug: p.slug,
+    titleEN: p.titleEn,
+    titleAR: p.titleAr,
+    excerptEN: p.excerptEn || "",
+    excerptAR: p.excerptAr || "",
+    contentEN: p.bodyEn,
+    contentAR: p.bodyAr,
+    image: p.coverImageUrl || "/images/equipment/workshop.jpg",
+    date: (p.publishedAt || p.createdAt).toISOString().split("T")[0],
+    author: "Riyada Engineering Team",
+    tags: p.keywords,
+    metaTitleEN: p.metaTitleEn || "",
+    metaTitleAR: p.metaTitleAr || "",
+    metaDescEN: p.metaDescEn || "",
+    metaDescAR: p.metaDescAr || "",
+  })
+
+  const postData = toClient(post)
+  const related = relatedRaw.map(toClient)
 
   return (
     <>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd({
-          title: post.titleEN, description: post.excerptEN,
-          image: post.image, date: post.date, author: post.author, slug: post.slug,
+          title: post.titleEn, description: post.excerptEn || "",
+          image: post.coverImageUrl || "/images/equipment/workshop.jpg",
+          date: (post.publishedAt || post.createdAt).toISOString(),
+          author: "Riyada Engineering Team", slug: post.slug,
         })) }}
       />
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([
           { name: "Home", url: "/" },
           { name: "Blog", url: "/blog" },
-          { name: post.titleEN, url: `/blog/${slug}` },
+          { name: post.titleEn, url: `/blog/${slug}` },
         ])) }}
       />
-      <BlogPostClient post={post} relatedPosts={related} />
+      <BlogPostClient post={postData} relatedPosts={related} />
     </>
   )
 }

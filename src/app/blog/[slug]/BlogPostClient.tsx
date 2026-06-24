@@ -8,12 +8,18 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
-import type { BlogPost } from "@/data/blog"
 import { fadeInUp, staggerContainer } from "@/lib/motion"
 
+interface BlogPostShape {
+  id: string; slug: string; titleEN: string; titleAR: string
+  excerptEN: string; excerptAR: string; contentEN: string; contentAR: string
+  image: string; date: string; author: string; tags: string[]
+  metaTitleEN: string; metaTitleAR: string; metaDescEN: string; metaDescAR: string
+}
+
 interface Props {
-  post: BlogPost
-  relatedPosts: BlogPost[]
+  post: BlogPostShape
+  relatedPosts: BlogPostShape[]
 }
 
 export default function BlogPostClient({ post, relatedPosts }: Props) {

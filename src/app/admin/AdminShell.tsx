@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import {
   LayoutDashboard, FileText, LogOut, Menu, ChevronRight, Users,
-  BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList, MessageSquare,
+  BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList, MessageSquare, PenLine,
 } from "lucide-react"
 import type { Role } from "@/lib/rbac"
 
@@ -28,6 +28,7 @@ const allSidebarLinks: SidebarLink[] = [
   { href: "/admin/brands", label: "Brands", icon: Tag, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/equipment-models", label: "Equipment Models", icon: Truck, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/messages", label: "Messages", icon: MessageSquare, roles: ["SUPER_ADMIN", "MANAGER", "SALES"] },
+  { href: "/admin/blog", label: "Blog", icon: PenLine, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/users", label: "Users", icon: Users, roles: ["SUPER_ADMIN"] },
   { href: "/admin/settings", label: "Settings", icon: Settings, roles: ["SUPER_ADMIN", "MANAGER"] },
