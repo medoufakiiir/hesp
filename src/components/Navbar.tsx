@@ -73,9 +73,10 @@ export default function Navbar() {
       {/* Main nav */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center flex-shrink-0" aria-label="Riyada Ventures Home">
-          <img
+          <Image
             src="/images/logo.png"
             alt="Riyada Ventures - Heavy Equipment Spare Parts"
+            width={200} height={80} priority
             className="h-20 md:h-24 w-auto object-contain"
           />
         </Link>

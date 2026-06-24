@@ -15,14 +15,14 @@ const barlowCondensed = Barlow_Condensed({
 const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
 })
 
 const tajawalArabic = Tajawal({
   variable: "--font-arabic",
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "800"],
+  weight: ["400", "700"],
   display: "swap",
 })
 

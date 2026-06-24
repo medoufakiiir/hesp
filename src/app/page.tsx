@@ -1,25 +1,30 @@
 import type { Metadata } from "next"
 import dynamic from "next/dynamic"
 import Navbar from "@/components/Navbar"
-import { LoadingScreen, ScrollHero, CinematicStats } from "@/components/cinematic"
-import ProductCategories from "@/components/ProductCategories"
-import FeaturedProducts from "@/components/FeaturedProducts"
-import WhyChooseUs from "@/components/WhyChooseUs"
-import BrandsCarousel from "@/components/BrandsCarousel"
-import Testimonials from "@/components/Testimonials"
-import ContactCTA from "@/components/ContactCTA"
 import Footer from "@/components/Footer"
-import FAQSection from "@/components/FAQSection"
-import ScrollProgress from "@/components/ScrollProgress"
 import { faqJsonLd } from "@/lib/seo"
 
+const LoadingScreen = dynamic(() => import("@/components/cinematic/LoadingScreen"))
+const ScrollHero = dynamic(() => import("@/components/cinematic/ScrollHero"), {
+  loading: () => <div className="h-screen bg-brand-iron" />,
+})
+const CinematicStats = dynamic(() => import("@/components/cinematic/CinematicStats"), {
+  loading: () => <div className="h-64 bg-brand-iron" />,
+})
 const TwoWorlds = dynamic(() => import("@/components/cinematic/TwoWorlds"), {
   loading: () => <div className="min-h-screen bg-brand-iron" aria-hidden="true" />,
 })
-
 const ClosingCTA = dynamic(() => import("@/components/cinematic/ClosingCTA"), {
   loading: () => <div className="min-h-screen bg-brand-iron" aria-hidden="true" />,
 })
+const ProductCategories = dynamic(() => import("@/components/ProductCategories"))
+const FeaturedProducts = dynamic(() => import("@/components/FeaturedProducts"))
+const WhyChooseUs = dynamic(() => import("@/components/WhyChooseUs"))
+const BrandsCarousel = dynamic(() => import("@/components/BrandsCarousel"))
+const Testimonials = dynamic(() => import("@/components/Testimonials"))
+const ContactCTA = dynamic(() => import("@/components/ContactCTA"))
+const FAQSection = dynamic(() => import("@/components/FAQSection"))
+const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"))
 
 const homeFaqs = [
   {

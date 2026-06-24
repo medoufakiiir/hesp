@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { prisma } from "@/lib/db"
 import { blogPosts } from "@/data/blog"
 
-export const dynamic = "force-dynamic"
+export const revalidate = 3600
 
 const BASE = "https://riyada-ventures.com"
 
