@@ -13,6 +13,7 @@ interface User {
 const roleBadge: Record<string, string> = {
   super_admin: "bg-brand-amber/20 text-brand-amber",
   manager: "bg-blue-500/20 text-blue-400",
+  marketing: "bg-purple-500/20 text-purple-400",
   sales: "bg-emerald-500/20 text-emerald-400",
 }
 
@@ -122,6 +123,7 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
                   >
                     <option value="super_admin">Super Admin</option>
                     <option value="manager">Manager</option>
+                    <option value="marketing">Marketing</option>
                     <option value="sales">Sales</option>
                   </select>
                   {user.isActive ? (
@@ -171,6 +173,7 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
                 <label className="block text-brand-white/40 text-xs font-bold uppercase tracking-widest mb-2">Role *</label>
                 <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as any })} className="input-field">
                   <option value="sales">Sales</option>
+                  <option value="marketing">Marketing</option>
                   <option value="manager">Manager</option>
                   <option value="super_admin">Super Admin</option>
                 </select>

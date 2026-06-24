@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
-import { canDelete } from "@/lib/rbac"
+import { canDeleteInquiry } from "@/lib/rbac"
 import { sendQuoteNotification, sendContactNotification, sendAutoReply } from "@/lib/email"
 import { rateLimit } from "@/lib/rate-limit"
 import { headers } from "next/headers"
@@ -78,7 +78,7 @@ export async function deleteInquiry(id: string) {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
   const role = (session.user as any).role
-  if (!canDelete(role)) throw new Error("Forbidden")
+  if (!canDeleteInquiry(role)) throw new Error("Forbidden")
   await prisma.inquiry.delete({ where: { id } })
   revalidatePath("/admin/inquiries")
   revalidatePath("/admin/dashboard")

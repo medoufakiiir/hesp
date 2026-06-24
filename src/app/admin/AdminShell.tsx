@@ -4,21 +4,30 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { LayoutDashboard, Package, MessageSquare, FileText, LogOut, Menu, ChevronRight, Users } from "lucide-react"
+import { LayoutDashboard, Package, MessageSquare, FileText, LogOut, Menu, ChevronRight, Users, BarChart3 } from "lucide-react"
+import type { Role } from "@/lib/rbac"
 
-const allSidebarLinks = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, minRole: "sales" as const },
-  { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, minRole: "sales" as const },
-  { href: "/admin/products", label: "Products", icon: Package, minRole: "manager" as const },
-  { href: "/admin/blog", label: "Blog Posts", icon: FileText, minRole: "manager" as const },
-  { href: "/admin/users", label: "Users", icon: Users, minRole: "super_admin" as const },
+interface SidebarLink {
+  href: string
+  label: string
+  icon: React.ComponentType<{ size?: number }>
+  roles: Role[]
+}
+
+const allSidebarLinks: SidebarLink[] = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["super_admin", "manager", "marketing"] },
+  { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, roles: ["super_admin", "manager", "marketing", "sales"] },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "marketing"] },
+  { href: "/admin/products", label: "Products", icon: Package, roles: ["super_admin", "manager"] },
+  { href: "/admin/blog", label: "Blog Posts", icon: FileText, roles: ["super_admin", "manager"] },
+  { href: "/admin/users", label: "Users", icon: Users, roles: ["super_admin"] },
 ]
 
-const roleLevel: Record<string, number> = { super_admin: 3, manager: 2, sales: 1 }
-const roleLabels: Record<string, string> = { super_admin: "Super Admin", manager: "Manager", sales: "Sales" }
+const roleLabels: Record<string, string> = { super_admin: "Super Admin", manager: "Manager", marketing: "Marketing", sales: "Sales" }
 const roleBadgeColors: Record<string, string> = {
   super_admin: "bg-brand-amber/20 text-brand-amber",
   manager: "bg-blue-500/20 text-blue-400",
+  marketing: "bg-purple-500/20 text-purple-400",
   sales: "bg-emerald-500/20 text-emerald-400",
 }
 
@@ -32,8 +41,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }
 
   const userRole = (session?.user as any)?.role || "sales"
-  const userLevel = roleLevel[userRole] || 0
-  const visibleLinks = allSidebarLinks.filter(link => userLevel >= (roleLevel[link.minRole] || 0))
+  const visibleLinks = allSidebarLinks.filter(link => link.roles.includes(userRole as Role))
 
   return (
     <div className="min-h-screen bg-brand-iron flex">
