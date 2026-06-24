@@ -134,6 +134,13 @@ select.input-field option {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ── Focus styles ── */
+:focus-visible {
+  outline: 2px solid #D97706;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
