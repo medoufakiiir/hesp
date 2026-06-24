@@ -28,6 +28,8 @@
     "@react-three/fiber": "^9.6.1",
     "@react-three/postprocessing": "^3.0.4",
     "@types/three": "^0.184.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "@vercel/blob": "^2.4.1",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",

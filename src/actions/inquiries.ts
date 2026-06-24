@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canDelete } from "@/lib/rbac"
 import { sendQuoteNotification, sendContactNotification, sendAutoReply } from "@/lib/email"
+import { rateLimit } from "@/lib/rate-limit"
+import { headers } from "next/headers"
 
 const InquirySchema = z.object({
   name: z.string().min(1).max(100),
@@ -23,8 +25,13 @@ const InquirySchema = z.object({
 
 export type InquiryInput = z.input<typeof InquirySchema>
 
-// PUBLIC — no auth required
+// PUBLIC — no auth required, rate limited
 export async function createInquiry(data: InquiryInput) {
+  const headersList = await headers()
+  const ip = headersList.get("x-forwarded-for")?.split(",")[0] || "unknown"
+  const { success } = rateLimit(`inquiry:${ip}`, 10, 60 * 60 * 1000) // 10 per hour per IP
+  if (!success) throw new Error("Too many requests. Please try again later.")
+
   const validated = InquirySchema.parse(data)
   // Strip HTML tags from all string inputs
   const sanitized = Object.fromEntries(
