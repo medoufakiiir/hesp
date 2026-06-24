@@ -1,45 +1,12 @@
 "use client"
 
-import { useState, useTransition } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageCircle } from "lucide-react"
+import { motion } from "framer-motion"
+import { Phone, Mail, MapPin, Clock } from "lucide-react"
 import { useLang } from "@/context/LangContext"
-import { createInquiry } from "@/actions/inquiries"
+import ContactForm from "@/components/forms/ContactForm"
 
 export default function ContactCTA() {
   const { t, isArabic } = useLang()
-  const [form, setForm] = useState({ name: "", company: "", phone: "", part: "" })
-  const [focusedField, setFocusedField] = useState<string | null>(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState("")
-  const [isPending, startTransition] = useTransition()
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const whatsappUrl = () => {
-    const text = isArabic
-      ? `اسم: ${form.name}\nالشركة: ${form.company}\nالهاتف: ${form.phone}\nالقطعة المطلوبة: ${form.part}`
-      : `Name: ${form.name}\nCompany: ${form.company}\nPhone: ${form.phone}\nPart Needed: ${form.part}`
-    return `https://wa.me/966552282868?text=${encodeURIComponent(text)}`
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    startTransition(async () => {
-      try {
-        await createInquiry({
-          name: form.name, company: form.company, phone: form.phone,
-          details: form.part, source: "contact",
-        })
-        setSubmitted(true)
-      } catch (err) {
-        setError(isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again.")
-      }
-    })
-  }
 
   return (
     <section id="contact" className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
@@ -57,185 +24,59 @@ export default function ContactCTA() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className={`mb-14 ${isArabic ? "text-right" : ""}`}
         >
-          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
-            {t.contact.eyebrow}
-          </p>
+          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">{t.contact.eyebrow}</p>
           <h2 className={`text-brand-white leading-[0.95] mb-4 ${
             isArabic
               ? "font-arabic font-bold text-[clamp(2.5rem,6vw,5rem)]"
               : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,7vw,6rem)]"
-          }`}>
-            {t.contact.title}
-          </h2>
-          <p className={`text-brand-muted text-lg ${isArabic ? "font-arabic" : ""}`}>
-            {t.contact.sub}
-          </p>
+          }`}>{t.contact.title}</h2>
+          <p className={`text-brand-muted text-lg ${isArabic ? "font-arabic" : ""}`}>{t.contact.sub}</p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Form */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative rounded-2xl overflow-hidden
-              bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-transparent
-              backdrop-blur-sm border border-white/[0.07] p-8"
+            className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-transparent backdrop-blur-sm border border-white/[0.07] p-8"
           >
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
-
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-12"
-                >
-                  <motion.div
-                    className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                  >
-                    <CheckCircle size={28} className="text-emerald-400" />
-                  </motion.div>
-                  <h3 className={`text-brand-white font-bold text-xl mb-2 ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
-                    {isArabic ? "تم إرسال طلبك!" : "Request Submitted!"}
-                  </h3>
-                  <p className={`text-brand-muted mb-6 ${isArabic ? "font-arabic" : ""}`}>
-                    {isArabic ? "سنرد عليك خلال ساعتين." : "We'll respond within 2 hours."}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors">
-                      <MessageCircle size={16} />
-                      {isArabic ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
-                    </a>
-                    <button onClick={() => { setSubmitted(false); setForm({ name: "", company: "", phone: "", part: "" }) }}
-                      className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer py-3">
-                      {isArabic ? "إرسال طلب آخر" : "Send Another Request"}
-                    </button>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.form key="form" onSubmit={handleSubmit} className="space-y-4">
-                  {error && (
-                    <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-                      {error}
-                    </div>
-                  )}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {(["name", "company"] as const).map((field) => (
-                      <motion.div key={field}
-                        animate={focusedField === field ? { scale: 1.02 } : { scale: 1 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      >
-                        <input
-                          name={field} type="text" required={field === "name"}
-                          placeholder={field === "name" ? t.contact.namePlaceholder : t.contact.companyPlaceholder}
-                          value={form[field]} onChange={handleChange}
-                          onFocus={() => setFocusedField(field)} onBlur={() => setFocusedField(null)}
-                          className={`input-field ${isArabic ? "font-arabic text-right" : ""}`}
-                        />
-                      </motion.div>
-                    ))}
-                  </div>
-                  <motion.div
-                    animate={focusedField === "phone" ? { scale: 1.02 } : { scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  >
-                    <input
-                      name="phone" type="tel" required
-                      placeholder={t.contact.phonePlaceholder}
-                      value={form.phone} onChange={handleChange}
-                      onFocus={() => setFocusedField("phone")} onBlur={() => setFocusedField(null)}
-                      className={`input-field ${isArabic ? "font-arabic text-right" : ""}`}
-                    />
-                  </motion.div>
-                  <motion.div
-                    animate={focusedField === "part" ? { scale: 1.01 } : { scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  >
-                    <textarea
-                      name="part" rows={4} required
-                      placeholder={t.contact.partPlaceholder}
-                      value={form.part} onChange={handleChange}
-                      onFocus={() => setFocusedField("part")} onBlur={() => setFocusedField(null)}
-                      className={`input-field ${isArabic ? "font-arabic text-right" : ""}`}
-                    />
-                  </motion.div>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    type="submit"
-                    disabled={isPending}
-                    className={`w-full flex items-center justify-center gap-3 bg-brand-amber text-white
-                      font-bold uppercase text-sm tracking-widest py-5 rounded-xl
-                      hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20
-                      cursor-pointer disabled:opacity-50 ${isArabic ? "font-arabic flex-row-reverse" : ""}`}
-                  >
-                    <Send size={18} className={isArabic ? "rotate-180" : ""} />
-                    {isPending ? (isArabic ? "جاري الإرسال..." : "Submitting...") : t.contact.send}
-                  </motion.button>
-                </motion.form>
-              )}
-            </AnimatePresence>
+            <ContactForm />
           </motion.div>
 
-          {/* Contact Info */}
           <div className="space-y-4">
             {[
               { Icon: Phone, value: t.contact.phone, href: `tel:${t.contact.phone}` },
               { Icon: Mail, value: t.contact.email, href: `mailto:${t.contact.email}` },
               { Icon: MapPin, value: t.contact.address, href: "#" },
             ].map(({ Icon, value, href }, i) => (
-              <motion.a
-                key={i}
-                href={href}
+              <motion.a key={i} href={href}
                 initial={{ opacity: 0, x: isArabic ? -30 : 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 whileHover={{ x: isArabic ? -6 : 6 }}
-                className="group flex items-start gap-5 p-5 rounded-2xl cursor-pointer
-                  bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent
-                  border border-white/[0.06] hover:border-brand-amber/25 transition-[border] duration-300"
+                className="group flex items-start gap-5 p-5 rounded-2xl cursor-pointer bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent border border-white/[0.06] hover:border-brand-amber/25 transition-[border] duration-300"
               >
-                <div className="relative w-12 h-12 rounded-xl bg-brand-amber/10 group-hover:bg-brand-amber
-                  flex items-center justify-center flex-shrink-0 transition-colors duration-300">
+                <div className="relative w-12 h-12 rounded-xl bg-brand-amber/10 group-hover:bg-brand-amber flex items-center justify-center flex-shrink-0 transition-colors duration-300">
                   <Icon size={20} className="text-brand-amber group-hover:text-white transition-colors" />
                 </div>
-                <p className={`text-brand-white/70 group-hover:text-brand-white font-medium pt-2.5 text-sm transition-colors ${isArabic ? "font-arabic" : ""}`}>
-                  {value}
-                </p>
+                <p className={`text-brand-white/70 group-hover:text-brand-white font-medium pt-2.5 text-sm transition-colors ${isArabic ? "font-arabic" : ""}`}>{value}</p>
               </motion.a>
             ))}
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]"
-            >
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]">
               <Clock size={18} className="text-brand-amber flex-shrink-0" />
-              <span className={`text-brand-muted text-xs font-semibold uppercase tracking-widest ${isArabic ? "font-arabic" : ""}`}>
-                {t.contact.hours}
-              </span>
-              <motion.span
-                className="w-2.5 h-2.5 rounded-full bg-emerald-500 ms-auto"
+              <span className={`text-brand-muted text-xs font-semibold uppercase tracking-widest ${isArabic ? "font-arabic" : ""}`}>{t.contact.hours}</span>
+              <motion.span className="w-2.5 h-2.5 rounded-full bg-emerald-500 ms-auto"
                 animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              />
+                transition={{ repeat: Infinity, duration: 2 }} />
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden border border-white/[0.06] h-52 hover:border-brand-amber/20 transition-colors"
-            >
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+              className="rounded-2xl overflow-hidden border border-white/[0.06] h-52 hover:border-brand-amber/20 transition-colors">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.2!2d46.674!3d24.742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQ0JzMxLjIiTiA0NsKwNDAnMjYuNCJF!5e0!3m2!1sen!2ssa!4v1234567890"
                 width="100%" height="100%"

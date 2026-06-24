@@ -1,43 +1,15 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle } from "lucide-react"
+import { Phone, Mail, MapPin, Clock } from "lucide-react"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
-import { createInquiry, type InquiryInput } from "@/actions/inquiries"
+import ContactForm from "@/components/forms/ContactForm"
 
 export default function ContactPageClient() {
   const { isArabic } = useLang()
-  const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", message: "" })
-  const [submitted, setSubmitted] = useState(false)
-  const [focusedField, setFocusedField] = useState<string | null>(null)
-
-  const [formError, setFormError] = useState("")
-  const [savedForm, setSavedForm] = useState(form)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormError("")
-    setSavedForm(form)
-    try {
-      await createInquiry({
-        name: form.name, company: form.company, phone: form.phone, email: form.email,
-        details: form.message, source: "contact",
-      })
-      setSubmitted(true)
-    } catch {
-      setFormError(isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again.")
-    }
-  }
-
-  const whatsappUrl = () => {
-    const f = savedForm
-    const text = `Name: ${f.name}\nCompany: ${f.company}\nEmail: ${f.email}\nPhone: ${f.phone}\nMessage: ${f.message}`
-    return `https://wa.me/966552282868?text=${encodeURIComponent(text)}`
-  }
 
   const contactInfo = [
     { icon: Phone, labelEN: "Phone / WhatsApp", labelAR: "الهاتف / واتساب", value: "+966 55 228 2868", href: "tel:+966552282868" },
@@ -50,7 +22,6 @@ export default function ContactPageClient() {
     <main className="min-h-screen bg-brand-iron">
       <Navbar />
 
-      {/* Cinematic Header */}
       <section className="relative pt-32 lg:pt-36 pb-20 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-brand-amber/[0.04] blur-[150px]" />
@@ -81,120 +52,32 @@ export default function ContactPageClient() {
               {isArabic ? "لنبقي أسطولك\nيعمل" : "Let's Keep Your\nFleet Running"}
             </h1>
             <p className={`text-brand-muted text-lg max-w-2xl ${isArabic ? "font-arabic" : ""}`}>
-              {isArabic
-                ? "أرسل طلب قطعة غيار وسنرد خلال ساعتين. نحن هنا لمساعدتك."
-                : "Submit a part request and we'll respond within 2 hours. We're here to help."}
+              {isArabic ? "أرسل رسالة وسنرد خلال ساعتين. نحن هنا لمساعدتك." : "Send us a message and we'll respond within 2 hours. We're here to help."}
             </p>
           </motion.div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className={`grid lg:grid-cols-2 gap-10 ${isArabic ? "lg:grid-flow-dense" : ""}`}>
-          {/* Contact Form — Glass Card */}
+        <div className={`grid lg:grid-cols-2 gap-10 ${isArabic ? "lg:grid-flow-dense" : ""}`} dir={isArabic ? "rtl" : "ltr"}>
+          {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, y: 40, rotateX: 4 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7 }}
             className={`relative rounded-2xl overflow-hidden
               bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-transparent
-              backdrop-blur-sm border border-white/[0.07]
-              p-8 lg:p-10 ${isArabic ? "lg:col-start-2" : ""}`}
-            style={{ perspective: "1000px" }}
+              backdrop-blur-sm border border-white/[0.07] p-8 ${isArabic ? "lg:col-start-2" : ""}`}
           >
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
-
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-12"
-              >
-                <motion.div
-                  className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                >
-                  <Send size={24} className="text-emerald-400" />
-                </motion.div>
-                <h3 className={`text-brand-white font-bold text-xl mb-2 ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
-                  {isArabic ? "تم إرسال رسالتك!" : "Message Sent!"}
-                </h3>
-                <p className={`text-brand-muted mb-6 ${isArabic ? "font-arabic" : ""}`}>
-                  {isArabic ? "سنرد عليك خلال ساعتين." : "We'll respond within 2 hours."}
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors">
-                    <MessageCircle size={16} />
-                    {isArabic ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
-                  </a>
-                  <button onClick={() => { setSubmitted(false); setForm({ name: "", company: "", email: "", phone: "", message: "" }) }}
-                    className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer py-3">
-                    {isArabic ? "إرسال رسالة أخرى" : "Send Another Message"}
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4" dir={isArabic ? "rtl" : "ltr"}>
-                <h3 className={`text-brand-white font-bold text-xl mb-6 ${isArabic ? "font-arabic" : "font-display uppercase tracking-tight"}`}>
-                  {isArabic ? "أرسل لنا رسالة" : "Send Us a Message"}
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {(["name", "company"] as const).map((field) => (
-                    <motion.div key={field}
-                      animate={focusedField === field ? { scale: 1.02 } : { scale: 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    >
-                      <input name={field} type="text" required={field === "name"}
-                        placeholder={field === "name" ? (isArabic ? "الاسم الكامل *" : "Full Name *") : (isArabic ? "الشركة" : "Company")}
-                        value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                        onFocus={() => setFocusedField(field)} onBlur={() => setFocusedField(null)}
-                        className={`input-field ${isArabic ? "font-arabic text-right" : ""}`} />
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {(["email", "phone"] as const).map((field) => (
-                    <motion.div key={field}
-                      animate={focusedField === field ? { scale: 1.02 } : { scale: 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    >
-                      <input name={field} type={field === "email" ? "email" : "tel"} required={field === "phone"}
-                        placeholder={field === "email" ? (isArabic ? "البريد الإلكتروني" : "Email") : (isArabic ? "رقم الهاتف *" : "Phone *")}
-                        value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                        onFocus={() => setFocusedField(field)} onBlur={() => setFocusedField(null)}
-                        className={`input-field ${isArabic ? "font-arabic text-right" : ""}`} />
-                    </motion.div>
-                  ))}
-                </div>
-                <motion.div
-                  animate={focusedField === "message" ? { scale: 1.01 } : { scale: 1 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                >
-                  <textarea name="message" rows={5} required
-                    placeholder={isArabic ? "رسالتك أو طلب القطعة *" : "Your message or part request *"}
-                    value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    onFocus={() => setFocusedField("message")} onBlur={() => setFocusedField(null)}
-                    className={`input-field ${isArabic ? "font-arabic text-right" : ""}`} />
-                </motion.div>
-                <motion.button type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  className={`w-full flex items-center justify-center gap-3 bg-brand-amber text-white
-                    font-bold uppercase text-sm tracking-widest py-5 rounded-xl
-                    hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20 cursor-pointer
-                    ${isArabic ? "font-arabic flex-row-reverse" : ""}`}>
-                  <Send size={18} />
-                  {isArabic ? "إرسال الرسالة" : "Send Message"}
-                </motion.button>
-              </form>
-            )}
+            <h3 className={`text-brand-white font-bold text-xl mb-6 ${isArabic ? "font-arabic" : "font-display uppercase tracking-tight"}`}>
+              {isArabic ? "أرسل لنا رسالة" : "Send Us a Message"}
+            </h3>
+            <ContactForm />
           </motion.div>
 
-          {/* Contact Info — Glass Cards */}
+          {/* Contact Info */}
           <div className={`space-y-4 ${isArabic ? "lg:col-start-1" : ""}`}>
             {contactInfo.map(({ icon: Icon, labelEN, labelAR, value, href }, i) => (
               <motion.a
@@ -203,39 +86,30 @@ export default function ContactPageClient() {
                 initial={{ opacity: 0, x: isArabic ? -30 : 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ x: isArabic ? -6 : 6, scale: 1.01 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                whileHover={{ x: isArabic ? -6 : 6 }}
                 className="group flex items-start gap-5 p-5 rounded-2xl cursor-pointer
                   bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent
-                  border border-white/[0.06] hover:border-brand-amber/25
-                  hover:shadow-xl hover:shadow-brand-amber/5 transition-[border,box-shadow] duration-300"
-                dir={isArabic ? "rtl" : "ltr"}
+                  border border-white/[0.06] hover:border-brand-amber/25 transition-[border] duration-300"
               >
                 <div className="relative w-12 h-12 rounded-xl bg-brand-amber/10 group-hover:bg-brand-amber
                   flex items-center justify-center flex-shrink-0 transition-colors duration-300">
                   <Icon size={20} className="text-brand-amber group-hover:text-white transition-colors" />
-                  <div className="absolute inset-0 rounded-xl bg-brand-amber/20 blur-lg opacity-0 group-hover:opacity-60 transition-opacity" />
                 </div>
                 <div>
                   <p className={`text-brand-white/35 text-xs font-semibold uppercase tracking-widest mb-1 ${isArabic ? "font-arabic" : ""}`}>
                     {isArabic ? labelAR : labelEN}
                   </p>
-                  <p className={`text-brand-white/80 group-hover:text-brand-white font-medium text-sm transition-colors ${isArabic ? "font-arabic" : ""}`}>
-                    {value}
-                  </p>
+                  <p className={`text-brand-white/80 font-medium text-sm ${isArabic ? "font-arabic" : ""}`}>{value}</p>
                 </div>
               </motion.a>
             ))}
 
-            {/* Live status badge */}
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center gap-3 p-5 rounded-2xl
-                bg-gradient-to-br from-emerald-500/[0.06] to-transparent
-                border border-emerald-500/15"
+              className="flex items-center gap-3 p-5 rounded-2xl bg-gradient-to-br from-emerald-500/[0.06] to-transparent border border-emerald-500/15"
             >
               <motion.span
                 className="w-3 h-3 rounded-full bg-emerald-500"
@@ -247,12 +121,10 @@ export default function ContactPageClient() {
               </span>
             </motion.div>
 
-            {/* Map */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
               id="map"
               className="rounded-2xl overflow-hidden border border-white/[0.06] h-56 hover:border-brand-amber/20 transition-colors"
             >
@@ -262,7 +134,7 @@ export default function ContactPageClient() {
                 style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
                 allowFullScreen={false} loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Riyada Ventures Location - Riyadh, Saudi Arabia"
+                title="Riyada Ventures Location"
               />
             </motion.div>
           </div>
