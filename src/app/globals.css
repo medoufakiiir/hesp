@@ -20,7 +20,7 @@
   /* Fonts */
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body:    'Inter', sans-serif;
-  --font-arabic:  'IBM Plex Sans Arabic', sans-serif;
+  --font-arabic:  'Tajawal', sans-serif;
 }
 
 /* ── Base ── */
@@ -37,7 +37,8 @@ html {
 body {
   background-color: #111318;
   color: #F1F5F9;
-  font-family: var(--font-body, 'Inter'), 'Noto Sans Arabic', sans-serif;
+  font-family: var(--font-body, 'Inter'), var(--font-arabic, 'Cairo'), sans-serif;
+
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }

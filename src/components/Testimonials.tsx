@@ -22,7 +22,7 @@ export default function Testimonials() {
         >
           <div className="inline-flex items-center gap-3 mb-4">
             <span className="h-px w-8 bg-brand-amber/40" />
-            <span className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em]">
+            <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {t.testimonials.eyebrow}
             </span>
             <span className="h-px w-8 bg-brand-amber/40" />

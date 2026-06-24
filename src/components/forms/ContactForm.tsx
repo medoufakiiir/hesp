@@ -38,12 +38,12 @@ const t = {
   },
 }
 
-function FormField({ label, error, children, id }: {
-  label: string; error?: string; children: React.ReactNode; id: string
+function FormField({ label, error, children, id, isArabic }: {
+  label: string; error?: string; children: React.ReactNode; id: string; isArabic?: boolean
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-brand-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
+      <label htmlFor={id} className={`block text-brand-white/50 text-xs font-semibold mb-2 ${isArabic ? "font-arabic text-right" : "uppercase tracking-widest"}`}>
         {label}
       </label>
       {children}
@@ -121,32 +121,32 @@ export default function ContactForm() {
           )}
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <FormField label={labels.fullName} error={errors.fullName?.message} id="contact-fullName">
+            <FormField label={labels.fullName} error={errors.fullName?.message} id="contact-fullName" isArabic={isArabic}>
               <input id="contact-fullName" {...register("fullName")} aria-invalid={!!errors.fullName} className={inputClass(!!errors.fullName)} />
             </FormField>
-            <FormField label={labels.email} error={errors.email?.message} id="contact-email">
+            <FormField label={labels.email} error={errors.email?.message} id="contact-email" isArabic={isArabic}>
               <input id="contact-email" type="email" {...register("email")} aria-invalid={!!errors.email} className={inputClass(!!errors.email)} />
             </FormField>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
-            <FormField label={labels.phone} error={errors.phone?.message} id="contact-phone">
+            <FormField label={labels.phone} error={errors.phone?.message} id="contact-phone" isArabic={isArabic}>
               <input id="contact-phone" type="tel" {...register("phone")} className={inputClass(!!errors.phone)} />
             </FormField>
-            <FormField label={labels.companyName} error={errors.companyName?.message} id="contact-company">
+            <FormField label={labels.companyName} error={errors.companyName?.message} id="contact-company" isArabic={isArabic}>
               <input id="contact-company" {...register("companyName")} className={inputClass(!!errors.companyName)} />
             </FormField>
           </div>
-          <FormField label={labels.subject} error={errors.subject?.message} id="contact-subject">
+          <FormField label={labels.subject} error={errors.subject?.message} id="contact-subject" isArabic={isArabic}>
             <input id="contact-subject" {...register("subject")} aria-invalid={!!errors.subject} className={inputClass(!!errors.subject)} />
           </FormField>
-          <FormField label={labels.message} error={errors.message?.message} id="contact-message">
+          <FormField label={labels.message} error={errors.message?.message} id="contact-message" isArabic={isArabic}>
             <textarea id="contact-message" rows={5} {...register("message")} aria-invalid={!!errors.message} className={inputClass(!!errors.message)} />
           </FormField>
 
           <motion.button type="submit" disabled={isSubmitting} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            className={`w-full flex items-center justify-center gap-3 bg-brand-amber text-white font-bold uppercase text-sm tracking-widest py-5 rounded-xl
+            className={`w-full flex items-center justify-center gap-3 bg-brand-amber text-white font-bold text-sm py-5 rounded-xl
               hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20 cursor-pointer disabled:opacity-50
-              ${isArabic ? "font-arabic flex-row-reverse" : ""}`}>
+              ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}>
             {isSubmitting ? <><Loader2 size={18} className="animate-spin" />{labels.submitting}</> : <><Send size={18} />{labels.submit}</>}
           </motion.button>
         </motion.form>

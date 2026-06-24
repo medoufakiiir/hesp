@@ -30,7 +30,7 @@ export default function FeaturedProducts({ productsData }: { productsData: Produ
           className={`mb-14 ${isArabic ? "text-right" : ""}`}
           dir={isArabic ? "rtl" : "ltr"}
         >
-          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+          <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
             {isArabic ? "المنتجات المميزة" : "Featured Products"}
           </p>
           <h2 className={`text-brand-white leading-[0.95] mb-4 ${
@@ -78,7 +78,7 @@ export default function FeaturedProducts({ productsData }: { productsData: Produ
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-plate via-brand-plate/30 to-transparent" />
                     {product.inStock && (
-                      <div className="absolute top-3 right-3 bg-emerald-500/15 text-emerald-400 text-[9px] font-bold
+                      <div className="absolute top-3 end-3 bg-emerald-500/15 text-emerald-400 text-[9px] font-bold
                         uppercase tracking-widest px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-500/20 backdrop-blur-sm">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         {isArabic ? "متوفر" : "In Stock"}
@@ -101,8 +101,8 @@ export default function FeaturedProducts({ productsData }: { productsData: Produ
                       {isArabic ? product.descriptionAR.slice(0, 60) + "..." : product.descriptionEN.slice(0, 60) + "..."}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-brand-amber text-xs font-semibold uppercase tracking-widest
-                        opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      <span className={`text-brand-amber text-xs font-semibold
+                        opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                         {isArabic ? "اطلب الآن" : "Order Now"}
                       </span>
                       <div className="w-7 h-7 rounded-full bg-white/5 border border-white/10
@@ -127,9 +127,9 @@ export default function FeaturedProducts({ productsData }: { productsData: Produ
         >
           <Link
             href="/products"
-            className="group inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.08]
-              text-brand-amber text-xs font-bold uppercase tracking-widest px-8 py-4 rounded-xl
-              hover:bg-brand-amber hover:text-white hover:border-brand-amber transition-all duration-300 backdrop-blur-sm"
+            className={`group inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.08]
+              text-brand-amber text-xs font-bold px-8 py-4 rounded-xl
+              hover:bg-brand-amber hover:text-white hover:border-brand-amber transition-all duration-300 backdrop-blur-sm ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}
           >
             {isArabic ? "تصفح الكتالوج الكامل" : "Browse Full Catalog"}
             <ArrowUpRight size={14} />

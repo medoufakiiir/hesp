@@ -32,7 +32,7 @@ export default function BrandsCarousel() {
           viewport={{ once: true }}
           className={`text-center ${isArabic ? "font-arabic" : ""}`}
         >
-          <motion.p variants={blurFadeIn} className="text-brand-amber text-xs font-semibold uppercase tracking-widest mb-2">
+          <motion.p variants={blurFadeIn} className={`text-brand-amber text-xs font-semibold mb-2 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
             {t.brands.eyebrow}
           </motion.p>
           <motion.h2

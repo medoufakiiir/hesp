@@ -24,7 +24,7 @@ export default function ContactCTA() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className={`mb-14 ${isArabic ? "text-right" : ""}`}
         >
-          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">{t.contact.eyebrow}</p>
+          <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>{t.contact.eyebrow}</p>
           <h2 className={`text-brand-white leading-[0.95] mb-4 ${
             isArabic
               ? "font-arabic font-bold text-[clamp(2.5rem,6vw,5rem)]"
@@ -47,10 +47,10 @@ export default function ContactCTA() {
 
           <div className="space-y-4">
             {[
-              { Icon: Phone, value: t.contact.phone, href: `tel:${t.contact.phone}` },
-              { Icon: Mail, value: t.contact.email, href: `mailto:${t.contact.email}` },
-              { Icon: MapPin, value: t.contact.address, href: "#" },
-            ].map(({ Icon, value, href }, i) => (
+              { Icon: Phone, value: t.contact.phone, href: `tel:${t.contact.phone}`, ltr: true },
+              { Icon: Mail, value: t.contact.email, href: `mailto:${t.contact.email}`, ltr: true },
+              { Icon: MapPin, value: t.contact.address, href: "#", ltr: false },
+            ].map(({ Icon, value, href, ltr }, i) => (
               <motion.a key={i} href={href}
                 initial={{ opacity: 0, x: isArabic ? -30 : 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -62,14 +62,14 @@ export default function ContactCTA() {
                 <div className="relative w-12 h-12 rounded-xl bg-brand-amber/10 group-hover:bg-brand-amber flex items-center justify-center flex-shrink-0 transition-colors duration-300">
                   <Icon size={20} className="text-brand-amber group-hover:text-white transition-colors" />
                 </div>
-                <p className={`text-brand-white/70 group-hover:text-brand-white font-medium pt-2.5 text-sm transition-colors ${isArabic ? "font-arabic" : ""}`}>{value}</p>
+                <p dir={ltr ? "ltr" : undefined} className={`text-brand-white/70 group-hover:text-brand-white font-medium pt-2.5 text-sm transition-colors ${isArabic ? "font-arabic" : ""}`}>{value}</p>
               </motion.a>
             ))}
 
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]">
               <Clock size={18} className="text-brand-amber flex-shrink-0" />
-              <span className={`text-brand-muted text-xs font-semibold uppercase tracking-widest ${isArabic ? "font-arabic" : ""}`}>{t.contact.hours}</span>
+              <span className={`text-brand-muted text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>{t.contact.hours}</span>
               <motion.span className="w-2.5 h-2.5 rounded-full bg-emerald-500 ms-auto"
                 animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 2 }} />

@@ -39,7 +39,7 @@ export default function FeaturedEquipment() {
           className={`mb-12 ${isArabic ? "text-right" : ""}`}
           dir={isArabic ? "rtl" : "ltr"}
         >
-          <motion.p variants={fadeInUp} className="text-brand-amber text-xs font-semibold uppercase tracking-widest mb-3">
+          <motion.p variants={fadeInUp} className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
             {t.equipment.eyebrow}
           </motion.p>
           <motion.h2
@@ -131,11 +131,11 @@ export default function FeaturedEquipment() {
                     sizes="100vw"
                   />
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-8">
-                    <Dialog.Title className="text-brand-white font-display font-extrabold uppercase text-4xl">
+                    <Dialog.Title className={`text-brand-white font-extrabold text-4xl ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
                       {isArabic ? selected.labelAR : selected.labelEN}
                     </Dialog.Title>
                   </div>
-                  <Dialog.Close className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60
+                  <Dialog.Close className="absolute top-4 end-4 w-10 h-10 rounded-full bg-black/60
                     border border-brand-white/10 flex items-center justify-center text-brand-white
                     hover:bg-brand-amber hover:border-brand-amber transition-all cursor-pointer">
                     <X size={18} />

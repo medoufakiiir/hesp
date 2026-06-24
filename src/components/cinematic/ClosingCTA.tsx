@@ -90,10 +90,10 @@ export default function ClosingCTA() {
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                className={`group inline-flex items-center gap-3 bg-brand-amber text-white font-bold uppercase
-                  text-sm tracking-widest px-10 py-5 rounded-xl hover:bg-brand-gold transition-colors
+                className={`group inline-flex items-center gap-3 bg-brand-amber text-white font-bold
+                  text-sm px-10 py-5 rounded-xl hover:bg-brand-gold transition-colors
                   shadow-lg shadow-brand-amber/20 hover:shadow-brand-amber/40 cursor-pointer
-                  ${isArabic ? "font-arabic flex-row-reverse" : ""}`}
+                  ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}
               >
                 {t.cta}
                 <ArrowRight size={18} className={`transition-transform group-hover:translate-x-1 ${isArabic ? "rotate-180 group-hover:-translate-x-1" : ""}`} />

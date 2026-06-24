@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Barlow_Condensed, Inter, IBM_Plex_Sans_Arabic } from "next/font/google"
+import { Barlow_Condensed, Inter, Tajawal } from "next/font/google"
 import "./globals.css"
 import { LangProvider } from "@/context/LangContext"
 import { cn } from "@/lib/utils"
@@ -19,12 +19,13 @@ const inter = Inter({
   display: "swap",
 })
 
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+const tajawalArabic = Tajawal({
   variable: "--font-arabic",
   subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "700", "800"],
   display: "swap",
 })
+
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://riyada-ventures.com"),
@@ -103,7 +104,7 @@ export default function RootLayout({
       lang="en"
       dir="ltr"
       suppressHydrationWarning
-      className={cn("antialiased", barlowCondensed.variable, inter.variable, ibmPlexArabic.variable)}
+      className={cn("antialiased", barlowCondensed.variable, inter.variable, tajawalArabic.variable)}
     >
       <head>
         <link rel="icon" href="/images/logo.ico" />

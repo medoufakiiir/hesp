@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
 import { useLang } from "@/context/LangContext"
 import { staggerContainer, blurFadeIn, fadeInUp } from "@/lib/motion"
+import { toArabicNum } from "@/lib/utils"
 
 const navLinks = [
   { href: "/",         labelEN: "Home",     labelAR: "الرئيسية" },
@@ -65,7 +66,7 @@ export default function Footer() {
           <motion.div variants={blurFadeIn} className="lg:col-span-4 space-y-6">
             <Link href="/">
               <Image src="/images/logo.png" alt="Riyada Ventures - Heavy Equipment Spare Parts Saudi Arabia"
-                width={140} height={56} className="h-12 w-auto object-contain" />
+                width={240} height={96} className="h-24 w-auto object-contain" unoptimized />
             </Link>
             <p className={`text-brand-muted text-sm leading-relaxed max-w-xs ${isArabic ? "font-arabic text-right" : ""}`}>
               {isArabic
@@ -97,7 +98,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <motion.div variants={blurFadeIn} className="lg:col-span-2 space-y-5">
-            <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
+            <h4 className={`text-brand-amber text-xs font-bold ${isArabic ? "font-arabic text-right" : "uppercase tracking-widest"}`}>
               {isArabic ? "روابط سريعة" : "Quick Links"}
             </h4>
             <ul className="space-y-3">
@@ -121,7 +122,7 @@ export default function Footer() {
 
           {/* Products */}
           <motion.div variants={blurFadeIn} className="lg:col-span-3 space-y-5">
-            <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
+            <h4 className={`text-brand-amber text-xs font-bold ${isArabic ? "font-arabic text-right" : "uppercase tracking-widest"}`}>
               {isArabic ? "المنتجات" : "Products"}
             </h4>
             <ul className="space-y-3">
@@ -145,7 +146,7 @@ export default function Footer() {
 
           {/* Contact */}
           <motion.div variants={blurFadeIn} className="lg:col-span-3 space-y-5">
-            <h4 className={`text-brand-amber text-xs font-bold uppercase tracking-widest ${isArabic ? "font-arabic text-right" : ""}`}>
+            <h4 className={`text-brand-amber text-xs font-bold ${isArabic ? "font-arabic text-right" : "uppercase tracking-widest"}`}>
               {isArabic ? "اتصل بنا" : "Contact"}
             </h4>
             <div className="space-y-3">
@@ -156,7 +157,7 @@ export default function Footer() {
                 info@riyada-ventures.com
               </p>
               <p className={`text-brand-muted text-sm leading-relaxed ${isArabic ? "font-arabic text-right" : ""}`}>
-                {isArabic ? "الفيصلية، الرياض 12882، المملكة العربية السعودية" : "Al Faisaliyyah, Riyadh 12882, KSA"}
+                {isArabic ? "الفيصلية، الرياض ١٢٨٨٢، المملكة العربية السعودية" : "Al Faisaliyyah, Riyadh 12882, KSA"}
               </p>
             </div>
             <div className="flex items-center gap-2 mt-4">
@@ -191,12 +192,12 @@ export default function Footer() {
 
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4" dir={isArabic ? "rtl" : "ltr"}>
             <div className="flex items-center gap-2 text-brand-white/20">
-              <span className="text-[10px] font-bold uppercase tracking-widest">
-                {isArabic ? "رؤية المملكة 2030" : "Saudi Vision 2030"}
+              <span className={`text-[10px] font-bold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
+                {isArabic ? "رؤية المملكة ٢٠٣٠" : "Saudi Vision 2030"}
               </span>
             </div>
-            <p className={`text-[10px] font-bold uppercase tracking-widest text-brand-white/20 ${isArabic ? "font-arabic" : ""}`}>
-              © {new Date().getFullYear()} {isArabic ? "جميع الحقوق محفوظة. ريادة فنتشرز." : "All rights reserved. Riyada Ventures."}
+            <p className={`text-[10px] font-bold text-brand-white/20 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
+              © {isArabic ? toArabicNum(new Date().getFullYear()) : new Date().getFullYear()} {isArabic ? "جميع الحقوق محفوظة. ريادة فنتشرز." : "All rights reserved. Riyada Ventures."}
             </p>
           </div>
         </motion.div>

@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Target, Eye, Shield, Truck, Users, Globe, ArrowRight } from "lucide-react"
+import { toArabicNum } from "@/lib/utils"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
@@ -11,7 +12,7 @@ import { useLang } from "@/context/LangContext"
 
 const values = [
   { icon: Shield, titleEN: "Quality First", titleAR: "الجودة أولاً", descEN: "Every part we supply meets or exceeds OEM specifications. We never compromise on quality.", descAR: "كل قطعة نوفرها تلبي أو تتجاوز مواصفات OEM. لا نتنازل أبداً عن الجودة." },
-  { icon: Truck, titleEN: "Fast Delivery", titleAR: "توصيل سريع", descEN: "Same-day pickup in Riyadh, express air freight in 3-5 days across the Kingdom.", descAR: "استلام في نفس اليوم بالرياض، شحن جوي سريع في 3-5 أيام في المملكة." },
+  { icon: Truck, titleEN: "Fast Delivery", titleAR: "توصيل سريع", descEN: "Same-day pickup in Riyadh, express air freight in 3-5 days across the Kingdom.", descAR: "استلام في نفس اليوم بالرياض، شحن جوي سريع في ٣-٥ أيام في المملكة." },
   { icon: Users, titleEN: "Expert Support", titleAR: "دعم متخصص", descEN: "Our engineering team provides technical consultation for every procurement decision.", descAR: "يقدم فريقنا الهندسي استشارات فنية لكل قرار شراء." },
   { icon: Globe, titleEN: "Global Sourcing", titleAR: "مصادر عالمية", descEN: "Direct relationships with manufacturers in USA, Europe, Japan, and South Korea.", descAR: "علاقات مباشرة مع المصنعين في أمريكا وأوروبا واليابان وكوريا الجنوبية." },
 ]
@@ -43,7 +44,7 @@ export default function AboutPageClient() {
             className={`mt-8 ${isArabic ? "text-right" : ""}`}
             dir={isArabic ? "rtl" : "ltr"}
           >
-            <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {isArabic ? "عن الشركة" : "About Us"}
             </p>
             <h1 className={`text-brand-white leading-[0.95] mb-4 ${
@@ -75,14 +76,14 @@ export default function AboutPageClient() {
           >
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="h-px w-6 bg-brand-amber/40" />
-              <span className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em]">
+              <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
                 {isArabic ? "قصتنا" : "Our Story"}
               </span>
             </div>
             <h2 className={`text-brand-white leading-tight mb-6 ${
               isArabic ? "font-arabic font-bold text-4xl" : "font-display font-extrabold uppercase tracking-tight text-5xl"
             }`}>
-              {isArabic ? "15+ سنة من التميز" : "15+ Years of\nExcellence"}
+              {isArabic ? "١٥+ سنة من التميز" : "15+ Years of\nExcellence"}
             </h2>
             <div className="space-y-4">
               <p className={`text-brand-muted leading-relaxed ${isArabic ? "font-arabic" : ""}`}>
@@ -92,7 +93,7 @@ export default function AboutPageClient() {
               </p>
               <p className={`text-brand-muted leading-relaxed ${isArabic ? "font-arabic" : ""}`}>
                 {isArabic
-                  ? "نحن نعمل مع أكثر من 500 علامة تجارية عالمية ونوفر أكثر من 10,000 قطعة غيار مختلفة. يمتد عملنا إلى أكثر من 30 دولة عبر الشرق الأوسط وأفريقيا وآسيا."
+                  ? "نحن نعمل مع أكثر من ٥٠٠ علامة تجارية عالمية ونوفر أكثر من ١٠٬٠٠٠ قطعة غيار مختلفة. يمتد عملنا إلى أكثر من ٣٠ دولة عبر الشرق الأوسط وأفريقيا وآسيا."
                   : "We work with over 500 global brands and supply more than 10,000 different spare parts. Our operations extend to over 30 countries across the Middle East, Africa, and Asia."}
               </p>
             </div>
@@ -182,7 +183,7 @@ export default function AboutPageClient() {
           >
             <div className="inline-flex items-center gap-3 mb-3">
               <span className="h-px w-8 bg-brand-amber/40" />
-              <span className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em]">
+              <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
                 {isArabic ? "قيمنا" : "Our Values"}
               </span>
               <span className="h-px w-8 bg-brand-amber/40" />
@@ -222,9 +223,9 @@ export default function AboutPageClient() {
                     {isArabic ? descAR : descEN}
                   </p>
                 </div>
-                <span className="absolute top-3 right-4 text-brand-white/[0.02] group-hover:text-brand-amber/[0.06]
+                <span className="absolute top-3 end-4 text-brand-white/[0.02] group-hover:text-brand-amber/[0.06]
                   font-display font-extrabold text-6xl transition-colors duration-500 pointer-events-none">
-                  {String(i + 1).padStart(2, "0")}
+                  {isArabic ? toArabicNum(String(i + 1).padStart(2, "0")) : String(i + 1).padStart(2, "0")}
                 </span>
               </motion.div>
             ))}
@@ -260,16 +261,16 @@ export default function AboutPageClient() {
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.97 }}
-                  className={`group inline-flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest
-                    px-8 py-4 rounded-xl hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20 cursor-pointer ${isArabic ? "flex-row-reverse" : ""}`}
+                  className={`group inline-flex items-center gap-2 bg-brand-amber text-white text-xs font-bold
+                    px-8 py-4 rounded-xl hover:bg-brand-gold transition-colors shadow-lg shadow-brand-amber/20 cursor-pointer ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}
                 >
                   {isArabic ? "طلب عرض سعر" : "Get a Quote"}
                   <ArrowRight size={14} className={isArabic ? "rotate-180" : ""} />
                 </motion.span>
               </Link>
               <Link href="/contact"
-                className="border border-white/[0.1] bg-white/[0.03] backdrop-blur-sm text-brand-white text-xs font-bold uppercase tracking-widest
-                  px-8 py-4 rounded-xl hover:border-brand-amber/30 hover:text-brand-amber transition-all">
+                className={`border border-white/[0.1] bg-white/[0.03] backdrop-blur-sm text-brand-white text-xs font-bold
+                  px-8 py-4 rounded-xl hover:border-brand-amber/30 hover:text-brand-amber transition-all ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                 {isArabic ? "تواصل معنا" : "Contact Us"}
               </Link>
             </div>

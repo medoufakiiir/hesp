@@ -284,7 +284,7 @@ export default function Scene3D() {
             <div key={i} className="relative aspect-video rounded-2xl overflow-hidden">
               <img src={src} alt={text.frames[i]?.headline.replace("\n", " ") || ""} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-brand-iron/60 flex items-end p-4">
-                <h3 className="text-brand-white font-display font-extrabold uppercase text-sm">
+                <h3 className={`text-brand-white font-extrabold text-sm ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
                   {text.frames[i]?.headline.replace("\n", " ")}
                 </h3>
               </div>

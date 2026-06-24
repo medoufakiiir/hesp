@@ -67,7 +67,10 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
       {/* Article Content */}
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className={`prose prose-invert prose-amber max-w-none
-          prose-headings:font-display prose-headings:font-extrabold prose-headings:uppercase prose-headings:tracking-tight
+          ${isArabic
+            ? "prose-headings:font-arabic prose-headings:font-bold"
+            : "prose-headings:font-display prose-headings:font-extrabold prose-headings:uppercase prose-headings:tracking-tight"
+          }
           prose-h2:text-brand-amber prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
           prose-h3:text-brand-white prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
           prose-p:text-brand-muted prose-p:leading-relaxed prose-p:mb-6
@@ -102,8 +105,8 @@ export default function BlogPostClient({ post, relatedPosts }: Props) {
             {isArabic ? "تواصل مع فريقنا الهندسي للحصول على المشورة المتخصصة والأسعار التنافسية." : "Contact our engineering team for expert advice and competitive pricing."}
           </p>
           <Link href="/quote"
-            className="inline-flex items-center gap-2 bg-brand-amber text-white text-xs font-bold
-              uppercase tracking-widest px-8 py-4 rounded-xl hover:bg-brand-gold transition-all">
+            className={`inline-flex items-center gap-2 bg-brand-amber text-white text-xs font-bold
+              px-8 py-4 rounded-xl hover:bg-brand-gold transition-all ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
             {isArabic ? "طلب عرض سعر" : "Get a Quote"}
             <ArrowUpRight size={14} />
           </Link>

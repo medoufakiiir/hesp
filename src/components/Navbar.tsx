@@ -29,7 +29,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useEffect(() => { setMenuOpen(false) }, [pathname])
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
 
   const isHome = pathname === "/"
 
@@ -47,13 +49,20 @@ export default function Navbar() {
       {/* Top bar */}
       <div className="hidden lg:block bg-brand-amber/10 border-b border-brand-amber/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-8">
-          <div className={`flex items-center gap-4 text-[10px] text-brand-white/50 ${isArabic ? "flex-row-reverse" : ""}`}>
-            <span>{isArabic ? "الأحد – الخميس · 8:00 ص – 6:00 م" : "Sun – Thu · 8:00 AM – 6:00 PM"}</span>
+          <div
+            className="flex items-center gap-4 text-[10px] text-brand-white/50"
+            dir={isArabic ? "rtl" : "ltr"}
+          >
+            <span>{isArabic ? "الأحد – الخميس · ٨:٠٠ ص – ٦:٠٠ م" : "Sun – Thu · 8:00 AM – 6:00 PM"}</span>
             <span className="w-px h-3 bg-brand-white/10" />
             <span>{isArabic ? "الرياض، المملكة العربية السعودية" : "Riyadh, Saudi Arabia"}</span>
           </div>
-          <div className={`flex items-center gap-3 ${isArabic ? "flex-row-reverse" : ""}`}>
-            <a href="tel:+966552282868" className="flex items-center gap-1.5 text-[10px] text-brand-amber hover:text-brand-gold transition-colors">
+
+          <div className="flex items-center gap-3" dir={isArabic ? "rtl" : "ltr"}>
+            <a
+              href="tel:+966552282868"
+              className="flex items-center gap-1.5 text-[10px] text-brand-amber hover:text-brand-gold transition-colors"
+            >
               <Phone size={10} />
               <span dir="ltr">+966 55 228 2868</span>
             </a>
@@ -64,35 +73,40 @@ export default function Navbar() {
       {/* Main nav */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center flex-shrink-0" aria-label="Riyada Ventures Home">
-          <Image
+          <img
             src="/images/logo.png"
             alt="Riyada Ventures - Heavy Equipment Spare Parts"
-            width={240}
-            height={96}
-            className="h-24 w-auto object-contain"
-            priority
+            className="h-20 md:h-24 w-auto object-contain"
           />
         </Link>
 
-        <div className={`hidden lg:flex items-center gap-0.5 ${isArabic ? "flex-row-reverse" : ""}`}>
+        <div
+          className="hidden lg:flex items-center gap-0.5"
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-3.5 py-2 text-[11px] font-semibold uppercase tracking-widest
-                  transition-colors duration-200 group ${isArabic ? "font-arabic" : ""}
-                  ${isActive ? "text-brand-amber" : "text-brand-white/60 hover:text-brand-amber"}`}
+                className={`relative px-3.5 py-2 font-semibold
+                  transition-colors duration-200 group ${
+                    isArabic ? "font-arabic text-sm" : "text-[11px] uppercase tracking-widest"
+                  } ${isActive ? "text-brand-amber" : "text-brand-white/60 hover:text-brand-amber"}`}
               >
                 {isArabic ? link.labelAR : link.labelEN}
-                <span className={`absolute bottom-0 left-3.5 right-3.5 h-px bg-brand-amber origin-left transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                <span
+                  className={`absolute bottom-0 left-3.5 right-3.5 h-px bg-brand-amber origin-left transition-transform duration-300 ${
+                    isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
               </Link>
             )
           })}
         </div>
 
-        <div className={`flex items-center gap-3 ${isArabic ? "flex-row-reverse" : ""}`}>
+        <div className="flex items-center gap-3" dir={isArabic ? "rtl" : "ltr"}>
           <button
             onClick={() => setLang(lang === "EN" ? "AR" : "EN")}
             className="text-[10px] font-bold text-brand-white/60 border border-brand-white/15 px-3.5 py-1.5
@@ -101,13 +115,17 @@ export default function Navbar() {
           >
             {lang === "EN" ? "عربي" : "EN"}
           </button>
+
           <Link
             href="/quote"
-            className="hidden lg:flex items-center gap-2 bg-brand-amber text-white text-[10px] font-bold
-              uppercase tracking-widest px-5 py-2.5 rounded-xl hover:bg-brand-gold transition-all"
+            className={`hidden lg:flex items-center gap-2 bg-brand-amber text-white font-bold
+              px-5 py-2.5 rounded-xl hover:bg-brand-gold transition-all ${
+                isArabic ? "font-arabic text-xs" : "text-[10px] uppercase tracking-widest"
+              }`}
           >
             {isArabic ? "طلب عرض سعر" : "Get Quote"}
           </Link>
+
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="lg:hidden w-9 h-9 flex items-center justify-center text-brand-white/70
@@ -135,9 +153,10 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block px-8 py-4 text-xs font-bold uppercase tracking-widest
-                    transition-all ${isArabic ? "font-arabic text-right" : ""}
-                    ${isActive ? "text-brand-amber bg-brand-amber/5" : "text-brand-white/60 hover:text-brand-amber hover:bg-brand-white/5"}`}
+                  className={`block px-8 py-4 font-bold
+                    transition-all ${
+                      isArabic ? "font-arabic text-right text-sm" : "text-xs uppercase tracking-widest"
+                    } ${isActive ? "text-brand-amber bg-brand-amber/5" : "text-brand-white/60 hover:text-brand-amber hover:bg-brand-white/5"}`}
                 >
                   {isArabic ? link.labelAR : link.labelEN}
                 </Link>
@@ -146,8 +165,8 @@ export default function Navbar() {
             <div className="px-8 py-3">
               <Link
                 href="/quote"
-                className="block w-full bg-brand-amber text-white text-xs font-bold uppercase tracking-widest
-                  py-3 rounded-xl hover:bg-brand-gold transition-all text-center"
+                className={`block w-full bg-brand-amber text-white text-xs font-bold
+                  py-3 rounded-xl hover:bg-brand-gold transition-all text-center ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}
               >
                 {isArabic ? "طلب عرض سعر" : "Get Quote"}
               </Link>
@@ -158,3 +177,4 @@ export default function Navbar() {
     </motion.nav>
   )
 }
+

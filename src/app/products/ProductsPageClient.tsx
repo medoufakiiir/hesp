@@ -10,6 +10,7 @@ import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 import type { ProductData, CategoryData, BrandData } from "@/types/db"
+import { toArabicNum } from "@/lib/utils"
 
 interface Props {
   productsData: ProductData[]
@@ -59,7 +60,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
             className={`mt-8 ${isArabic ? "text-right" : ""}`}
             dir={isArabic ? "rtl" : "ltr"}
           >
-            <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {isArabic ? "منتجاتنا" : "Our Products"}
             </p>
             <h1 className={`text-brand-white leading-[0.95] mb-4 ${
@@ -71,7 +72,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
             </h1>
             <p className={`text-brand-muted text-lg max-w-xl ${isArabic ? "font-arabic" : ""}`}>
               {isArabic
-                ? "ابحث في مخزوننا من أكثر من 10,000 قطعة لجميع العلامات التجارية الكبرى."
+                ? "ابحث في مخزوننا من أكثر من ١٠٬٠٠٠ قطعة لجميع العلامات التجارية الكبرى."
                 : "Search our inventory of 10,000+ parts for all major heavy equipment brands."}
             </p>
           </motion.div>
@@ -87,13 +88,13 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
           className="mb-12 p-6 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-sm border border-white/[0.06] space-y-5"
         >
           <div className="relative max-w-2xl">
-            <Search size={18} className={`absolute top-1/2 -translate-y-1/2 text-brand-muted ${isArabic ? "right-4" : "left-4"}`} />
+            <Search size={18} className={`absolute top-1/2 -translate-y-1/2 text-brand-muted ${isArabic ? "left-4" : "right-4"}`} />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={isArabic ? "ابحث بالاسم أو رقم القطعة..." : "Search by name or part number..."}
-              className={`input-field ${isArabic ? "font-arabic text-right pr-12" : "pl-12"}`}
+              className={`input-field ${isArabic ? "font-arabic text-right pl-12" : "pr-12"}`}
               dir={isArabic ? "rtl" : "ltr"}
             />
           </div>
@@ -101,15 +102,15 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
           <div className={`flex flex-wrap gap-2.5 ${isArabic ? "flex-row-reverse" : ""}`}>
             <div className="flex items-center gap-2 text-brand-muted text-xs mr-1">
               <Filter size={13} />
-              <span className="uppercase tracking-widest">{isArabic ? "تصفية" : "Filter"}</span>
+              <span className={isArabic ? "font-arabic" : "uppercase tracking-widest"}>{isArabic ? "تصفية" : "Filter"}</span>
             </div>
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-[10px] font-bold transition-all cursor-pointer ${
                 !selectedCategory
                   ? "bg-brand-amber text-white"
                   : "bg-white/[0.04] border border-white/[0.08] text-brand-white/50 hover:border-brand-amber/30 hover:text-brand-amber"
-              }`}
+              } ${isArabic ? "font-arabic text-xs" : "uppercase tracking-widest"}`}
             >
               {isArabic ? "الكل" : "All"}
             </button>
@@ -117,11 +118,11 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.slug === selectedCategory ? null : cat.slug)}
-                className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-[10px] font-bold transition-all cursor-pointer ${
                   selectedCategory === cat.slug
                     ? "bg-brand-amber text-white"
                     : "bg-white/[0.04] border border-white/[0.08] text-brand-white/50 hover:border-brand-amber/30 hover:text-brand-amber"
-                } ${isArabic ? "font-arabic" : ""}`}
+                } ${isArabic ? "font-arabic text-xs" : "uppercase tracking-widest"}`}
               >
                 {isArabic ? cat.nameAR : cat.nameEN}
               </button>
@@ -155,7 +156,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
 
         {/* Categories Grid - 3D Cards */}
         <div className="mb-16">
-          <h2 className={`text-brand-white font-display font-extrabold uppercase tracking-tight text-2xl mb-8 ${isArabic ? "font-arabic text-right" : ""}`}>
+          <h2 className={`text-brand-white font-bold text-2xl mb-8 ${isArabic ? "font-arabic text-right" : "font-display font-extrabold uppercase tracking-tight"}`}>
             {isArabic ? "تصفح حسب الفئة" : "Browse by Category"}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" style={{ perspective: "800px" }}>
@@ -183,7 +184,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
                         {isArabic ? cat.nameAR : cat.nameEN}
                       </h3>
                       <p className="text-brand-amber/50 text-[10px] font-bold mt-0.5">
-                        {cat.productCount}+ {isArabic ? "قطعة" : "parts"}
+                        {isArabic ? `${toArabicNum(cat.productCount)}+ قطعة` : `${cat.productCount}+ parts`}
                       </p>
                     </div>
                   </div>
@@ -196,11 +197,11 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
         {/* Products Grid - 3D Glass Cards */}
         <div>
           <div className={`flex items-center justify-between mb-8 ${isArabic ? "flex-row-reverse" : ""}`}>
-            <h2 className={`text-brand-white font-display font-extrabold uppercase tracking-tight text-2xl ${isArabic ? "font-arabic" : ""}`}>
+            <h2 className={`text-brand-white font-bold text-2xl ${isArabic ? "font-arabic" : "font-display font-extrabold uppercase tracking-tight"}`}>
               {isArabic ? "جميع المنتجات" : "All Products"}
             </h2>
-            <span className="text-brand-muted text-xs font-semibold uppercase tracking-widest">
-              {filtered.length} {isArabic ? "منتج" : "products"}
+            <span className={`text-brand-muted text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
+              {isArabic ? toArabicNum(filtered.length) : filtered.length} {isArabic ? "منتج" : "products"}
             </span>
           </div>
 
@@ -233,7 +234,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-plate via-brand-plate/30 to-transparent" />
                         {product.inStock && (
-                          <div className="absolute top-3 right-3 bg-emerald-500/15 text-emerald-400 text-[8px] font-bold
+                          <div className="absolute top-3 end-3 bg-emerald-500/15 text-emerald-400 text-[8px] font-bold
                             uppercase tracking-widest px-2 py-0.5 rounded-full flex items-center gap-1 border border-emerald-500/20 backdrop-blur-sm">
                             <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
                             {isArabic ? "متوفر" : "In Stock"}

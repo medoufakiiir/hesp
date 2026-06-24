@@ -12,6 +12,7 @@ import type { Brand } from "@/data/brands"
 import type { Product } from "@/data/products"
 import type { Category } from "@/data/categories"
 import { staggerContainer, scaleIn, fadeInUp } from "@/lib/motion"
+import { toArabicNum } from "@/lib/utils"
 
 interface Props {
   brand: Brand
@@ -38,7 +39,7 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
               <div className={`flex items-center gap-3 text-brand-white/30 text-xs ${isArabic ? "flex-row-reverse" : ""}`}>
                 <div className="flex items-center gap-1.5"><Globe size={12} /><span>{brand.country}</span></div>
                 <span className="w-px h-3 bg-brand-white/10" />
-                <div className="flex items-center gap-1.5"><Calendar size={12} /><span>Est. {brand.founded}</span></div>
+                <div className="flex items-center gap-1.5"><Calendar size={12} /><span>{isArabic ? `تأسست ${toArabicNum(brand.founded)}` : `Est. ${brand.founded}`}</span></div>
               </div>
             </motion.div>
             <motion.h1 variants={fadeInUp}
@@ -53,9 +54,9 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
             </motion.p>
             <motion.div variants={fadeInUp} className={`mt-8 flex gap-4 ${isArabic ? "flex-row-reverse" : ""}`}>
               <Link href="/quote"
-                className={`inline-flex items-center gap-3 bg-brand-amber text-white font-bold uppercase
-                  text-xs tracking-widest px-8 py-4 rounded-xl hover:bg-brand-gold transition-all
-                  ${isArabic ? "font-arabic flex-row-reverse" : ""}`}>
+                className={`inline-flex items-center gap-3 bg-brand-amber text-white font-bold
+                  text-xs px-8 py-4 rounded-xl hover:bg-brand-gold transition-all
+                  ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}>
                 <MessageCircle size={16} />
                 {isArabic ? `طلب قطع ${brand.nameAR}` : `Request ${brand.name} Parts`}
               </Link>
@@ -66,8 +67,8 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
 
       {/* Categories for this brand */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className={`text-brand-white font-display font-extrabold uppercase tracking-tight text-2xl mb-8
-          ${isArabic ? "font-arabic text-right" : ""}`}>
+        <h2 className={`text-brand-white font-bold text-2xl mb-8
+          ${isArabic ? "font-arabic text-right" : "font-display font-extrabold uppercase tracking-tight"}`}>
           {isArabic ? `فئات قطع ${brand.nameAR}` : `${brand.name} Part Categories`}
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -78,7 +79,7 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
                 <Image src={cat.image} alt={isArabic ? cat.nameAR : cat.nameEN} fill sizes="25vw"
                   className="object-cover grayscale-[40%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3">
+                <div className="absolute bottom-3 start-3 end-3">
                   <h3 className={`text-brand-white font-semibold text-sm ${isArabic ? "font-arabic text-right" : ""}`}>
                     {isArabic ? cat.nameAR : cat.nameEN}
                   </h3>
@@ -93,8 +94,8 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
       {products.length > 0 && (
         <div className="bg-brand-steel py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className={`text-brand-white font-display font-extrabold uppercase tracking-tight text-2xl mb-8
-              ${isArabic ? "font-arabic text-right" : ""}`}>
+            <h2 className={`text-brand-white font-bold text-2xl mb-8
+              ${isArabic ? "font-arabic text-right" : "font-display font-extrabold uppercase tracking-tight"}`}>
               {isArabic ? `منتجات ${brand.nameAR}` : `${brand.name} Products`}
             </h2>
             <motion.div variants={staggerContainer} initial="hidden" animate="visible"
@@ -119,7 +120,7 @@ export default function BrandPageClient({ brand, products, relatedCategories }: 
                         {isArabic ? product.nameAR : product.nameEN}
                       </h3>
                       <Link href="/quote"
-                        className="flex items-center gap-2 text-brand-amber text-xs font-semibold uppercase tracking-widest hover:text-brand-gold transition-colors">
+                        className={`flex items-center gap-2 text-brand-amber text-xs font-semibold hover:text-brand-gold transition-colors ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}>
                         {isArabic ? "اطلب الآن" : "Request Quote"}
                         <ArrowUpRight size={14} />
                       </Link>

@@ -40,7 +40,7 @@ export default function QuotePageClient() {
             className={`mt-8 ${isArabic ? "text-right" : ""}`}
             dir={isArabic ? "rtl" : "ltr"}
           >
-            <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {isArabic ? "طلب عرض سعر" : "Request a Quote"}
             </p>
             <h1 className={`text-brand-white leading-[0.95] mb-4 ${

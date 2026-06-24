@@ -74,7 +74,7 @@ function TimelineStep({
       >
         <div className={`flex items-center gap-3 mb-2 ${isArabic ? "flex-row-reverse" : ""}`}>
           <motion.span
-            className={`text-brand-white/40 text-xs font-bold uppercase tracking-widest font-display ${isArabic ? "font-arabic" : ""}`}
+            className={`text-brand-white/40 text-xs font-bold ${isArabic ? "font-arabic" : "font-display uppercase tracking-widest"}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: index * 0.12 + 0.1 }}
@@ -118,7 +118,7 @@ export default function TwoWorlds() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className={`text-center mb-16 ${isArabic ? "font-arabic" : ""}`}
         >
-          <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-4">
+          <p className={`text-brand-amber text-xs font-semibold mb-4 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
             {isArabic ? "المقارنة" : "Comparison"}
           </p>
           <h2 className={`text-brand-white leading-tight mb-4 ${
@@ -151,17 +151,17 @@ export default function TwoWorlds() {
             />
             <button
               onClick={() => setActiveView("without")}
-              className={`relative z-10 px-6 py-2.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${
+              className={`relative z-10 px-6 py-2.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 activeView === "without" ? "text-brand-amber" : "text-brand-muted hover:text-brand-white/60"
-              } ${isArabic ? "font-arabic" : ""}`}
+              } ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}
             >
               {t.toggleWithout}
             </button>
             <button
               onClick={() => setActiveView("with")}
-              className={`relative z-10 px-6 py-2.5 text-xs font-bold uppercase tracking-widest rounded-lg transition-colors cursor-pointer ${
+              className={`relative z-10 px-6 py-2.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 activeView === "with" ? "text-brand-amber" : "text-brand-muted hover:text-brand-white/60"
-              } ${isArabic ? "font-arabic" : ""}`}
+              } ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}
             >
               {t.toggleWith}
             </button>
@@ -217,9 +217,9 @@ export default function TwoWorlds() {
                 animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 2 }}
               />
-              <span className={`text-xs font-bold uppercase tracking-widest ${
+              <span className={`text-xs font-bold ${
                 activeView === "without" ? "text-red-400" : "text-emerald-400"
-              } ${isArabic ? "font-arabic" : ""}`}>
+              } ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                 {activeView === "without"
                   ? (isArabic ? "٣٥+ يوم توقف" : "35+ Days Downtime")
                   : (isArabic ? "يومان فقط — الأسطول يعمل" : "2 Days — Fleet Back Online")

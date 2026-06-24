@@ -31,7 +31,7 @@ export default function FAQSection({ faqs }: { faqs: FAQ[] }) {
         >
           <div className="inline-flex items-center gap-2 mb-3">
             <HelpCircle size={14} className="text-brand-amber" />
-            <span className={`text-brand-amber text-xs font-semibold uppercase tracking-widest ${isArabic ? "font-arabic" : ""}`}>
+            <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
               {isArabic ? "الأسئلة الشائعة" : "Frequently Asked Questions"}
             </span>
           </div>

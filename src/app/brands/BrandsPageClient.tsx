@@ -8,6 +8,7 @@ import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
 import type { BrandData } from "@/types/db"
+import { toArabicNum } from "@/lib/utils"
 
 export default function BrandsPageClient({ brandsData }: { brandsData: BrandData[] }) {
   const { isArabic } = useLang()
@@ -37,7 +38,7 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
             className={`mt-8 ${isArabic ? "text-right" : ""}`}
             dir={isArabic ? "rtl" : "ltr"}
           >
-            <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {isArabic ? "العلامات التجارية" : "Our Brands"}
             </p>
             <h1 className={`text-brand-white leading-[0.95] mb-4 ${
@@ -84,8 +85,8 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
                   <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
                     <div className={`flex items-start justify-between mb-6 ${isArabic ? "flex-row-reverse" : ""}`}>
                       <div>
-                        <h2 className={`text-brand-white font-display font-extrabold uppercase text-2xl tracking-tight mb-1
-                          ${isArabic ? "font-arabic text-right" : ""}`}>
+                        <h2 className={`text-brand-white font-extrabold text-2xl mb-1
+                          ${isArabic ? "font-arabic text-right" : "font-display uppercase tracking-tight"}`}>
                           {brand.name}
                         </h2>
                         {isArabic && <p className="text-brand-amber/60 text-sm font-arabic">{brand.nameAR}</p>}
@@ -111,16 +112,12 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Calendar size={12} className="text-brand-amber/50" />
-                        <span>{isArabic ? `تأسست ${brand.founded}` : `Est. ${brand.founded}`}</span>
+                        <span>{isArabic ? `تأسست ${toArabicNum(brand.founded)}` : `Est. ${brand.founded}`}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Corner index */}
-                  <span className="absolute top-3 right-4 text-brand-white/[0.02] group-hover:text-brand-amber/[0.06]
-                    font-display font-extrabold text-7xl transition-colors duration-500 pointer-events-none">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+
                 </div>
               </Link>
             </motion.div>

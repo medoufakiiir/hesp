@@ -96,7 +96,7 @@ export default function HeroSection() {
                 animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               />
-              <span className="text-brand-amber text-xs font-semibold uppercase tracking-widest">
+              <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                 {t.hero.tag}
               </span>
               <motion.span
@@ -157,9 +157,9 @@ export default function HeroSection() {
                       ],
                     }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    className={`group inline-flex items-center gap-3 bg-brand-amber text-white font-bold uppercase
-                      text-xs tracking-widest px-8 py-4 rounded-xl hover:bg-brand-gold transition-colors
-                      cursor-pointer ${isArabic ? "font-arabic flex-row-reverse" : ""}`}
+                    className={`group inline-flex items-center gap-3 bg-brand-amber text-white font-bold
+                      text-xs px-8 py-4 rounded-xl hover:bg-brand-gold transition-colors
+                      cursor-pointer ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}
                   >
                     {t.hero.cta1}
                     <motion.span
@@ -178,8 +178,8 @@ export default function HeroSection() {
                     whileHover={{ scale: 1.05, borderColor: "rgba(217, 119, 6, 0.6)" }}
                     whileTap={{ scale: 0.95 }}
                     className={`inline-flex items-center gap-3 border border-brand-white/20 text-brand-white font-bold
-                      uppercase text-xs tracking-widest px-8 py-4 rounded-xl hover:border-brand-amber
-                      hover:text-brand-amber transition-all cursor-pointer backdrop-blur-sm ${isArabic ? "font-arabic flex-row-reverse" : ""}`}
+                      text-xs px-8 py-4 rounded-xl hover:border-brand-amber
+                      hover:text-brand-amber transition-all cursor-pointer backdrop-blur-sm ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}
                   >
                     {t.hero.cta2}
                   </motion.span>

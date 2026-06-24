@@ -6,7 +6,8 @@ import { motion } from "framer-motion"
 import { staggerSlow, counterPulse } from "@/lib/motion"
 
 function StatItem({ num, suffix, label, index }: { num: number; suffix: string; label: string; index: number }) {
-  const ref = useCounter(num, 2200)
+  const { isArabic } = useLang()
+  const ref = useCounter(num, 2200, isArabic ? "ar-SA" : "en")
   return (
     <motion.div
       className="group relative flex flex-col items-center justify-center py-10 px-6 text-center
@@ -43,7 +44,7 @@ function StatItem({ num, suffix, label, index }: { num: number; suffix: string; 
       </motion.div>
 
       <motion.span
-        className="text-brand-white/50 text-xs font-semibold uppercase tracking-widest"
+        className={`text-brand-white/50 text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

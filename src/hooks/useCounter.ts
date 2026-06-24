@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-export function useCounter(target: number, duration = 2000) {
+export function useCounter(target: number, duration = 2000, locale = "en") {
   const ref = useRef<HTMLSpanElement>(null)
   const [triggered, setTriggered] = useState(false)
 
@@ -32,12 +32,12 @@ export function useCounter(target: number, duration = 2000) {
       const progress = Math.min(elapsed / duration, 1)
       const ease = 1 - Math.pow(1 - progress, 3)
       const current = Math.round(ease * target)
-      el.textContent = current.toLocaleString()
+      el.textContent = current.toLocaleString(locale)
       if (progress < 1) requestAnimationFrame(update)
     }
 
     requestAnimationFrame(update)
-  }, [triggered, target, duration])
+  }, [triggered, target, duration, locale])
 
   return ref
 }

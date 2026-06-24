@@ -15,7 +15,7 @@ export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
 
   return (
     <nav aria-label="Breadcrumb" className="py-4" dir={isArabic ? "rtl" : "ltr"}>
-      <ol className={`flex items-center gap-2 text-xs text-brand-muted ${isArabic ? "flex-row-reverse" : ""}`}>
+      <ol className="flex items-center gap-2 text-xs text-brand-muted">
         <li>
           <Link href="/" className="hover:text-brand-amber transition-colors">
             {isArabic ? "الرئيسية" : "Home"}

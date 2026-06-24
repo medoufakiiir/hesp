@@ -39,7 +39,7 @@ export default function PageHeader({ eyebrowEN, eyebrowAR, titleEN, titleAR, sub
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5 }}
-            className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3"
+            className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}
           >
             {isArabic ? eyebrowAR : eyebrowEN}
           </motion.p>

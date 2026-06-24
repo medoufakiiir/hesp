@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { ShieldCheck, Truck, Wrench, DollarSign } from "lucide-react"
 import { useLang } from "@/context/LangContext"
 import { staggerContainer, fadeInUp } from "@/lib/motion"
+import { toArabicNum } from "@/lib/utils"
 
 const icons = [ShieldCheck, Truck, Wrench, DollarSign]
 
@@ -29,7 +30,7 @@ export default function WhyChooseUs() {
           className={`mb-16 ${isArabic ? "text-right" : ""}`}
           dir={isArabic ? "rtl" : "ltr"}
         >
-          <motion.p variants={fadeInUp} className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+          <motion.p variants={fadeInUp} className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
             {t.why.eyebrow}
           </motion.p>
           <motion.h2
@@ -98,10 +99,10 @@ export default function WhyChooseUs() {
                 </div>
 
                 {/* Corner number with 3D depth */}
-                <span className="absolute top-3 right-4 text-brand-white/[0.03] group-hover:text-brand-amber/[0.08]
+                <span className="absolute top-3 end-4 text-brand-white/[0.03] group-hover:text-brand-amber/[0.08]
                   font-display font-extrabold text-7xl transition-colors duration-500 pointer-events-none"
                   style={{ transform: "translateZ(-10px)" }}>
-                  {String(i + 1).padStart(2, "0")}
+                  {isArabic ? toArabicNum(String(i + 1).padStart(2, "0")) : String(i + 1).padStart(2, "0")}
                 </span>
               </motion.div>
             )
@@ -117,8 +118,8 @@ export default function WhyChooseUs() {
           className="mt-12 grid grid-cols-3 gap-4"
         >
           {[
-            { labelEN: "Express Air", labelAR: "شحن جوي سريع", valEN: "3–5 Days",  valAR: "3–5 أيام" },
-            { labelEN: "Standard Sea", labelAR: "شحن بحري",   valEN: "21–30 Days", valAR: "21–30 يوم" },
+            { labelEN: "Express Air", labelAR: "شحن جوي سريع", valEN: "3–5 Days",  valAR: "٣–٥ أيام" },
+            { labelEN: "Standard Sea", labelAR: "شحن بحري",   valEN: "21–30 Days", valAR: "٢١–٣٠ يوم" },
             { labelEN: "Local Pickup", labelAR: "استلام محلي", valEN: "Same Day",   valAR: "نفس اليوم" },
           ].map((row, i) => (
             <motion.div
@@ -129,10 +130,10 @@ export default function WhyChooseUs() {
                 border border-white/[0.06] hover:border-brand-amber/20 rounded-2xl text-center
                 transition-[border] duration-300 cursor-default"
             >
-              <span className={`font-display font-extrabold uppercase text-brand-amber text-2xl ${isArabic ? "font-arabic" : ""}`}>
+              <span className={`font-extrabold text-brand-amber text-2xl ${isArabic ? "font-arabic" : "font-display uppercase"}`}>
                 {isArabic ? row.valAR : row.valEN}
               </span>
-              <span className={`text-brand-muted text-xs uppercase tracking-widest mt-1 ${isArabic ? "font-arabic" : ""}`}>
+              <span className={`text-brand-muted text-xs mt-1 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                 {isArabic ? row.labelAR : row.labelEN}
               </span>
             </motion.div>

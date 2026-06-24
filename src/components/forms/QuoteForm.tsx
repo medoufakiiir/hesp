@@ -50,12 +50,12 @@ const t = {
   },
 }
 
-function FormField({ label, error, children, id }: {
-  label: string; error?: string; children: React.ReactNode; id: string
+function FormField({ label, error, children, id, isArabic }: {
+  label: string; error?: string; children: React.ReactNode; id: string; isArabic?: boolean
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-brand-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
+      <label htmlFor={id} className={`block text-brand-white/50 text-xs font-semibold mb-2 ${isArabic ? "font-arabic text-right" : "uppercase tracking-widest"}`}>
         {label}
       </label>
       {children}
@@ -119,11 +119,11 @@ export default function QuoteForm() {
           <p className={`text-brand-muted mb-8 ${isArabic ? "font-arabic" : ""}`}>{labels.successMsg}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors">
+              className={`inline-flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-bold px-6 py-3 rounded-xl hover:bg-emerald-500 transition-colors ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
               <MessageCircle size={16} />{labels.whatsapp}
             </a>
             <button onClick={() => { setSubmitted(false); reset(); setSavedData(null) }}
-              className="text-brand-amber text-xs font-bold uppercase tracking-widest hover:text-brand-gold cursor-pointer py-3">
+              className={`text-brand-amber text-xs font-bold hover:text-brand-gold cursor-pointer py-3 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
               {labels.another}
             </button>
           </div>
@@ -142,48 +142,48 @@ export default function QuoteForm() {
           )}
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <FormField label={labels.fullName} error={errors.fullName?.message} id="fullName">
+            <FormField isArabic={isArabic} label={labels.fullName} error={errors.fullName?.message} id="fullName">
               <input id="fullName" {...register("fullName")} aria-invalid={!!errors.fullName} aria-describedby={errors.fullName ? "fullName-error" : undefined}
                 className={inputClass(!!errors.fullName)} />
             </FormField>
-            <FormField label={labels.companyName} error={errors.companyName?.message} id="companyName">
+            <FormField isArabic={isArabic} label={labels.companyName} error={errors.companyName?.message} id="companyName">
               <input id="companyName" {...register("companyName")} aria-invalid={!!errors.companyName} aria-describedby={errors.companyName ? "companyName-error" : undefined}
                 className={inputClass(!!errors.companyName)} />
             </FormField>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <FormField label={labels.email} error={errors.email?.message} id="email">
+            <FormField isArabic={isArabic} label={labels.email} error={errors.email?.message} id="email">
               <input id="email" type="email" {...register("email")} aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined}
                 className={inputClass(!!errors.email)} />
             </FormField>
-            <FormField label={labels.phone} error={errors.phone?.message} id="phone">
+            <FormField isArabic={isArabic} label={labels.phone} error={errors.phone?.message} id="phone">
               <input id="phone" type="tel" {...register("phone")} aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "phone-error" : undefined}
                 className={inputClass(!!errors.phone)} />
             </FormField>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <FormField label={labels.partName} error={errors.partName?.message} id="partName">
+            <FormField isArabic={isArabic} label={labels.partName} error={errors.partName?.message} id="partName">
               <input id="partName" {...register("partName")} aria-invalid={!!errors.partName} aria-describedby={errors.partName ? "partName-error" : undefined}
                 className={inputClass(!!errors.partName)} />
             </FormField>
-            <FormField label={labels.partNumber} error={errors.partNumber?.message} id="partNumber">
+            <FormField isArabic={isArabic} label={labels.partNumber} error={errors.partNumber?.message} id="partNumber">
               <input id="partNumber" {...register("partNumber")} placeholder={isArabic ? "مثال: 272-6955" : "e.g. 272-6955"}
                 className={inputClass(!!errors.partNumber)} />
             </FormField>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-4">
-            <FormField label={labels.brand} error={errors.brand?.message} id="brand">
+            <FormField isArabic={isArabic} label={labels.brand} error={errors.brand?.message} id="brand">
               <input id="brand" {...register("brand")} aria-invalid={!!errors.brand} aria-describedby={errors.brand ? "brand-error" : undefined}
                 className={inputClass(!!errors.brand)} />
             </FormField>
-            <FormField label={labels.quantity} error={errors.quantity?.message} id="quantity">
+            <FormField isArabic={isArabic} label={labels.quantity} error={errors.quantity?.message} id="quantity">
               <input id="quantity" type="number" min={1} {...register("quantity", { valueAsNumber: true })} aria-invalid={!!errors.quantity}
                 className={inputClass(!!errors.quantity)} />
             </FormField>
-            <FormField label={labels.urgency} error={errors.urgency?.message} id="urgency">
+            <FormField isArabic={isArabic} label={labels.urgency} error={errors.urgency?.message} id="urgency">
               <select id="urgency" {...register("urgency")} className={inputClass(!!errors.urgency)}>
                 <option value="normal">{labels.normal}</option>
                 <option value="urgent">{labels.urgent}</option>
@@ -192,7 +192,7 @@ export default function QuoteForm() {
             </FormField>
           </div>
 
-          <FormField label={labels.notes} error={errors.notes?.message} id="notes">
+          <FormField isArabic={isArabic} label={labels.notes} error={errors.notes?.message} id="notes">
             <textarea id="notes" rows={4} {...register("notes")} className={inputClass(!!errors.notes)} />
           </FormField>
 

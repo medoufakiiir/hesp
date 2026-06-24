@@ -12,10 +12,10 @@ export default function ContactPageClient() {
   const { isArabic } = useLang()
 
   const contactInfo = [
-    { icon: Phone, labelEN: "Phone / WhatsApp", labelAR: "الهاتف / واتساب", value: "+966 55 228 2868", href: "tel:+966552282868" },
-    { icon: Mail, labelEN: "Email", labelAR: "البريد الإلكتروني", value: "info@riyada-ventures.com", href: "mailto:info@riyada-ventures.com" },
-    { icon: MapPin, labelEN: "Address", labelAR: "العنوان", value: isArabic ? "الفيصلية، الرياض 12882، المملكة العربية السعودية" : "Al Faisaliyyah, Riyadh 12882, KSA", href: "#map" },
-    { icon: Clock, labelEN: "Working Hours", labelAR: "ساعات العمل", value: isArabic ? "الأحد – الخميس · 8:00 ص – 6:00 م" : "Sun – Thu · 8:00 AM – 6:00 PM", href: "#" },
+    { icon: Phone, labelEN: "Phone / WhatsApp", labelAR: "الهاتف / واتساب", value: "+966 55 228 2868", href: "tel:+966552282868", ltr: true },
+    { icon: Mail, labelEN: "Email", labelAR: "البريد الإلكتروني", value: "info@riyada-ventures.com", href: "mailto:info@riyada-ventures.com", ltr: true },
+    { icon: MapPin, labelEN: "Address", labelAR: "العنوان", value: isArabic ? "الفيصلية، الرياض ١٢٨٨٢، المملكة العربية السعودية" : "Al Faisaliyyah, Riyadh 12882, KSA", href: "#map", ltr: false },
+    { icon: Clock, labelEN: "Working Hours", labelAR: "ساعات العمل", value: isArabic ? "الأحد – الخميس · ٨:٠٠ ص – ٦:٠٠ م" : "Sun – Thu · 8:00 AM – 6:00 PM", href: "#", ltr: false },
   ]
 
   return (
@@ -41,7 +41,7 @@ export default function ContactPageClient() {
             className={`mt-8 ${isArabic ? "text-right" : ""}`}
             dir={isArabic ? "rtl" : "ltr"}
           >
-            <p className="text-brand-amber text-xs font-semibold uppercase tracking-[0.25em] mb-3">
+            <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
               {isArabic ? "تواصل معنا" : "Contact Us"}
             </p>
             <h1 className={`text-brand-white leading-[0.95] mb-4 ${
@@ -79,7 +79,7 @@ export default function ContactPageClient() {
 
           {/* Contact Info */}
           <div className={`space-y-4 ${isArabic ? "lg:col-start-1" : ""}`}>
-            {contactInfo.map(({ icon: Icon, labelEN, labelAR, value, href }, i) => (
+            {contactInfo.map(({ icon: Icon, labelEN, labelAR, value, href, ltr }, i) => (
               <motion.a
                 key={i}
                 href={href}
@@ -97,10 +97,10 @@ export default function ContactPageClient() {
                   <Icon size={20} className="text-brand-amber group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <p className={`text-brand-white/35 text-xs font-semibold uppercase tracking-widest mb-1 ${isArabic ? "font-arabic" : ""}`}>
+                  <p className={`text-brand-white/35 text-xs font-semibold mb-1 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                     {isArabic ? labelAR : labelEN}
                   </p>
-                  <p className={`text-brand-white/80 font-medium text-sm ${isArabic ? "font-arabic" : ""}`}>{value}</p>
+                  <p dir={ltr ? "ltr" : undefined} className={`text-brand-white/80 font-medium text-sm ${isArabic && !ltr ? "font-arabic" : ""}`}>{value}</p>
                 </div>
               </motion.a>
             ))}

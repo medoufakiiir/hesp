@@ -68,8 +68,8 @@ export default function BlogPageClient({ postsData }: { postsData: BlogPostData[
                       ${isArabic ? "font-arabic text-right" : ""}`}>
                       {isArabic ? post.excerptAR : post.excerptEN}
                     </p>
-                    <div className={`mt-4 flex items-center gap-2 text-brand-amber text-xs font-semibold uppercase tracking-widest
-                      ${isArabic ? "flex-row-reverse" : ""}`}>
+                    <div className={`mt-4 flex items-center gap-2 text-brand-amber text-xs font-semibold
+                      ${isArabic ? "font-arabic flex-row-reverse" : "uppercase tracking-widest"}`}>
                       {isArabic ? "اقرأ المزيد" : "Read More"}
                       <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
