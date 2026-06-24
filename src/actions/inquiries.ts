@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canDelete } from "@/lib/rbac"
+import { sendQuoteNotification, sendContactNotification, sendAutoReply } from "@/lib/email"
 
 const InquirySchema = z.object({
   name: z.string().min(1).max(100),
@@ -32,6 +33,26 @@ export async function createInquiry(data: InquiryInput) {
     )
   ) as typeof validated
   await prisma.inquiry.create({ data: sanitized })
+
+  // Send email notifications (non-blocking — don't fail the request)
+  if (sanitized.source === "quote") {
+    sendQuoteNotification({
+      name: sanitized.name, company: sanitized.company, email: sanitized.email,
+      phone: sanitized.phone, partNumber: sanitized.partNumber, brand: sanitized.brand,
+      quantity: sanitized.quantity, details: sanitized.details,
+    })
+    if (sanitized.email) {
+      sendAutoReply({ to: sanitized.email, name: sanitized.name, refType: "quote" })
+    }
+  } else {
+    sendContactNotification({
+      name: sanitized.name, email: sanitized.email, phone: sanitized.phone,
+      company: sanitized.company, message: sanitized.details,
+    })
+    if (sanitized.email) {
+      sendAutoReply({ to: sanitized.email, name: sanitized.name, refType: "contact" })
+    }
+  }
 }
 
 // ADMIN — any authenticated user can update status
