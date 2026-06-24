@@ -10,7 +10,11 @@ export const metadata: Metadata = {
 }
 
 export default async function BrandsPage() {
-  const brands = await prisma.brand.findMany({ orderBy: { name: "asc" } })
+  const rawBrands = await prisma.brand.findMany({ orderBy: { nameEn: "asc" } })
+  const brands = rawBrands.map((b) => ({
+    id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
+    logo: b.logoUrl || "",
+  }))
 
   return (
     <>

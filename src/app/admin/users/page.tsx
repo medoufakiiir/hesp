@@ -6,14 +6,14 @@ import UsersClient from "./UsersClient"
 
 export default async function UsersPage() {
   const session = await auth()
-  if (!session?.user || (session.user as any).role !== "super_admin") {
+  if (!session?.user || (session.user as any).role !== "SUPER_ADMIN") {
     redirect("/admin/dashboard")
   }
 
   const users = await prisma.user.findMany({
     select: {
       id: true, name: true, email: true, role: true,
-      isActive: true, lastLoginAt: true, createdAt: true,
+      isActive: true, createdAt: true,
     },
     orderBy: { createdAt: "desc" },
   })
@@ -22,7 +22,6 @@ export default async function UsersPage() {
     <UsersClient
       users={users.map(u => ({
         ...u,
-        lastLoginAt: u.lastLoginAt?.toISOString() || null,
         createdAt: u.createdAt.toISOString(),
       }))}
       currentUserId={(session.user as any).id}

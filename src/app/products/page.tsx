@@ -10,11 +10,34 @@ export const metadata: Metadata = {
 }
 
 export default async function ProductsPage() {
-  const [products, categories, brands] = await Promise.all([
-    prisma.product.findMany({ orderBy: { createdAt: "desc" } }),
-    prisma.category.findMany({ orderBy: { nameEN: "asc" } }),
-    prisma.brand.findMany({ orderBy: { name: "asc" } }),
+  const [rawParts, rawCategories, rawBrands] = await Promise.all([
+    prisma.part.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: "desc" },
+      include: { category: true, brand: true, images: { take: 1 } },
+    }),
+    prisma.category.findMany({ orderBy: { nameEn: "asc" } }),
+    prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
   ])
+
+  const products = rawParts.map((p) => ({
+    id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
+    descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
+    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
+    category: p.category?.slug || "", brand: p.brand?.slug || "",
+    partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
+  }))
+  const { categories: staticCategories } = await import("@/data/categories")
+  const categories = rawCategories.map((c) => {
+    const sc = staticCategories.find((s: any) => s.slug === c.slug)
+    return {
+      id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
+      image: sc?.image || "/images/equipment/gear-parts.jpg",
+    }
+  })
+  const brands = rawBrands.map((b) => ({
+    id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
+  }))
 
   return (
     <>

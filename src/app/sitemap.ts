@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { prisma } from "@/lib/db"
+import { blogPosts } from "@/data/blog"
 
 export const dynamic = "force-dynamic"
 
@@ -8,11 +9,9 @@ const BASE = "https://riyada-ventures.com"
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString()
 
-  const [categories, brands, blogPosts, products] = await Promise.all([
+  const [categories, brands] = await Promise.all([
     prisma.category.findMany({ select: { slug: true } }),
     prisma.brand.findMany({ select: { slug: true } }),
-    prisma.blogPost.findMany({ select: { slug: true, date: true } }),
-    prisma.product.findMany({ select: { slug: true, category: true } }),
   ])
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -46,12 +45,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  const productPages: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${BASE}/products/${p.category}#${p.slug}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.5,
-  }))
-
-  return [...staticPages, ...categoryPages, ...brandPages, ...blogPages, ...productPages]
+  return [...staticPages, ...categoryPages, ...brandPages, ...blogPages]
 }

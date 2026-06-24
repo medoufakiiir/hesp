@@ -1,5 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,163 +8,201 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-// ── Auth ──
+// ---------- Users / Auth (RBAC) ----------
+enum UserRole {
+  SUPER_ADMIN
+  MANAGER
+  SALES
+  MARKETING
+}
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  password      String
-  image         String?
-  role          String    @default("super_admin") // super_admin | manager | sales
-  isActive      Boolean   @default(true)
-  lastLoginAt   DateTime?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(SALES)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  quotesCreated  Quote[] @relation("CreatedBy")
+  quotesAssigned Quote[] @relation("AssignedTo")
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-// ── Business Data ──
-
-model Product {
-  id            String   @id @default(cuid())
-  slug          String   @unique
-  nameEN        String
-  nameAR        String
-  descriptionEN String
-  descriptionAR String
-  category      String
-  brand         String
-  image         String
-  partNumber    String
-  inStock       Boolean  @default(true)
-  featured      Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([category])
-  @@index([brand])
-  @@index([featured])
-}
-
+// ---------- Catalog ----------
 model Category {
-  id            String   @id
-  slug          String   @unique
-  nameEN        String
-  nameAR        String
-  descriptionEN String   @db.Text
-  descriptionAR String   @db.Text
-  image         String
-  icon          String
-  metaTitleEN   String
-  metaTitleAR   String
-  metaDescEN    String   @db.Text
-  metaDescAR    String   @db.Text
-  keywordsEN    String[]
-  keywordsAR    String[]
-  productCount  Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  nameEn    String
+  nameAr    String
+  parentId  String?
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  parts     Part[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Brand {
-  id            String   @id
-  slug          String   @unique
-  name          String
-  nameAR        String
-  descriptionEN String   @db.Text
-  descriptionAR String   @db.Text
-  country       String
-  founded       String
-  metaTitleEN   String
-  metaTitleAR   String
-  metaDescEN    String   @db.Text
-  metaDescAR    String   @db.Text
-  categories    String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model BlogPost {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  titleEN     String
-  titleAR     String
-  excerptEN   String   @db.Text
-  excerptAR   String   @db.Text
-  contentEN   String   @db.Text
-  contentAR   String   @db.Text
-  image       String
-  date        String
-  author      String
-  tags        String[]
-  metaTitleEN String
-  metaTitleAR String
-  metaDescEN  String   @db.Text
-  metaDescAR  String   @db.Text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Inquiry {
-  id         String   @id @default(cuid())
-  name       String
-  company    String   @default("")
-  phone      String
-  email      String   @default("")
-  part       String   @default("")
-  category   String   @default("")
-  brand      String   @default("")
-  partNumber String   @default("")
-  quantity   String   @default("1")
-  details    String   @default("") @db.Text
-  status     String   @default("new")
-  source     String   @default("quote")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([status])
-  @@index([createdAt])
-}
-
-model SiteSetting {
-  key       String   @id
-  value     String   @db.Text
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  nameEn    String
+  nameAr    String
+  logoUrl   String?
+  parts     Part[]
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model EquipmentModel {
+  id        String              @id @default(cuid())
+  make      String              // e.g. Caterpillar
+  model     String              // e.g. 320D
+  year      String?
+  parts     PartCompatibility[]
+  createdAt DateTime            @default(now())
+
+  @@unique([make, model, year])
+}
+
+model Part {
+  id            String              @id @default(cuid())
+  sku           String              @unique
+  oemNumber     String?
+  nameEn        String
+  nameAr        String
+  descriptionEn String?             @db.Text
+  descriptionAr String?             @db.Text
+  categoryId    String
+  category      Category            @relation(fields: [categoryId], references: [id])
+  brandId       String?
+  brand         Brand?              @relation(fields: [brandId], references: [id])
+  listPrice     Decimal?            @db.Decimal(12, 2) // SAR reference price (optional)
+  stockQty      Int                 @default(0)
+  isActive      Boolean             @default(true)
+  images        PartImage[]
+  compatibility PartCompatibility[]
+  quoteItems    QuoteItem[]
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model PartImage {
+  id     String @id @default(cuid())
+  partId String
+  part   Part   @relation(fields: [partId], references: [id], onDelete: Cascade)
+  url    String
+  alt    String?
+  sort   Int    @default(0)
+}
+
+model PartCompatibility {
+  partId           String
+  part             Part           @relation(fields: [partId], references: [id], onDelete: Cascade)
+  equipmentModelId String
+  equipmentModel   EquipmentModel @relation(fields: [equipmentModelId], references: [id], onDelete: Cascade)
+
+  @@id([partId, equipmentModelId])
+}
+
+// ---------- Customers (B2B companies) ----------
+model Company {
+  id          String    @id @default(cuid())
+  name        String
+  crNumber    String?   // Commercial Registration
+  vatNumber   String?   // KSA VAT
+  email       String?
+  phone       String?
+  addressLine String?
+  city        String?
+  country     String    @default("SA")
+  notes       String?   @db.Text
+  contacts    Contact[]
+  quotes      Quote[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Contact {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name      String
+  email     String?
+  phone     String?
+  position  String?
+  isPrimary Boolean @default(false)
+}
+
+// ---------- Quotes / RFQ ----------
+enum QuoteStatus {
+  SUBMITTED  // RFQ received
+  REVIEWING
+  QUOTED     // pricing sent to customer
+  CONFIRMED  // customer accepted
+  INVOICED
+  COMPLETED
+  REJECTED
+  CANCELLED
+  EXPIRED
+}
+
+model Quote {
+  id           String      @id @default(cuid())
+  number       String      @unique // RFQ-2026-0001
+  companyId    String
+  company      Company     @relation(fields: [companyId], references: [id])
+  status       QuoteStatus @default(SUBMITTED)
+  currency     String      @default("SAR")
+  customerNote String?     @db.Text
+  internalNote String?     @db.Text
+  vatRate      Decimal     @default(15) @db.Decimal(5, 2)
+  subtotal     Decimal     @default(0) @db.Decimal(12, 2)
+  vatAmount    Decimal     @default(0) @db.Decimal(12, 2)
+  total        Decimal     @default(0) @db.Decimal(12, 2)
+  validUntil   DateTime?
+  createdById  String?
+  createdBy    User?       @relation("CreatedBy", fields: [createdById], references: [id])
+  assignedToId String?
+  assignedTo   User?       @relation("AssignedTo", fields: [assignedToId], references: [id])
+  items        QuoteItem[]
+  invoice      Invoice?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model QuoteItem {
+  id          String  @id @default(cuid())
+  quoteId     String
+  quote       Quote   @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  partId      String?
+  part        Part?   @relation(fields: [partId], references: [id])
+  description String? // free-text when part not in catalog
+  quantity    Int     @default(1)
+  unitPrice   Decimal @default(0) @db.Decimal(12, 2)
+  lineTotal   Decimal @default(0) @db.Decimal(12, 2)
+}
+
+// ---------- Invoice (offline) ----------
+enum InvoiceStatus {
+  UNPAID
+  PARTIALLY_PAID
+  PAID
+  VOID
+}
+
+model Invoice {
+  id         String        @id @default(cuid())
+  number     String        @unique // INV-2026-0001
+  quoteId    String        @unique
+  quote      Quote         @relation(fields: [quoteId], references: [id])
+  status     InvoiceStatus @default(UNPAID)
+  issuedAt   DateTime      @default(now())
+  dueAt      DateTime?
+  paidAt     DateTime?
+  amountPaid Decimal       @default(0) @db.Decimal(12, 2)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+

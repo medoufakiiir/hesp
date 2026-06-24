@@ -2,22 +2,26 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { Plus, Shield, X, UserCheck, UserX } from "lucide-react"
-import { createUser, updateUser, deactivateUser, resetUserPassword } from "@/actions/users"
+import { Plus, X, UserCheck, UserX } from "lucide-react"
+import { createUser, updateUser, deactivateUser } from "@/actions/users"
 
 interface User {
-  id: string; name: string | null; email: string; role: string
-  isActive: boolean; lastLoginAt: string | null; createdAt: string
+  id: string; name: string; email: string; role: string
+  isActive: boolean; createdAt: string
 }
 
 const roleBadge: Record<string, string> = {
-  super_admin: "bg-brand-amber/20 text-brand-amber",
-  manager: "bg-blue-500/20 text-blue-400",
-  marketing: "bg-purple-500/20 text-purple-400",
-  sales: "bg-emerald-500/20 text-emerald-400",
+  SUPER_ADMIN: "bg-brand-amber/20 text-brand-amber",
+  MANAGER: "bg-blue-500/20 text-blue-400",
+  MARKETING: "bg-purple-500/20 text-purple-400",
+  SALES: "bg-emerald-500/20 text-emerald-400",
 }
 
-const emptyForm = { name: "", email: "", password: "", role: "sales" as const }
+const roleLabel: Record<string, string> = {
+  SUPER_ADMIN: "Super Admin", MANAGER: "Manager", MARKETING: "Marketing", SALES: "Sales",
+}
+
+const emptyForm = { name: "", email: "", password: "", role: "SALES" as const }
 
 export default function UsersClient({ users, currentUserId }: { users: User[]; currentUserId: string }) {
   const [showForm, setShowForm] = useState(false)
@@ -88,43 +92,33 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
               : "bg-red-500/[0.03] border-red-500/10 opacity-60"
             }`}>
             <div className="w-10 h-10 rounded-full bg-brand-amber/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-brand-amber text-sm font-bold">{(user.name || user.email).charAt(0).toUpperCase()}</span>
+              <span className="text-brand-amber text-sm font-bold">{user.name.charAt(0).toUpperCase()}</span>
             </div>
             <div className="flex-grow min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
-                <p className="text-brand-white font-semibold text-sm truncate">{user.name || "—"}</p>
+                <p className="text-brand-white font-semibold text-sm truncate">{user.name}</p>
                 <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest ${roleBadge[user.role] || "bg-white/10 text-brand-muted"}`}>
-                  {user.role.replace("_", " ")}
+                  {roleLabel[user.role] || user.role}
                 </span>
                 {!user.isActive && (
-                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-red-500/15 text-red-400">
-                    Inactive
-                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-red-500/15 text-red-400">Inactive</span>
                 )}
                 {user.id === currentUserId && (
-                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-brand-amber/10 text-brand-amber">
-                    You
-                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-brand-amber/10 text-brand-amber">You</span>
                 )}
               </div>
               <p className="text-brand-muted text-xs truncate">{user.email}</p>
-              <p className="text-brand-white/20 text-[10px] mt-1">
-                Last login: {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "Never"}
-              </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               {user.id !== currentUserId && (
                 <>
-                  <select
-                    value={user.role}
-                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                  <select value={user.role} onChange={(e) => handleRoleChange(user.id, e.target.value)}
                     disabled={isPending}
-                    className="bg-white/[0.04] border border-white/[0.08] rounded-lg text-brand-white text-xs px-2 py-1.5 cursor-pointer"
-                  >
-                    <option value="super_admin">Super Admin</option>
-                    <option value="manager">Manager</option>
-                    <option value="marketing">Marketing</option>
-                    <option value="sales">Sales</option>
+                    className="bg-white/[0.04] border border-white/[0.08] rounded-lg text-brand-white text-xs px-2 py-1.5 cursor-pointer">
+                    <option value="SUPER_ADMIN">Super Admin</option>
+                    <option value="MANAGER">Manager</option>
+                    <option value="MARKETING">Marketing</option>
+                    <option value="SALES">Sales</option>
                   </select>
                   {user.isActive ? (
                     <button onClick={() => handleDeactivate(user.id)} disabled={isPending}
@@ -172,10 +166,10 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
               <div>
                 <label className="block text-brand-white/40 text-xs font-bold uppercase tracking-widest mb-2">Role *</label>
                 <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as any })} className="input-field">
-                  <option value="sales">Sales</option>
-                  <option value="marketing">Marketing</option>
-                  <option value="manager">Manager</option>
-                  <option value="super_admin">Super Admin</option>
+                  <option value="SALES">Sales</option>
+                  <option value="MARKETING">Marketing</option>
+                  <option value="MANAGER">Manager</option>
+                  <option value="SUPER_ADMIN">Super Admin</option>
                 </select>
               </div>
               <div className="flex gap-3 pt-2">

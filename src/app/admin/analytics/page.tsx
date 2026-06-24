@@ -15,7 +15,11 @@ export default async function AnalyticsPage() {
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
+  // B2B analytics powered by Quote/RFQ + catalog relationships.
+  // We keep the existing UI shape (Stats/RecentInquiry/Top categories/brands) by mapping quote/invoice fields.
+
   const [
+    // Quote / RFQ pipeline counts
     totalInquiries,
     newInquiries,
     contactedInquiries,
@@ -23,37 +27,175 @@ export default async function AnalyticsPage() {
     closedInquiries,
     inquiriesLast30d,
     inquiriesLast7d,
+
+    // Catalog overview
     totalProducts,
-    featuredProducts,
-    inStockProducts,
     totalCategories,
     totalBrands,
     totalBlogPosts,
-    recentInquiries,
+    // “Featured” and “In stock” are approximated from stock quantities / part activity.
+    inStockProducts,
+    featuredProducts,
+
+    // Top requested categories/brands (from quote items -> parts -> category/brand)
     topCategories,
     topBrands,
+
+    // Recent RFQs for the table
+    recentInquiries,
   ] = await Promise.all([
-    prisma.inquiry.count(),
-    prisma.inquiry.count({ where: { status: "new" } }),
-    prisma.inquiry.count({ where: { status: "contacted" } }),
-    prisma.inquiry.count({ where: { status: "quoted" } }),
-    prisma.inquiry.count({ where: { status: "closed" } }),
-    prisma.inquiry.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
-    prisma.inquiry.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
-    prisma.product.count(),
-    prisma.product.count({ where: { featured: true } }),
-    prisma.product.count({ where: { inStock: true } }),
+    prisma.quote.count(),
+    prisma.quote.count({ where: { status: "SUBMITTED" } }),
+    prisma.quote.count({ where: { status: "REVIEWING" } }),
+    prisma.quote.count({ where: { status: "QUOTED" } }),
+    prisma.quote.count({ where: { status: { in: ["CONFIRMED", "COMPLETED"] } } }),
+
+    prisma.quote.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+    prisma.quote.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+
+    prisma.part.count({ where: { isActive: true } }),
     prisma.category.count(),
     prisma.brand.count(),
-    prisma.blogPost.count(),
-    prisma.inquiry.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 20,
-      select: { id: true, name: true, company: true, phone: true, email: true, part: true, status: true, source: true, createdAt: true, category: true, brand: true },
+    // Blog posts model no longer exists in the current Prisma schema (B2B RFQ rebuild).
+    // Keep the UI slot populated with 0.
+    0,
+    prisma.part.count({ where: { isActive: true, stockQty: { gt: 0 } } }),
+    // There is no explicit “featured” flag in the current Prisma schema; approximate with listPrice.
+    prisma.part.count({ where: { isActive: true, listPrice: { not: null } } }),
+
+
+    prisma.quoteItem.findMany({
+      where: {
+        partId: { not: null },
+        quote: { createdAt: { gte: sevenDaysAgo } },
+      },
+      select: {
+        partId: true,
+        quoteId: true,
+      },
+      take: 1000,
+    }).then(async (rows) => {
+      // Convert QuoteItems grouping by partId into category counts via Part.
+      // This avoids raw SQL while keeping performance reasonable.
+      const partIds = rows.map((r) => r.partId).filter(Boolean) as string[]
+      if (partIds.length === 0) return []
+      const parts = await prisma.part.findMany({
+        where: { id: { in: partIds } },
+        select: { id: true, categoryId: true, brandId: true },
+      })
+      const categoryCountById = new Map<string, number>()
+      for (const r of rows) {
+        const part = parts.find((p) => p.id === r.partId)
+        if (!part) continue
+        // Each QuoteItem contributes 1 request; use quantity as weight when available.
+        const qty = (r as any).quantity ? Number((r as any).quantity) : 1
+        categoryCountById.set(part.categoryId, (categoryCountById.get(part.categoryId) ?? 0) + qty)
+      }
+      const entries = [...categoryCountById.entries()]
+      entries.sort((a, b) => b[1] - a[1])
+      const top = entries.slice(0, 5)
+      const categories = await Promise.all(top.map(async ([categoryId, count]) => {
+        const c = await prisma.category.findUnique({ where: { id: categoryId }, select: { nameEn: true } })
+        return { name: c?.nameEn ?? "Uncategorized", count }
+      }))
+      return categories
     }),
-    prisma.inquiry.groupBy({ by: ["category"], _count: true, orderBy: { _count: { category: "desc" } }, take: 5, where: { category: { not: "" } } }),
-    prisma.inquiry.groupBy({ by: ["brand"], _count: true, orderBy: { _count: { brand: "desc" } }, take: 5, where: { brand: { not: "" } } }),
+
+    prisma.quoteItem.findMany({
+      where: {
+        partId: { not: null },
+        quote: { createdAt: { gte: sevenDaysAgo } },
+      },
+      select: {
+        partId: true,
+      },
+      take: 1000,
+    }).then(async (rows) => {
+      const partIds = rows.map((r) => r.partId).filter(Boolean) as string[]
+      if (partIds.length === 0) return []
+      const parts = await prisma.part.findMany({
+        where: { id: { in: partIds } },
+        select: { id: true, brandId: true },
+      })
+      const brandCountById = new Map<string, number>()
+      for (const r of rows) {
+        const part = parts.find((p) => p.id === r.partId)
+        if (!part) continue
+        const brandId = part.brandId ?? "__unbranded__"
+        // Each QuoteItem contributes 1 request.
+        brandCountById.set(brandId, (brandCountById.get(brandId) ?? 0) + 1)
+      }
+      const entries = [...brandCountById.entries()]
+      entries.sort((a, b) => b[1] - a[1])
+      const top = entries.slice(0, 5)
+      const brands = await Promise.all(top.map(async ([brandId, count]) => {
+        if (brandId === "__unbranded__") return { name: "Unbranded", count }
+        const b = await prisma.brand.findUnique({ where: { id: brandId }, select: { nameEn: true } })
+        return { name: b?.nameEn ?? "Unbranded", count }
+      }))
+      return brands
+    }),
+
+    prisma.quote.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 8,
+      select: {
+        id: true,
+        createdAt: true,
+        company: { select: { name: true } },
+        status: true,
+        items: {
+          select: {
+            quantity: true,
+            part: {
+              select: {
+                nameEn: true,
+                category: { select: { nameEn: true } },
+                brand: { select: { nameEn: true } },
+              },
+            },
+            description: true,
+          },
+        },
+      },
+    }).then((quotes) => {
+      // Flatten to match AnalyticsClient’s RecentInquiry shape.
+      return quotes.map((q) => {
+        const firstItem = q.items[0]
+        const partName = firstItem?.part?.nameEn ?? firstItem?.description ?? "—"
+        const categoryName = firstItem?.part?.category?.nameEn ?? "—"
+        const brandName = firstItem?.part?.brand?.nameEn ?? "—"
+        return {
+          id: q.id,
+          name: q.id,
+          company: q.company?.name ?? "—",
+          phone: "",
+          email: "",
+          part: partName,
+          status: q.status.toLowerCase(),
+          source: "quote",
+          category: categoryName,
+          brand: brandName,
+          date: q.createdAt.toISOString(),
+        }
+      })
+    }),
   ])
+
+  // Normalize recentInquiries status strings to the keys used by AnalyticsClient.
+  const normalizedRecentInquiries = (recentInquiries as any[]).map((inq) => {
+    const s = String(inq.status).toLowerCase()
+    // Map QuoteStatus -> UI buckets used by AnalyticsClient.
+    const statusMap: Record<string, string> = {
+      submitted: "new",
+      reviewing: "contacted",
+      quoted: "quoted",
+      confirmed: "closed",
+      completed: "closed",
+      invoiced: "closed",
+    }
+    return { ...inq, status: statusMap[s] ?? s }
+  })
 
   return (
     <AnalyticsClient
@@ -72,21 +214,11 @@ export default async function AnalyticsPage() {
         totalBrands,
         totalBlogPosts,
       }}
-      recentInquiries={recentInquiries.map((i) => ({
-        id: i.id,
-        name: i.name,
-        company: i.company,
-        phone: i.phone,
-        email: i.email,
-        part: i.part,
-        status: i.status,
-        source: i.source,
-        category: i.category,
-        brand: i.brand,
-        date: i.createdAt.toISOString(),
-      }))}
-      topCategories={topCategories.map((c) => ({ name: c.category, count: c._count }))}
-      topBrands={topBrands.map((b) => ({ name: b.brand, count: b._count }))}
+      recentInquiries={normalizedRecentInquiries}
+      topCategories={topCategories as any}
+      topBrands={topBrands as any}
     />
   )
+
 }
+

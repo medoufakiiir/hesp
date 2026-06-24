@@ -4,7 +4,10 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { LayoutDashboard, Package, MessageSquare, FileText, LogOut, Menu, ChevronRight, Users, BarChart3 } from "lucide-react"
+import {
+  LayoutDashboard, FileText, LogOut, Menu, ChevronRight, Users,
+  BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList,
+} from "lucide-react"
 import type { Role } from "@/lib/rbac"
 
 interface SidebarLink {
@@ -15,20 +18,30 @@ interface SidebarLink {
 }
 
 const allSidebarLinks: SidebarLink[] = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["super_admin", "manager", "marketing"] },
-  { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, roles: ["super_admin", "manager", "marketing", "sales"] },
-  { href: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: ["super_admin", "marketing"] },
-  { href: "/admin/products", label: "Products", icon: Package, roles: ["super_admin", "manager"] },
-  { href: "/admin/blog", label: "Blog Posts", icon: FileText, roles: ["super_admin", "manager"] },
-  { href: "/admin/users", label: "Users", icon: Users, roles: ["super_admin"] },
+  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["SUPER_ADMIN", "MANAGER", "SALES", "MARKETING"] },
+  { href: "/admin/quotes", label: "Quotes / RFQ", icon: ClipboardList, roles: ["SUPER_ADMIN", "MANAGER", "SALES"] },
+  { href: "/admin/invoices", label: "Invoices", icon: Receipt, roles: ["SUPER_ADMIN", "MANAGER", "SALES"] },
+  { href: "/admin/companies", label: "Companies", icon: Building2, roles: ["SUPER_ADMIN", "MANAGER", "SALES", "MARKETING"] },
+  { href: "/admin/parts", label: "Parts Catalog", icon: Package, roles: ["SUPER_ADMIN", "MANAGER", "SALES", "MARKETING"] },
+  { href: "/admin/categories", label: "Categories", icon: Layers, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
+  { href: "/admin/brands", label: "Brands", icon: Tag, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
+  { href: "/admin/equipment-models", label: "Equipment Models", icon: Truck, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
+  { href: "/admin/users", label: "Users", icon: Users, roles: ["SUPER_ADMIN"] },
+  { href: "/admin/settings", label: "Settings", icon: Settings, roles: ["SUPER_ADMIN", "MANAGER"] },
 ]
 
-const roleLabels: Record<string, string> = { super_admin: "Super Admin", manager: "Manager", marketing: "Marketing", sales: "Sales" }
+const roleLabels: Record<string, string> = {
+  SUPER_ADMIN: "Super Admin",
+  MANAGER: "Manager",
+  MARKETING: "Marketing",
+  SALES: "Sales",
+}
 const roleBadgeColors: Record<string, string> = {
-  super_admin: "bg-brand-amber/20 text-brand-amber",
-  manager: "bg-blue-500/20 text-blue-400",
-  marketing: "bg-purple-500/20 text-purple-400",
-  sales: "bg-emerald-500/20 text-emerald-400",
+  SUPER_ADMIN: "bg-brand-amber/20 text-brand-amber",
+  MANAGER: "bg-blue-500/20 text-blue-400",
+  MARKETING: "bg-purple-500/20 text-purple-400",
+  SALES: "bg-emerald-500/20 text-emerald-400",
 }
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
@@ -40,7 +53,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     return <>{children}</>
   }
 
-  const userRole = (session?.user as any)?.role || "sales"
+  const userRole = (session?.user as any)?.role || "SALES"
   const visibleLinks = allSidebarLinks.filter(link => link.roles.includes(userRole as Role))
 
   return (
@@ -56,12 +69,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             </Link>
           </div>
 
-          <nav className="flex-grow p-4 space-y-1">
+          <nav className="flex-grow p-4 space-y-1 overflow-y-auto">
             {visibleLinks.map(({ href, label, icon: Icon }) => {
-              const isActive = pathname === href
+              const isActive = pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href + "/"))
               return (
                 <Link key={href} href={href} onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all
+                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all
                     ${isActive
                       ? "bg-brand-amber/15 text-brand-amber border border-brand-amber/20"
                       : "text-brand-white/50 hover:text-brand-white hover:bg-brand-white/5"

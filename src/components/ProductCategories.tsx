@@ -121,12 +121,12 @@ export default function ProductCategories({ categoriesData }: { categoriesData: 
                       {isArabic ? cat.nameAR : cat.nameEN}
                     </h3>
                     <p className={`text-brand-white/40 text-sm leading-snug line-clamp-2 ${isArabic ? "font-arabic" : ""}`} dir={isArabic ? "rtl" : "ltr"}>
-                      {isArabic ? cat.descriptionAR.slice(0, 80) + "..." : cat.descriptionEN.slice(0, 80) + "..."}
+                      {isArabic ? (cat.descriptionAR || "").slice(0, 80) + "..." : (cat.descriptionEN || "").slice(0, 80) + "..."}
                     </p>
                     <div className={`mt-4 flex ${isArabic ? "justify-start flex-row-reverse" : "justify-between"} items-center`}>
                       <span className={`text-brand-amber text-xs font-semibold
                         opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
-                        {isArabic ? `${toArabicNum(cat.productCount)}+ قطعة` : `${cat.productCount}+ parts`}
+                        {isArabic ? `${toArabicNum(cat.productCount ?? 0)}+ قطعة` : `${cat.productCount ?? 0}+ parts`}
                       </span>
                       <div className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm border border-white/10
                         group-hover:bg-brand-amber group-hover:border-brand-amber flex items-center justify-center transition-all duration-300">

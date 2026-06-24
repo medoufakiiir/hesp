@@ -184,7 +184,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
                         {isArabic ? cat.nameAR : cat.nameEN}
                       </h3>
                       <p className="text-brand-amber/50 text-[10px] font-bold mt-0.5">
-                        {isArabic ? `${toArabicNum(cat.productCount)}+ قطعة` : `${cat.productCount}+ parts`}
+                        {isArabic ? `${toArabicNum(cat.productCount ?? 0)}+ قطعة` : `${cat.productCount ?? 0}+ parts`}
                       </p>
                     </div>
                   </div>

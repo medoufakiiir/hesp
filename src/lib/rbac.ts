@@ -1,10 +1,10 @@
-export type Role = "super_admin" | "manager" | "marketing" | "sales"
+export type Role = "SUPER_ADMIN" | "MANAGER" | "MARKETING" | "SALES"
 
 const ROLE_HIERARCHY: Record<Role, number> = {
-  super_admin: 4,
-  manager: 3,
-  marketing: 2,
-  sales: 1,
+  SUPER_ADMIN: 4,
+  MANAGER: 3,
+  MARKETING: 2,
+  SALES: 1,
 }
 
 export function hasRole(userRole: string | undefined, requiredRole: Role): boolean {
@@ -18,38 +18,66 @@ export function isRole(userRole: string | undefined, role: Role): boolean {
   return userRole === role
 }
 
-export function canViewInquiries(role: string | undefined): boolean {
-  return hasRole(role, "sales")
+// --- Quotes / Invoices: SUPER_ADMIN, MANAGER, SALES ---
+export function canManageQuotes(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER") || isRole(role, "SALES")
 }
 
+// --- Companies: SUPER_ADMIN, MANAGER, SALES write; MARKETING read ---
+export function canManageCompanies(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER") || isRole(role, "SALES")
+}
+export function canViewCompanies(role: string | undefined): boolean {
+  return canManageCompanies(role) || isRole(role, "MARKETING")
+}
+
+// --- Catalog (parts/categories/brands/equipment): SUPER_ADMIN, MANAGER, MARKETING write; SALES read ---
+export function canManageCatalog(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER") || isRole(role, "MARKETING")
+}
+export function canViewCatalog(role: string | undefined): boolean {
+  return canManageCatalog(role) || isRole(role, "SALES")
+}
+
+// --- Analytics: SUPER_ADMIN, MANAGER, MARKETING ---
 export function canViewAnalytics(role: string | undefined): boolean {
-  return isRole(role, "marketing") || isRole(role, "super_admin")
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER") || isRole(role, "MARKETING")
 }
 
-export function canManageProducts(role: string | undefined): boolean {
-  return isRole(role, "manager") || isRole(role, "super_admin")
+// --- Users: SUPER_ADMIN only ---
+export function canManageUsers(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN")
 }
 
-export function canManageBlog(role: string | undefined): boolean {
-  return isRole(role, "manager") || isRole(role, "super_admin")
+// --- Settings: SUPER_ADMIN, MANAGER ---
+export function canManageSettings(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER")
 }
 
-export function canDeleteInquiry(role: string | undefined): boolean {
-  return isRole(role, "manager") || isRole(role, "super_admin")
+// --- Dashboard: everyone ---
+export function canViewDashboard(role: string | undefined): boolean {
+  return hasRole(role, "SALES")
+}
+
+// --- Delete: SUPER_ADMIN, MANAGER ---
+export function canDelete(role: string | undefined): boolean {
+  return isRole(role, "SUPER_ADMIN") || isRole(role, "MANAGER")
 }
 
 export function canResetSalesPassword(role: string | undefined): boolean {
-  return isRole(role, "manager") || isRole(role, "super_admin")
+  return isRole(role, "MANAGER") || isRole(role, "SUPER_ADMIN")
 }
 
-export function canManageUsers(role: string | undefined): boolean {
-  return isRole(role, "super_admin")
+// Legacy aliases
+export function canManageProducts(role: string | undefined): boolean {
+  return canManageCatalog(role)
 }
-
-export function canDelete(role: string | undefined): boolean {
-  return isRole(role, "manager") || isRole(role, "super_admin")
+export function canDeleteInquiry(role: string | undefined): boolean {
+  return canDelete(role)
 }
-
-export function canManageSettings(role: string | undefined): boolean {
-  return isRole(role, "super_admin")
+export function canManageBlog(role: string | undefined): boolean {
+  return canManageCatalog(role)
+}
+export function canViewInquiries(role: string | undefined): boolean {
+  return canManageQuotes(role)
 }

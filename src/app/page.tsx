@@ -62,12 +62,29 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const { prisma } = await import("@/lib/db")
-  const [categoriesData, featuredData] = await Promise.all([
-    prisma.category.findMany({ orderBy: { nameEN: "asc" } }),
-    prisma.product.findMany({ where: { featured: true } }),
+  const { categories: staticCategories } = await import("@/data/categories")
+  const [rawCategories, rawParts] = await Promise.all([
+    prisma.category.findMany({ orderBy: { nameEn: "asc" } }),
+    prisma.part.findMany({
+      where: { isActive: true, listPrice: { not: null } },
+      take: 8,
+      include: { category: true, brand: true, images: { take: 1 } },
+    }),
   ])
-  const cats = JSON.parse(JSON.stringify(categoriesData))
-  const featured = JSON.parse(JSON.stringify(featuredData))
+  const cats = rawCategories.map((c: any) => {
+    const sc = staticCategories.find((s: any) => s.slug === c.slug)
+    return {
+      id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
+      image: sc?.image || "/images/equipment/gear-parts.jpg",
+    }
+  })
+  const featured = rawParts.map((p: any) => ({
+    id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
+    descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
+    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
+    category: p.category?.slug || "", brand: p.brand?.slug || "",
+    partNumber: p.sku, inStock: p.stockQty > 0, featured: true,
+  }))
   return (
     <main className="min-h-screen bg-brand-iron">
       <script

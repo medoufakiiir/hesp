@@ -100,7 +100,7 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
 
                     <p className={`text-brand-muted text-sm leading-relaxed line-clamp-3 mb-6
                       ${isArabic ? "font-arabic text-right" : ""}`}>
-                      {isArabic ? brand.descriptionAR.slice(0, 120) + "..." : brand.descriptionEN.slice(0, 120) + "..."}
+                      {isArabic ? (brand.descriptionAR || "").slice(0, 120) + "..." : (brand.description || "").slice(0, 120) + "..."}
                     </p>
 
                     <div className="h-px bg-white/[0.04] mb-4" />
@@ -112,7 +112,7 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Calendar size={12} className="text-brand-amber/50" />
-                        <span>{isArabic ? `تأسست ${toArabicNum(brand.founded)}` : `Est. ${brand.founded}`}</span>
+                        <span>{isArabic ? `تأسست ${toArabicNum(brand.founded || "")}` : `Est. ${brand.founded || ""}`}</span>
                       </div>
                     </div>
                   </div>

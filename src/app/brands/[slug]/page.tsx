@@ -2,35 +2,69 @@ export const dynamic = "force-dynamic"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
+import { brands as staticBrands } from "@/data/brands"
 import { breadcrumbJsonLd } from "@/lib/seo"
 import BrandPageClient from "./BrandPageClient"
 
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const brand = await prisma.brand.findUnique({ where: { slug } })
+  const brand = staticBrands.find((b) => b.slug === slug)
+    || await prisma.brand.findUnique({ where: { slug } })
   if (!brand) return {}
 
+  const name = "name" in brand ? brand.name : (brand as any).nameEn
   return {
-    title: brand.metaTitleEN,
-    description: brand.metaDescEN,
+    title: ("metaTitleEN" in brand && brand.metaTitleEN) || `${name} Parts | Heavy Equipment Spare Parts`,
+    description: ("metaDescEN" in brand && brand.metaDescEN) || `Browse ${name} spare parts for heavy equipment.`,
     alternates: { canonical: `https://riyada-ventures.com/brands/${slug}` },
-    openGraph: { title: brand.metaTitleEN, description: brand.metaDescEN },
   }
 }
 
 export default async function BrandPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [brand, brandProducts] = await Promise.all([
-    prisma.brand.findUnique({ where: { slug } }),
-    prisma.product.findMany({ where: { brand: slug } }),
-  ])
 
-  if (!brand) notFound()
+  const staticBrand = staticBrands.find((b) => b.slug === slug)
+  const dbBrand = await prisma.brand.findUnique({ where: { slug } })
+  if (!staticBrand && !dbBrand) notFound()
 
-  const relatedCategories = await prisma.category.findMany({
-    where: { slug: { in: brand.categories } },
+  const brand = staticBrand || {
+    id: dbBrand!.id,
+    slug: dbBrand!.slug,
+    name: dbBrand!.nameEn,
+    nameAR: dbBrand!.nameAr,
+    descriptionEN: "",
+    descriptionAR: "",
+    country: "",
+    founded: "",
+    metaTitleEN: "",
+    metaTitleAR: "",
+    metaDescEN: "",
+    metaDescAR: "",
+    categories: [] as string[],
+  }
+
+  const rawParts = await prisma.part.findMany({
+    where: { isActive: true, brand: { slug } },
+    include: { images: { take: 1 } },
   })
+  const brandProducts = rawParts.map((p) => ({
+    id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
+    descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
+    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
+    category: "", brand: slug,
+    partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
+  }))
+
+  const relatedCatSlugs = brand.categories || []
+  const relatedCategories = relatedCatSlugs.length > 0
+    ? (await prisma.category.findMany({ where: { slug: { in: relatedCatSlugs } } }))
+        .map(c => ({
+          id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
+          descriptionEN: "", descriptionAR: "", image: "", icon: "",
+          metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
+          keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
+        }))
+    : []
 
   return (
     <>
