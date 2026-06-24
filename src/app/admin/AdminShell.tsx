@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 import {
   LayoutDashboard, FileText, LogOut, Menu, ChevronRight, Users,
   BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList,
@@ -64,8 +65,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         <div className="h-full flex flex-col">
           <div className="p-6 border-b border-brand-amber/10">
             <Link href="/admin/dashboard" className="block">
-              <h2 className="text-brand-amber font-display font-extrabold uppercase text-lg">HESP Admin</h2>
-              <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-1">Riyada Ventures</p>
+              <Image src="/images/logo.png" alt="HESP" width={140} height={40} className="h-10 w-auto brightness-0 invert" />
+              <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-2">Admin Panel</p>
             </Link>
           </div>
 

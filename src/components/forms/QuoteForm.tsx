@@ -7,7 +7,7 @@ import { z } from "zod"
 import { motion, AnimatePresence } from "framer-motion"
 import { Send, CheckCircle, MessageCircle, Loader2, AlertCircle } from "lucide-react"
 import { useLang } from "@/context/LangContext"
-import { createInquiry } from "@/actions/inquiries"
+import { submitPublicQuote } from "@/actions/public-quote"
 
 const quoteSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -83,11 +83,12 @@ export default function QuoteForm() {
     setServerError("")
     setSavedData(data)
     try {
-      await createInquiry({
-        name: data.fullName, company: data.companyName, phone: data.phone,
-        email: data.email, partNumber: data.partNumber || "", brand: data.brand,
-        quantity: String(data.quantity), details: `Part: ${data.partName}\nUrgency: ${data.urgency}\n${data.notes || ""}`,
-        source: "quote",
+      await submitPublicQuote({
+        fullName: data.fullName, companyName: data.companyName,
+        email: data.email, phone: data.phone,
+        partName: data.partName, partNumber: data.partNumber || "",
+        brand: data.brand, quantity: data.quantity,
+        urgency: data.urgency, notes: data.notes || "",
       })
       setSubmitted(true)
     } catch (err: any) {
