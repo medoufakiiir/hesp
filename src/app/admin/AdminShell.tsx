@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import {
   LayoutDashboard, FileText, LogOut, Menu, ChevronRight, Users,
-  BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList,
+  BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList, MessageSquare,
 } from "lucide-react"
 import type { Role } from "@/lib/rbac"
 
@@ -27,6 +27,7 @@ const allSidebarLinks: SidebarLink[] = [
   { href: "/admin/categories", label: "Categories", icon: Layers, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/brands", label: "Brands", icon: Tag, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/equipment-models", label: "Equipment Models", icon: Truck, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
+  { href: "/admin/messages", label: "Messages", icon: MessageSquare, roles: ["SUPER_ADMIN", "MANAGER", "SALES"] },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3, roles: ["SUPER_ADMIN", "MANAGER", "MARKETING"] },
   { href: "/admin/users", label: "Users", icon: Users, roles: ["SUPER_ADMIN"] },
   { href: "/admin/settings", label: "Settings", icon: Settings, roles: ["SUPER_ADMIN", "MANAGER"] },
@@ -47,8 +48,17 @@ const roleBadgeColors: Record<string, string> = {
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
   const pathname = usePathname()
   const { data: session } = useSession()
+
+  useEffect(() => {
+    if (!session?.user) return
+    fetch("/api/admin/unread-messages")
+      .then((r) => r.ok ? r.json() : { count: 0 })
+      .then((d) => setUnreadCount(d.count))
+      .catch(() => {})
+  }, [session, pathname])
 
   if (pathname === "/admin/login") {
     return <>{children}</>
@@ -73,6 +83,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <nav className="flex-grow p-4 space-y-1 overflow-y-auto">
             {visibleLinks.map(({ href, label, icon: Icon }) => {
               const isActive = pathname === href || (href !== "/admin/dashboard" && pathname.startsWith(href + "/"))
+              const badge = href === "/admin/messages" && unreadCount > 0 ? unreadCount : 0
               return (
                 <Link key={href} href={href} onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all
@@ -82,7 +93,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                     }`}>
                   <Icon size={18} />
                   {label}
-                  {isActive && <ChevronRight size={14} className="ml-auto" />}
+                  {badge > 0 && (
+                    <span className="ml-auto px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-brand-amber text-white min-w-[20px] text-center">
+                      {badge}
+                    </span>
+                  )}
+                  {isActive && !badge && <ChevronRight size={14} className="ml-auto" />}
                 </Link>
               )
             })}
