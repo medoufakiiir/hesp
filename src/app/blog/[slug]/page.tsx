@@ -1,13 +1,10 @@
+export const dynamic = "force-dynamic"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
-export async function generateStaticParams() {
-  const posts = await prisma.blogPost.findMany({ select: { slug: true } })
-  return posts.map((p) => ({ slug: p.slug }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params

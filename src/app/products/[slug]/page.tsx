@@ -1,13 +1,10 @@
+export const dynamic = "force-dynamic"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { breadcrumbJsonLd } from "@/lib/seo"
 import CategoryPageClient from "./CategoryPageClient"
 
-export async function generateStaticParams() {
-  const cats = await prisma.category.findMany({ select: { slug: true } })
-  return cats.map((c) => ({ slug: c.slug }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params

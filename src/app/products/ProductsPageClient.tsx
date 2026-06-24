@@ -9,11 +9,12 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
+import type { ProductData, CategoryData, BrandData } from "@/types/db"
 
 interface Props {
-  productsData: Record<string, any>[]
-  categoriesData: Record<string, any>[]
-  brandsData: Record<string, any>[]
+  productsData: ProductData[]
+  categoriesData: CategoryData[]
+  brandsData: BrandData[]
 }
 
 export default function ProductsPageClient({ productsData, categoriesData, brandsData }: Props) {

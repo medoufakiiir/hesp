@@ -21,7 +21,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         })
-        if (!user || !user.password) return null
+        if (!user || !user.password || !user.isActive) return null
 
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
@@ -29,8 +29,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         )
         if (!passwordMatch) return null
 
-        return { id: user.id, name: user.name, email: user.email }
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { lastLoginAt: new Date() },
+        })
+
+        return { id: user.id, name: user.name, email: user.email, role: user.role }
       },
     }),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = (user as any).role
+        token.id = (user as any).id
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).role = token.role as string
+        (session.user as any).id = token.id as string
+      }
+      return session
+    },
+  },
 })

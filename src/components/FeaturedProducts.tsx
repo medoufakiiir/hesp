@@ -5,8 +5,9 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Package } from "lucide-react"
 import { useLang } from "@/context/LangContext"
+import type { ProductData } from "@/types/db"
 
-export default function FeaturedProducts({ productsData }: { productsData: Record<string, any>[] }) {
+export default function FeaturedProducts({ productsData }: { productsData: ProductData[] }) {
   const { isArabic } = useLang()
   const featured = productsData
 

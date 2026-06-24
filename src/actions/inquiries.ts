@@ -4,41 +4,53 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
+import { canDelete } from "@/lib/rbac"
 
 const InquirySchema = z.object({
-  name: z.string().min(1),
-  company: z.string().optional().default(""),
-  phone: z.string().min(1),
-  email: z.string().optional().default(""),
-  part: z.string().optional().default(""),
-  category: z.string().optional().default(""),
-  brand: z.string().optional().default(""),
-  partNumber: z.string().optional().default(""),
-  quantity: z.string().optional().default("1"),
-  details: z.string().optional().default(""),
+  name: z.string().min(1).max(100),
+  company: z.string().max(200).optional().default(""),
+  phone: z.string().min(1).max(20),
+  email: z.string().max(254).optional().default(""),
+  part: z.string().max(2000).optional().default(""),
+  category: z.string().max(100).optional().default(""),
+  brand: z.string().max(100).optional().default(""),
+  partNumber: z.string().max(100).optional().default(""),
+  quantity: z.string().max(20).optional().default("1"),
+  details: z.string().max(2000).optional().default(""),
   source: z.enum(["quote", "contact"]),
 })
 
 export type InquiryInput = z.input<typeof InquirySchema>
 
+// PUBLIC — no auth required
 export async function createInquiry(data: InquiryInput) {
   const validated = InquirySchema.parse(data)
-  await prisma.inquiry.create({ data: validated })
+  // Strip HTML tags from all string inputs
+  const sanitized = Object.fromEntries(
+    Object.entries(validated).map(([k, v]) =>
+      [k, typeof v === "string" ? v.replace(/<[^>]*>/g, "") : v]
+    )
+  ) as typeof validated
+  await prisma.inquiry.create({ data: sanitized })
 }
 
+// ADMIN — any authenticated user can update status
 export async function updateInquiryStatus(id: string, status: string) {
   const session = await auth()
-  if (!session) throw new Error("Unauthorized")
-
+  if (!session?.user) throw new Error("Unauthorized")
+  const validStatuses = ["new", "contacted", "quoted", "closed"]
+  if (!validStatuses.includes(status)) throw new Error("Invalid status")
   await prisma.inquiry.update({ where: { id }, data: { status } })
   revalidatePath("/admin/inquiries")
   revalidatePath("/admin/dashboard")
 }
 
+// ADMIN — super_admin only can delete
 export async function deleteInquiry(id: string) {
   const session = await auth()
-  if (!session) throw new Error("Unauthorized")
-
+  if (!session?.user) throw new Error("Unauthorized")
+  const role = (session.user as any).role
+  if (!canDelete(role)) throw new Error("Forbidden")
   await prisma.inquiry.delete({ where: { id } })
   revalidatePath("/admin/inquiries")
   revalidatePath("/admin/dashboard")

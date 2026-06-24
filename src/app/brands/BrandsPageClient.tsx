@@ -7,8 +7,9 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Breadcrumb from "@/components/shared/Breadcrumb"
 import { useLang } from "@/context/LangContext"
+import type { BrandData } from "@/types/db"
 
-export default function BrandsPageClient({ brandsData }: { brandsData: Record<string, any>[] }) {
+export default function BrandsPageClient({ brandsData }: { brandsData: BrandData[] }) {
   const { isArabic } = useLang()
   const brands = brandsData
 

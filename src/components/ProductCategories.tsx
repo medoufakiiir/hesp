@@ -5,6 +5,7 @@ import Link from "next/link"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { useLang } from "@/context/LangContext"
+import type { CategoryData } from "@/types/db"
 import { useRef } from "react"
 
 function Card3D({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -45,7 +46,7 @@ function Card3D({ children, className = "" }: { children: React.ReactNode; class
   )
 }
 
-export default function ProductCategories({ categoriesData }: { categoriesData: Record<string, any>[] }) {
+export default function ProductCategories({ categoriesData }: { categoriesData: CategoryData[] }) {
   const { isArabic } = useLang()
   const categories = categoriesData
 
