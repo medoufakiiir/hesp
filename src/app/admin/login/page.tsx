@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -74,9 +75,12 @@ export default function AdminLoginPage() {
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.12] to-transparent" />
 
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-xl bg-brand-amber/15 flex items-center justify-center mx-auto mb-4">
-            <Lock size={24} className="text-brand-amber" />
-          </div>
+          <Image
+            src="/images/logo.png"
+            alt="Riyada Ventures"
+            width={200} height={80} priority
+            className="h-16 w-auto object-contain mx-auto mb-4"
+          />
           <h1 className="font-display font-extrabold uppercase text-2xl tracking-tight text-brand-white">
             HESP Admin
           </h1>
@@ -100,7 +104,7 @@ export default function AdminLoginPage() {
                 {...register("email")}
                 aria-invalid={!!errors.email}
                 placeholder="admin@riyada-ventures.com"
-                className={`input-field pl-11 ${errors.email ? "border-red-500/50" : ""}`} />
+                className={`input-field !pl-11 ${errors.email ? "border-red-500/50" : ""}`} />
             </div>
             {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
           </div>
@@ -113,7 +117,7 @@ export default function AdminLoginPage() {
                 {...register("password")}
                 aria-invalid={!!errors.password}
                 placeholder="Password"
-                className={`input-field pl-11 pr-11 ${errors.password ? "border-red-500/50" : ""}`} />
+                className={`input-field !pl-11 !pr-11 ${errors.password ? "border-red-500/50" : ""}`} />
               <button type="button" onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-muted hover:text-brand-white transition-colors cursor-pointer"
                 aria-label={showPassword ? "Hide password" : "Show password"}>
