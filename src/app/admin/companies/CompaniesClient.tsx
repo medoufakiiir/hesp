@@ -2,8 +2,14 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { Plus, X, Pencil, Trash2, Building2, ChevronDown, ChevronUp, UserPlus } from "lucide-react"
+import { Plus, X, Pencil, Trash2, Building2, ChevronDown, ChevronUp, UserPlus, Phone } from "lucide-react"
 import { createCompany, updateCompany, deleteCompany, addContact, deleteContact } from "@/actions/companies"
+import { exportCompanyContacts } from "@/actions/admin-actions"
+import { downloadFile } from "@/components/admin/download"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
+import { BulkActionBar } from "@/components/admin/BulkActionBar"
+import { useSelection } from "@/components/admin/useSelection"
+import type { PermissionSet } from "@/lib/permissions"
 
 interface Contact {
   id: string; name: string; email: string | null; phone: string | null
@@ -26,7 +32,11 @@ const emptyContact = {
   position: null as string | null, isPrimary: false,
 }
 
-export default function CompaniesClient({ companies, canEdit }: { companies: Company[]; canEdit: boolean }) {
+export default function CompaniesClient({ companies, canEdit, permissions }: { companies: Company[]; canEdit: boolean; permissions: PermissionSet }) {
+  const canExport = permissions.canExport
+  const { selected, toggle, toggleAll, clear, isAllSelected } = useSelection()
+  const allIds = companies.map((c) => c.id)
+  const showSelect = permissions.canDelete || permissions.canExport
   const [showForm, setShowForm] = useState(false)
   const [showContactForm, setShowContactForm] = useState<string | null>(null)
   const [editId, setEditId] = useState<string | null>(null)
@@ -83,6 +93,15 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
     })
   }
 
+  const handleExportContacts = (companyId: string) => {
+    startTransition(async () => {
+      try {
+        const res = await exportCompanyContacts(companyId)
+        downloadFile(res.data, res.filename, res.mime)
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
+    })
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -90,18 +109,36 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
           <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Companies</h1>
           <p className="text-brand-muted text-sm">{companies.length} B2B customers</p>
         </div>
-        {canEdit && (
-          <button onClick={openCreate}
-            className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
-            <Plus size={16} /> Add Company
-          </button>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportToolbar resource="customers" canExport={canExport} />
+          {canEdit && (
+            <button onClick={openCreate}
+              className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
+              <Plus size={16} /> Add Company
+            </button>
+          )}
+        </div>
       </div>
+
+      {showSelect && companies.length > 0 && (
+        <label className="flex items-center gap-2 mb-3 text-brand-muted text-xs font-bold uppercase tracking-widest cursor-pointer w-fit">
+          <input type="checkbox" checked={isAllSelected(allIds)} onChange={() => toggleAll(allIds)}
+            className="accent-brand-amber cursor-pointer" />
+          Select all ({companies.length})
+        </label>
+      )}
 
       <div className="space-y-3">
         {companies.map((c) => (
-          <div key={c.id} className="rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border border-white/[0.06]">
+          <div key={c.id} className={`rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border ${selected.has(c.id) ? "border-brand-amber/30" : "border-white/[0.06]"}`}>
             <div className="flex items-center gap-4 p-5 cursor-pointer" onClick={() => setExpanded(expanded === c.id ? null : c.id)}>
+              {showSelect && (
+                <input type="checkbox" aria-label={`Select ${c.name}`}
+                  checked={selected.has(c.id)}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={() => toggle(c.id)}
+                  className="accent-brand-amber cursor-pointer flex-shrink-0" />
+              )}
               <div className="w-10 h-10 rounded-xl bg-brand-amber/10 flex items-center justify-center flex-shrink-0">
                 <Building2 size={20} className="text-brand-amber" />
               </div>
@@ -140,12 +177,20 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
                 <div className="mt-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-brand-white/40 text-[10px] font-bold uppercase tracking-widest">Contacts</span>
-                    {canEdit && (
-                      <button onClick={() => { setShowContactForm(c.id); setContactForm(emptyContact) }}
-                        className="text-brand-amber text-xs flex items-center gap-1 hover:text-brand-gold cursor-pointer">
-                        <UserPlus size={12} /> Add
-                      </button>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {canExport && c.contacts.length > 0 && (
+                        <button onClick={() => handleExportContacts(c.id)} disabled={isPending}
+                          className="text-brand-muted text-xs flex items-center gap-1 hover:text-brand-white cursor-pointer disabled:opacity-50">
+                          <Phone size={12} /> Export
+                        </button>
+                      )}
+                      {canEdit && (
+                        <button onClick={() => { setShowContactForm(c.id); setContactForm(emptyContact) }}
+                          className="text-brand-amber text-xs flex items-center gap-1 hover:text-brand-gold cursor-pointer">
+                          <UserPlus size={12} /> Add
+                        </button>
+                      )}
+                    </div>
                   </div>
                   {c.contacts.length > 0 ? (
                     <div className="space-y-2">
@@ -270,6 +315,14 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
           </div>
         </div>
       )}
+
+      <BulkActionBar
+        resource="customers"
+        selectedIds={[...selected]}
+        onClear={clear}
+        onDeleted={() => router.refresh()}
+        permissions={permissions}
+      />
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { canViewCompanies, canManageCompanies } from "@/lib/rbac"
+import { resolvePermissions } from "@/lib/permissions"
 import CompaniesClient from "./CompaniesClient"
 
 export default async function CompaniesPage() {
@@ -19,9 +20,11 @@ export default async function CompaniesPage() {
   })
 
   const canEdit = canManageCompanies((session.user as Record<string, unknown>).role as string)
+  const permissions = await resolvePermissions("customers")
 
   return (
     <CompaniesClient
+      permissions={permissions}
       companies={companies.map((c) => ({
         id: c.id, name: c.name,
         crNumber: c.crNumber, vatNumber: c.vatNumber,

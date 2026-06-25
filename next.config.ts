@@ -5,7 +5,7 @@ const csp = [
   "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.pexels.com",
+  "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.pexels.com https://image.pollinations.ai",
   "connect-src 'self' https://va.vercel-insights.com https://*.neon.tech",
   "frame-src https://www.google.com",
   "object-src 'none'",
@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    remotePatterns: [
+      { protocol: "https", hostname: "image.pollinations.ai" },
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+    ],
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }]

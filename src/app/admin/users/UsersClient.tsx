@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { Plus, X, UserCheck, UserX } from "lucide-react"
 import { createUser, updateUser, deactivateUser } from "@/actions/users"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
 
 interface User {
   id: string; name: string; email: string; role: string
@@ -23,7 +24,7 @@ const roleLabel: Record<string, string> = {
 
 const emptyForm = { name: "", email: "", password: "", role: "SALES" as const }
 
-export default function UsersClient({ users, currentUserId }: { users: User[]; currentUserId: string }) {
+export default function UsersClient({ users, currentUserId, canExport }: { users: User[]; currentUserId: string; canExport: boolean }) {
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState(emptyForm)
   const [error, setError] = useState("")
@@ -78,10 +79,13 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
           <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Users</h1>
           <p className="text-brand-muted text-sm">{users.length} admin users</p>
         </div>
-        <button onClick={() => { setForm(emptyForm); setShowForm(true) }}
-          className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
-          <Plus size={16} /> Add User
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportToolbar resource="users" canExport={canExport} />
+          <button onClick={() => { setForm(emptyForm); setShowForm(true) }}
+            className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
+            <Plus size={16} /> Add User
+          </button>
+        </div>
       </div>
 
       <div className="space-y-3">

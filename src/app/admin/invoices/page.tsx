@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { canManageQuotes } from "@/lib/rbac"
+import { resolvePermissions } from "@/lib/permissions"
 import InvoicesClient from "./InvoicesClient"
 
 export default async function InvoicesPage() {
@@ -34,6 +35,7 @@ export default async function InvoicesPage() {
         dueAt: inv.dueAt?.toISOString() || null,
         paidAt: inv.paidAt?.toISOString() || null,
       }))}
+      permissions={await resolvePermissions("invoices")}
     />
   )
 }

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { canViewInquiries } from "@/lib/rbac"
+import { resolvePermissions } from "@/lib/permissions"
 import { prisma } from "@/lib/db"
 import AdminMessagesClient from "./AdminMessagesClient"
 
@@ -20,5 +21,7 @@ export default async function AdminMessagesPage() {
     readAt: m.readAt?.toISOString() || null,
   }))
 
-  return <AdminMessagesClient messages={serialized} />
+  const permissions = await resolvePermissions("messages")
+
+  return <AdminMessagesClient messages={serialized} permissions={permissions} />
 }

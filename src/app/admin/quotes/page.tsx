@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { canManageQuotes } from "@/lib/rbac"
+import { resolvePermissions } from "@/lib/permissions"
 import QuotesClient from "./QuotesClient"
 
 export default async function QuotesPage() {
@@ -34,6 +35,7 @@ export default async function QuotesPage() {
         validUntil: q.validUntil?.toISOString() || null,
       }))}
       companies={companies}
+      permissions={await resolvePermissions("quotes")}
     />
   )
 }

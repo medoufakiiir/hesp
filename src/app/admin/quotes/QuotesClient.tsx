@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Plus, X, ClipboardList, Search } from "lucide-react"
 import { createQuote } from "@/actions/quotes"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
+import { BulkActionBar } from "@/components/admin/BulkActionBar"
+import { useSelection } from "@/components/admin/useSelection"
+import type { PermissionSet } from "@/lib/permissions"
 
 interface Quote {
   id: string; number: string; status: string; companyName: string; companyId: string
@@ -24,9 +28,10 @@ const statusBadge: Record<string, string> = {
   EXPIRED: "bg-orange-500/20 text-orange-400",
 }
 
-export default function QuotesClient({ quotes, companies }: {
+export default function QuotesClient({ quotes, companies, permissions }: {
   quotes: Quote[]
   companies: { id: string; name: string }[]
+  permissions: PermissionSet
 }) {
   const [showForm, setShowForm] = useState(false)
   const [search, setSearch] = useState("")
@@ -35,6 +40,8 @@ export default function QuotesClient({ quotes, companies }: {
   const [error, setError] = useState("")
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
+  const { selected, toggle, toggleAll, clear, isAllSelected } = useSelection()
+  const showSelect = permissions.canDelete || permissions.canExport
 
   const filtered = quotes.filter((q) => {
     if (statusFilter && q.status !== statusFilter) return false
@@ -44,6 +51,7 @@ export default function QuotesClient({ quotes, companies }: {
     }
     return true
   })
+  const filteredIds = filtered.map((q) => q.id)
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault(); setError("")
@@ -67,10 +75,13 @@ export default function QuotesClient({ quotes, companies }: {
           <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Quotes / RFQ</h1>
           <p className="text-brand-muted text-sm">{quotes.length} total quotes</p>
         </div>
-        <button onClick={() => { setError(""); setShowForm(true) }}
-          className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
-          <Plus size={16} /> New Quote
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportToolbar resource="quotes" canExport={permissions.canExport} />
+          <button onClick={() => { setError(""); setShowForm(true) }}
+            className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
+            <Plus size={16} /> New Quote
+          </button>
+        </div>
       </div>
 
       <div className="flex gap-4 mb-6 flex-wrap">
@@ -91,6 +102,13 @@ export default function QuotesClient({ quotes, companies }: {
         <table className="w-full">
           <thead>
             <tr className="bg-white/[0.03]">
+              {showSelect && (
+                <th className="px-4 py-3 w-10">
+                  <input type="checkbox" aria-label="Select all"
+                    checked={isAllSelected(filteredIds)} onChange={() => toggleAll(filteredIds)}
+                    className="accent-brand-amber cursor-pointer" />
+                </th>
+              )}
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3">RFQ #</th>
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3">Company</th>
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3 hidden md:table-cell">Items</th>
@@ -102,7 +120,14 @@ export default function QuotesClient({ quotes, companies }: {
           </thead>
           <tbody>
             {filtered.map((q) => (
-              <tr key={q.id} className="border-t border-white/[0.04] hover:bg-white/[0.02]">
+              <tr key={q.id} className={`border-t border-white/[0.04] ${selected.has(q.id) ? "bg-brand-amber/[0.06]" : "hover:bg-white/[0.02]"}`}>
+                {showSelect && (
+                  <td className="px-4 py-3">
+                    <input type="checkbox" aria-label={`Select ${q.number}`}
+                      checked={selected.has(q.id)} onChange={() => toggle(q.id)}
+                      className="accent-brand-amber cursor-pointer" />
+                  </td>
+                )}
                 <td className="px-4 py-3">
                   <Link href={`/admin/quotes/${q.id}`} className="text-brand-amber text-sm hover:underline font-mono">{q.number}</Link>
                 </td>
@@ -123,13 +148,21 @@ export default function QuotesClient({ quotes, companies }: {
               </tr>
             ))}
             {filtered.length === 0 && (
-              <tr><td colSpan={7} className="px-4 py-12 text-center text-brand-muted text-sm">
+              <tr><td colSpan={showSelect ? 8 : 7} className="px-4 py-12 text-center text-brand-muted text-sm">
                 <ClipboardList size={32} className="mx-auto mb-3 text-brand-white/10" />{search || statusFilter ? "No matching quotes." : "No quotes yet."}
               </td></tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <BulkActionBar
+        resource="quotes"
+        selectedIds={[...selected]}
+        onClear={clear}
+        onDeleted={() => router.refresh()}
+        permissions={permissions}
+      />
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">

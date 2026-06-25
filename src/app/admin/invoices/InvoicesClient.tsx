@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Receipt, DollarSign, X } from "lucide-react"
 import { markInvoicePaid, voidInvoice } from "@/actions/invoices"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
+import { BulkActionBar } from "@/components/admin/BulkActionBar"
+import { useSelection } from "@/components/admin/useSelection"
+import type { PermissionSet } from "@/lib/permissions"
 
 interface Invoice {
   id: string; number: string; status: string
@@ -20,11 +24,14 @@ const statusBadge: Record<string, string> = {
   VOID: "bg-gray-500/20 text-gray-400",
 }
 
-export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
+export default function InvoicesClient({ invoices, permissions }: { invoices: Invoice[]; permissions: PermissionSet }) {
   const [payModal, setPayModal] = useState<Invoice | null>(null)
   const [payAmount, setPayAmount] = useState("")
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
+  const { selected, toggle, toggleAll, clear, isAllSelected } = useSelection()
+  const allIds = invoices.map((i) => i.id)
+  const showSelect = permissions.canDelete || permissions.canExport
 
   const handlePay = () => {
     if (!payModal || !payAmount) return
@@ -46,15 +53,25 @@ export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Invoices</h1>
-        <p className="text-brand-muted text-sm">{invoices.length} invoices</p>
+      <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+        <div>
+          <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Invoices</h1>
+          <p className="text-brand-muted text-sm">{invoices.length} invoices</p>
+        </div>
+        <ExportToolbar resource="invoices" canExport={permissions.canExport} />
       </div>
 
       <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
         <table className="w-full">
           <thead>
             <tr className="bg-white/[0.03]">
+              {showSelect && (
+                <th className="px-4 py-3 w-10">
+                  <input type="checkbox" aria-label="Select all"
+                    checked={isAllSelected(allIds)} onChange={() => toggleAll(allIds)}
+                    className="accent-brand-amber cursor-pointer" />
+                </th>
+              )}
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3">Invoice #</th>
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3">Company</th>
               <th className="text-left text-brand-white/40 text-[10px] font-bold uppercase tracking-widest px-4 py-3 hidden md:table-cell">Quote</th>
@@ -67,7 +84,14 @@ export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
           </thead>
           <tbody>
             {invoices.map((inv) => (
-              <tr key={inv.id} className="border-t border-white/[0.04] hover:bg-white/[0.02]">
+              <tr key={inv.id} className={`border-t border-white/[0.04] ${selected.has(inv.id) ? "bg-brand-amber/[0.06]" : "hover:bg-white/[0.02]"}`}>
+                {showSelect && (
+                  <td className="px-4 py-3">
+                    <input type="checkbox" aria-label={`Select ${inv.number}`}
+                      checked={selected.has(inv.id)} onChange={() => toggle(inv.id)}
+                      className="accent-brand-amber cursor-pointer" />
+                  </td>
+                )}
                 <td className="px-4 py-3 text-brand-amber text-sm font-mono">{inv.number}</td>
                 <td className="px-4 py-3 text-brand-white text-sm">{inv.companyName}</td>
                 <td className="px-4 py-3 hidden md:table-cell">
@@ -102,13 +126,21 @@ export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
               </tr>
             ))}
             {invoices.length === 0 && (
-              <tr><td colSpan={8} className="px-4 py-12 text-center text-brand-muted text-sm">
+              <tr><td colSpan={showSelect ? 9 : 8} className="px-4 py-12 text-center text-brand-muted text-sm">
                 <Receipt size={32} className="mx-auto mb-3 text-brand-white/10" />No invoices yet.
               </td></tr>
             )}
           </tbody>
         </table>
       </div>
+
+      <BulkActionBar
+        resource="invoices"
+        selectedIds={[...selected]}
+        onClear={clear}
+        onDeleted={() => router.refresh()}
+        permissions={permissions}
+      />
 
       {payModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">

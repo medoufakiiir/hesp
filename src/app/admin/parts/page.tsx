@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { canViewCatalog } from "@/lib/rbac"
+import { resolvePermissions } from "@/lib/permissions"
 import PartsClient from "./PartsClient"
 
 export default async function PartsPage() {
@@ -39,6 +40,7 @@ export default async function PartsPage() {
       categories={categories}
       brands={brands}
       canEdit={canEdit}
+      canExport={(await resolvePermissions("products")).canExport}
     />
   )
 }

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { Plus, X, Pencil, Trash2, Package, Search } from "lucide-react"
 import { createPart, updatePart, deletePart } from "@/actions/parts"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
 
 interface Part {
   id: string; sku: string; oemNumber: string | null
@@ -28,11 +29,12 @@ const emptyForm: FormData = {
   listPrice: null, stockQty: 0, isActive: true,
 }
 
-export default function PartsClient({ parts, categories, brands, canEdit }: {
+export default function PartsClient({ parts, categories, brands, canEdit, canExport }: {
   parts: Part[]
   categories: { id: string; nameEn: string }[]
   brands: { id: string; nameEn: string }[]
   canEdit: boolean
+  canExport: boolean
 }) {
   const [showForm, setShowForm] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
@@ -85,12 +87,15 @@ export default function PartsClient({ parts, categories, brands, canEdit }: {
           <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Parts Catalog</h1>
           <p className="text-brand-muted text-sm">{parts.length} parts</p>
         </div>
-        {canEdit && (
-          <button onClick={openCreate}
-            className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
-            <Plus size={16} /> Add Part
-          </button>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <ExportToolbar resource="products" canExport={canExport} />
+          {canEdit && (
+            <button onClick={openCreate}
+              className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
+              <Plus size={16} /> Add Part
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mb-6">

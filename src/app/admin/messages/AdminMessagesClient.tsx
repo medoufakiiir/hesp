@@ -4,6 +4,10 @@ import { useState, useTransition } from "react"
 import { MessageSquare, Trash2, Mail, Phone, Building2, Eye, Archive, Reply } from "lucide-react"
 import { updateMessageStatus, deleteMessage } from "@/actions/inquiries"
 import { useRouter } from "next/navigation"
+import { useSelection } from "@/components/admin/useSelection"
+import { BulkActionBar } from "@/components/admin/BulkActionBar"
+import { ExportToolbar } from "@/components/admin/ExportToolbar"
+import type { PermissionSet } from "@/lib/permissions"
 
 interface Message {
   id: string
@@ -27,13 +31,16 @@ const statusColors: Record<string, string> = {
   ARCHIVED: "bg-white/10 text-brand-muted",
 }
 
-export default function AdminMessagesClient({ messages }: { messages: Message[] }) {
+export default function AdminMessagesClient({ messages, permissions }: { messages: Message[]; permissions: PermissionSet }) {
   const [filter, setFilter] = useState<string>("ALL")
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
+  const { selected, toggle, toggleAll, clear, isAllSelected } = useSelection()
 
   const filtered = filter === "ALL" ? messages : messages.filter((m) => m.status === filter)
+  const filteredIds = filtered.map((m) => m.id)
+  const showSelect = permissions.canDelete || permissions.canExport
 
   const counts = {
     ALL: messages.length,
@@ -67,11 +74,14 @@ export default function AdminMessagesClient({ messages }: { messages: Message[] 
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Messages</h1>
-        <p className="text-brand-muted text-sm">
-          {counts.NEW > 0 ? `${counts.NEW} unread · ` : ""}{messages.length} total messages from contact form
-        </p>
+      <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
+        <div>
+          <h1 className="text-brand-white font-display font-extrabold uppercase text-3xl mb-2">Messages</h1>
+          <p className="text-brand-muted text-sm">
+            {counts.NEW > 0 ? `${counts.NEW} unread · ` : ""}{messages.length} total messages from contact form
+          </p>
+        </div>
+        <ExportToolbar resource="messages" canExport={permissions.canExport} />
       </div>
 
       {/* Status filter tabs */}
@@ -101,6 +111,18 @@ export default function AdminMessagesClient({ messages }: { messages: Message[] 
         ))}
       </div>
 
+      {showSelect && filtered.length > 0 && (
+        <label className="flex items-center gap-2 mb-3 text-brand-muted text-xs font-bold uppercase tracking-widest cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            checked={isAllSelected(filteredIds)}
+            onChange={() => toggleAll(filteredIds)}
+            className="accent-brand-amber cursor-pointer"
+          />
+          Select all ({filtered.length})
+        </label>
+      )}
+
       {filtered.length === 0 ? (
         <div className="p-16 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06] text-center">
           <MessageSquare size={40} className="text-brand-white/10 mx-auto mb-4" />
@@ -124,10 +146,22 @@ export default function AdminMessagesClient({ messages }: { messages: Message[] 
                   }`}
               >
                 {/* Header row — clickable */}
-                <button
-                  onClick={() => handleExpand(msg)}
-                  className="w-full text-left p-5 cursor-pointer"
-                >
+                <div className="flex items-start">
+                  {showSelect && (
+                    <div className="pt-5 pl-4">
+                      <input
+                        type="checkbox"
+                        aria-label={`Select message from ${msg.name}`}
+                        checked={selected.has(msg.id)}
+                        onChange={() => toggle(msg.id)}
+                        className="accent-brand-amber cursor-pointer"
+                      />
+                    </div>
+                  )}
+                  <button
+                    onClick={() => handleExpand(msg)}
+                    className="w-full text-left p-5 cursor-pointer"
+                  >
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-3 mb-1 flex-wrap">
@@ -152,7 +186,8 @@ export default function AdminMessagesClient({ messages }: { messages: Message[] 
                       </p>
                     </div>
                   </div>
-                </button>
+                  </button>
+                </div>
 
                 {/* Expanded detail */}
                 {isExpanded && (
@@ -218,6 +253,14 @@ export default function AdminMessagesClient({ messages }: { messages: Message[] 
           })}
         </div>
       )}
+
+      <BulkActionBar
+        resource="messages"
+        selectedIds={[...selected]}
+        onClear={clear}
+        onDeleted={() => router.refresh()}
+        permissions={permissions}
+      />
     </div>
   )
 }

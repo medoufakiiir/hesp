@@ -51,7 +51,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
   const brandProducts = rawParts.map((p) => ({
     id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
     descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
-    image: getProductImage(p.images?.[0]?.url, p.category?.slug),
+    image: getProductImage(p.images?.[0]?.url, p.category?.slug, p.sku),
     category: p.category?.slug || "", brand: slug,
     partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
   }))
