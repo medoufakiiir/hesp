@@ -8,10 +8,9 @@ import {
   HOMEPAGE_CATEGORY_SLUGS, FEATURED_PRODUCT_CATEGORY_SLUGS,
 } from "@/data/catalog-assets"
 
-const LoadingScreen = dynamic(() => import("@/components/cinematic/LoadingScreen"))
-// Idle-gated wrapper around ScrollHero/Scene3D — keeps the 1MB Three.js bundle
-// off the critical path so it can't block initial render (TBT fix).
-const ScrollHero = dynamic(() => import("@/components/cinematic/HeroDeferred"), {
+// CSS/Image-only hero (no Three.js/WebGL/canvas). Crossfade slider with a built-in
+// CSS intro fade — replaces the old Scene3D + LoadingScreen preloader.
+const Hero = dynamic(() => import("@/components/hero/Hero"), {
   loading: () => <div className="h-screen bg-brand-iron" />,
 })
 const CinematicStats = dynamic(() => import("@/components/cinematic/CinematicStats"), {
@@ -132,12 +131,11 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(homeFaqs.map(f => ({ question: f.questionEN, answer: f.answerEN })))) }}
       />
-      <LoadingScreen />
       <ScrollProgress />
       <Navbar />
 
       {/* ── Cinematic sections ── */}
-      <ScrollHero />
+      <Hero />
       <CinematicStats />
       <div className="section-divider" />
       <TwoWorlds />
