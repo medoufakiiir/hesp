@@ -31,9 +31,21 @@ export default async function ProductsPage() {
     category: p.category?.slug || "", brand: p.brand?.slug || "",
     partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
   }))
+  // Active-part count per category (derived from the parts already fetched)
+  // so each card shows a real "N parts" figure instead of 0. Parent/umbrella
+  // categories have no direct parts, so roll their children's counts up.
+  const ownCount = rawParts.reduce<Record<string, number>>((acc, p) => {
+    if (p.categoryId) acc[p.categoryId] = (acc[p.categoryId] ?? 0) + 1
+    return acc
+  }, {})
+  const totalCount: Record<string, number> = { ...ownCount }
+  for (const c of rawCategories) {
+    if (c.parentId) totalCount[c.parentId] = (totalCount[c.parentId] ?? 0) + (ownCount[c.id] ?? 0)
+  }
   const categories = rawCategories.map((c) => ({
     id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
     image: getCategoryImage(c.slug),
+    productCount: totalCount[c.id] ?? 0,
   }))
   const brands = rawBrands.map((b) => ({
     id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
