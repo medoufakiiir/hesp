@@ -104,7 +104,7 @@ export default function AdminLoginPage() {
                 {...register("email")}
                 aria-invalid={!!errors.email}
                 placeholder="admin@riyada-ventures.com"
-                className={`input-field !pl-11 ${errors.email ? "border-red-500/50" : ""}`} />
+                className={`input-field pl-11! ${errors.email ? "border-red-500/50" : ""}`} />
             </div>
             {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
           </div>
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
                 {...register("password")}
                 aria-invalid={!!errors.password}
                 placeholder="Password"
-                className={`input-field !pl-11 !pr-11 ${errors.password ? "border-red-500/50" : ""}`} />
+                className={`input-field pl-11! pr-11! ${errors.password ? "border-red-500/50" : ""}`} />
               <button type="button" onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-muted hover:text-brand-white transition-colors cursor-pointer"
                 aria-label={showPassword ? "Hide password" : "Show password"}>
