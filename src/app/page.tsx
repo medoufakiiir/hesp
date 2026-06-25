@@ -69,6 +69,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://riyada-ventures.com" },
 }
 
+// Read live catalog data: regenerate at most every 5 min, and instantly
+// on-demand whenever the admin panel mutates the catalog (revalidateCatalog).
+// Without this the page is prerendered once at build time and would show
+// stale counts (e.g. 0 parts) that never match the admin panel.
+export const revalidate = 300
+
 export default async function Home() {
   const { prisma } = await import("@/lib/db")
   const [rawCategories, rawFeaturedParts, rawBrands] = await Promise.all([

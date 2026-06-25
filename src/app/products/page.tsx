@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://riyada-ventures.com/products" },
 }
 
+// Live catalog: ISR every 5 min + on-demand revalidation on admin edits.
+export const revalidate = 300
+
 export default async function ProductsPage() {
   const [rawParts, rawCategories, rawBrands] = await Promise.all([
     prisma.part.findMany({
