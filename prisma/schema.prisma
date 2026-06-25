@@ -251,3 +251,15 @@ model BlogPost {
   updatedAt      DateTime  @updatedAt
 }
 
+// ---------- Website Analytics ----------
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  visitorId String // anonymous, cookie-based unique-visitor id
+  referrer  String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([visitorId])
+}
+

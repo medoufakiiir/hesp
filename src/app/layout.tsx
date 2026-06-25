@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Barlow_Condensed, Inter, Tajawal } from "next/font/google"
 import "./globals.css"
 import { LangProvider } from "@/context/LangContext"
+import VisitorTracker from "@/components/VisitorTracker"
 import { cn } from "@/lib/utils"
 import { organizationJsonLd, localBusinessJsonLd } from "@/lib/seo"
 
@@ -123,6 +124,7 @@ export default function RootLayout({
           focus:bg-brand-amber focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold">
           Skip to content
         </a>
+        <VisitorTracker />
         <LangProvider>{children}</LangProvider>
       </body>
     </html>

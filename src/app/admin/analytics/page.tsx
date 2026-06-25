@@ -182,6 +182,34 @@ export default async function AnalyticsPage() {
     }),
   ])
 
+  // ---------- Website traffic (PageView) ----------
+  // Unique-visitor counts use COUNT(DISTINCT) so large traffic stays cheap.
+  const [
+    totalPageViews,
+    pageViews30d,
+    pageViews7d,
+    uniqueVisitorsRows,
+    uniqueVisitors30dRows,
+    uniqueVisitors7dRows,
+  ] = await Promise.all([
+    prisma.pageView.count(),
+    prisma.pageView.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+    prisma.pageView.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+    prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView"`,
+    prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${thirtyDaysAgo}`,
+    prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${sevenDaysAgo}`,
+  ])
+
+  const uniqueVisitors = Number(uniqueVisitorsRows[0]?.count ?? 0)
+  const uniqueVisitors30d = Number(uniqueVisitors30dRows[0]?.count ?? 0)
+  const uniqueVisitors7d = Number(uniqueVisitors7dRows[0]?.count ?? 0)
+
+  // Visitor → quote conversion: how many unique visitors turned into an RFQ.
+  const visitorConversionRate =
+    uniqueVisitors > 0 ? (totalInquiries / uniqueVisitors) * 100 : 0
+  const visitorConversionRate30d =
+    uniqueVisitors30d > 0 ? (inquiriesLast30d / uniqueVisitors30d) * 100 : 0
+
   // Normalize recentInquiries status strings to the keys used by AnalyticsClient.
   const normalizedRecentInquiries = (recentInquiries as any[]).map((inq) => {
     const s = String(inq.status).toLowerCase()
@@ -213,6 +241,16 @@ export default async function AnalyticsPage() {
         totalCategories,
         totalBrands,
         totalBlogPosts,
+      }}
+      traffic={{
+        totalPageViews,
+        pageViews30d,
+        pageViews7d,
+        uniqueVisitors,
+        uniqueVisitors30d,
+        uniqueVisitors7d,
+        visitorConversionRate: Number(visitorConversionRate.toFixed(1)),
+        visitorConversionRate30d: Number(visitorConversionRate30d.toFixed(1)),
       }}
       recentInquiries={normalizedRecentInquiries}
       topCategories={topCategories as any}
