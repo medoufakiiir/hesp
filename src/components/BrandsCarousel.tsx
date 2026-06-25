@@ -43,13 +43,18 @@ function BrandCard({ brand, isArabic }: { brand: BrandItem; isArabic: boolean })
           alt={`${brand.name} logo`}
           loading="lazy"
           onError={() => setFailed(true)}
-          className="max-h-9 w-auto max-w-[80%] object-contain
-            grayscale opacity-70 transition-all duration-300
-            group-hover:grayscale-0 group-hover:opacity-100"
+          // Concrete height (not max-h) — these SVGs are viewBox-only, so width
+          // must derive from the aspect ratio or the image collapses to 0 width.
+          // brightness-0 invert renders any brand colour as uniform white (dark
+          // logos like Volvo navy would vanish on the dark card otherwise);
+          // hover restores the real brand colour.
+          className="h-9 w-auto max-w-[80%] object-contain
+            brightness-0 invert opacity-80 transition-all duration-300
+            group-hover:brightness-100 group-hover:invert-0 group-hover:opacity-100"
         />
       ) : (
         <span
-          className="text-brand-white/40 group-hover:text-brand-amber transition-colors duration-300
+          className="text-brand-white/55 group-hover:text-brand-amber transition-colors duration-300
             text-xs font-bold uppercase tracking-wide text-center leading-tight"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >

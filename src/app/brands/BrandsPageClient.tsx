@@ -90,8 +90,8 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
                           src={brand.logo}
                           alt={`${brand.name} logo`}
                           loading="lazy"
-                          className="h-10 w-auto max-w-[60%] object-contain grayscale opacity-80
-                            transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                          className="h-10 w-auto max-w-[60%] object-contain brightness-0 invert opacity-90
+                            transition-all duration-300 group-hover:brightness-100 group-hover:invert-0 group-hover:opacity-100"
                         />
                       </div>
                     )}
