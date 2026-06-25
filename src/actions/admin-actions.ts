@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db"
 import { can } from "@/lib/permissions"
 import { revalidatePath } from "next/cache"
+import { revalidateCatalog } from "@/lib/revalidate"
 import {
   type Resource,
   EXPORT_FIELDS,
@@ -29,6 +30,9 @@ function delegate(resource: Resource): any {
 
 function revalidate(resource: Resource) {
   for (const path of REVALIDATE_PATHS[resource]) revalidatePath(path)
+  // "products" maps to the Part model, which is surfaced across the public
+  // catalog — refresh those pages too so bulk/single deletes are reflected.
+  if (resource === "products") revalidateCatalog()
 }
 
 function friendlyDeleteError(e: unknown): never {

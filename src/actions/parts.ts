@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canManageCatalog, canDelete } from "@/lib/rbac"
+import { revalidateCatalog } from "@/lib/revalidate"
 
 const PartSchema = z.object({
   sku: z.string().min(1).max(100),
@@ -32,6 +33,7 @@ export async function createPart(data: z.infer<typeof PartSchema>) {
   const validated = PartSchema.parse(data)
   await prisma.part.create({ data: validated })
   revalidatePath("/admin/parts")
+  revalidateCatalog()
 }
 
 export async function updatePart(id: string, data: z.infer<typeof PartSchema>) {
@@ -39,6 +41,7 @@ export async function updatePart(id: string, data: z.infer<typeof PartSchema>) {
   const validated = PartSchema.parse(data)
   await prisma.part.update({ where: { id }, data: validated })
   revalidatePath("/admin/parts")
+  revalidateCatalog()
 }
 
 export async function deletePart(id: string) {
@@ -47,4 +50,5 @@ export async function deletePart(id: string) {
   if (!canDelete((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   await prisma.part.delete({ where: { id } })
   revalidatePath("/admin/parts")
+  revalidateCatalog()
 }

@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canManageCatalog } from "@/lib/rbac"
+import { revalidateCatalog } from "@/lib/revalidate"
 
 const BrandSchema = z.object({
   slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/),
@@ -25,6 +26,7 @@ export async function createBrand(data: z.infer<typeof BrandSchema>) {
   const validated = BrandSchema.parse(data)
   await prisma.brand.create({ data: validated })
   revalidatePath("/admin/brands")
+  revalidateCatalog()
 }
 
 export async function updateBrand(id: string, data: z.infer<typeof BrandSchema>) {
@@ -32,6 +34,7 @@ export async function updateBrand(id: string, data: z.infer<typeof BrandSchema>)
   const validated = BrandSchema.parse(data)
   await prisma.brand.update({ where: { id }, data: validated })
   revalidatePath("/admin/brands")
+  revalidateCatalog()
 }
 
 export async function deleteBrand(id: string) {
@@ -40,4 +43,5 @@ export async function deleteBrand(id: string) {
   if (hasParts > 0) throw new Error("Cannot delete brand with parts")
   await prisma.brand.delete({ where: { id } })
   revalidatePath("/admin/brands")
+  revalidateCatalog()
 }

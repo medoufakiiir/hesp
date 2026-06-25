@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canManageCatalog } from "@/lib/rbac"
+import { revalidateCatalog } from "@/lib/revalidate"
 
 const CategorySchema = z.object({
   slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/),
@@ -25,6 +26,7 @@ export async function createCategory(data: z.infer<typeof CategorySchema>) {
   const validated = CategorySchema.parse(data)
   await prisma.category.create({ data: validated })
   revalidatePath("/admin/categories")
+  revalidateCatalog()
 }
 
 export async function updateCategory(id: string, data: z.infer<typeof CategorySchema>) {
@@ -32,6 +34,7 @@ export async function updateCategory(id: string, data: z.infer<typeof CategorySc
   const validated = CategorySchema.parse(data)
   await prisma.category.update({ where: { id }, data: validated })
   revalidatePath("/admin/categories")
+  revalidateCatalog()
 }
 
 export async function deleteCategory(id: string) {
@@ -42,4 +45,5 @@ export async function deleteCategory(id: string) {
   if (hasParts > 0) throw new Error("Cannot delete category with parts")
   await prisma.category.delete({ where: { id } })
   revalidatePath("/admin/categories")
+  revalidateCatalog()
 }
