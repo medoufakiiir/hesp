@@ -91,8 +91,8 @@ export default function QuoteForm() {
         urgency: data.urgency, notes: data.notes || "",
       })
       setSubmitted(true)
-    } catch (err: any) {
-      setServerError(err?.message || (isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again."))
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : (isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again."))
       const firstError = document.querySelector("[aria-invalid=true]") as HTMLElement
       firstError?.scrollIntoView({ behavior: "smooth", block: "center" })
     }

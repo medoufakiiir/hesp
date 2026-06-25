@@ -48,8 +48,8 @@ export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
         setEditingId(null)
         setForm(emptyForm)
         router.refresh()
-      } catch (err: any) {
-        setError(err?.message || "Failed to save post")
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to save post")
       }
     })
   }

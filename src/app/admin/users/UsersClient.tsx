@@ -39,8 +39,8 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
         setShowForm(false)
         setForm(emptyForm)
         router.refresh()
-      } catch (err: any) {
-        setError(err.message || "Failed to create user")
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to create user")
       }
     })
   }
@@ -58,8 +58,8 @@ export default function UsersClient({ users, currentUserId }: { users: User[]; c
       try {
         await deactivateUser(id)
         router.refresh()
-      } catch (err: any) {
-        alert(err.message)
+      } catch (err: unknown) {
+        alert(err instanceof Error ? err.message : "Error")
       }
     })
   }

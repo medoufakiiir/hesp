@@ -6,7 +6,7 @@ import { NextResponse } from "next/server"
 export async function GET() {
   const session = await auth()
   if (!session?.user) return NextResponse.json({ count: 0 })
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canViewInquiries(role)) return NextResponse.json({ count: 0 })
 
   const count = await prisma.contactMessage.count({ where: { status: "NEW" } })

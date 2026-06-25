@@ -8,7 +8,7 @@ import AnalyticsClient from "./AnalyticsClient"
 export default async function AnalyticsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canViewAnalytics(role)) redirect("/admin/dashboard")
 
   const now = new Date()

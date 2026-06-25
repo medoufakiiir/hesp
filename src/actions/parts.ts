@@ -23,7 +23,7 @@ const PartSchema = z.object({
 async function requireCatalogAccess() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageCatalog((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 
@@ -44,7 +44,7 @@ export async function updatePart(id: string, data: z.infer<typeof PartSchema>) {
 export async function deletePart(id: string) {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canDelete((session.user as any).role)) throw new Error("Forbidden")
+  if (!canDelete((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   await prisma.part.delete({ where: { id } })
   revalidatePath("/admin/parts")
 }

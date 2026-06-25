@@ -16,7 +16,7 @@ const BrandSchema = z.object({
 async function requireCatalogAccess() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageCatalog((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import {
-  LayoutDashboard, FileText, LogOut, Menu, ChevronRight, Users,
+  LayoutDashboard, LogOut, Menu, ChevronRight, Users,
   BarChart3, Package, Layers, Tag, Truck, Building2, Receipt, Settings, ClipboardList, MessageSquare, PenLine,
 } from "lucide-react"
 import type { Role } from "@/lib/rbac"
@@ -65,7 +65,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     return <>{children}</>
   }
 
-  const userRole = (session?.user as any)?.role || "SALES"
+  const userRole = (session?.user as Record<string, unknown>)?.role as string || "SALES"
   const visibleLinks = allSidebarLinks.filter(link => link.roles.includes(userRole as Role))
 
   return (

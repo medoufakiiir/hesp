@@ -29,7 +29,7 @@ export type BlogInput = z.infer<typeof BlogSchema>
 async function requireBlogRole() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canManageBlog(role)) throw new Error("Forbidden")
   return { session, role }
 }

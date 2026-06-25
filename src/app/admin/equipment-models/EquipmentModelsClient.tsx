@@ -29,7 +29,7 @@ export default function EquipmentModelsClient({ models }: { models: Model[] }) {
         if (editId) await updateEquipmentModel(editId, form)
         else await createEquipmentModel(form)
         setShowForm(false); router.refresh()
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -37,7 +37,7 @@ export default function EquipmentModelsClient({ models }: { models: Model[] }) {
     if (!confirm("Delete this equipment model?")) return
     startTransition(async () => {
       try { await deleteEquipmentModel(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

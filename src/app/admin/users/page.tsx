@@ -6,7 +6,7 @@ import UsersClient from "./UsersClient"
 
 export default async function UsersPage() {
   const session = await auth()
-  if (!session?.user || (session.user as any).role !== "SUPER_ADMIN") {
+  if (!session?.user || (session.user as Record<string, unknown>).role as string !== "SUPER_ADMIN") {
     redirect("/admin/dashboard")
   }
 
@@ -24,7 +24,7 @@ export default async function UsersPage() {
         ...u,
         createdAt: u.createdAt.toISOString(),
       }))}
-      currentUserId={(session.user as any).id}
+      currentUserId={(session.user as Record<string, unknown>).id as string}
     />
   )
 }

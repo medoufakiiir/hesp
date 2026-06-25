@@ -33,7 +33,7 @@ export default function BrandsClient({ brands }: { brands: Brand[] }) {
         if (editId) await updateBrand(editId, form)
         else await createBrand(form)
         setShowForm(false); router.refresh()
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -41,7 +41,7 @@ export default function BrandsClient({ brands }: { brands: Brand[] }) {
     if (!confirm("Delete this brand?")) return
     startTransition(async () => {
       try { await deleteBrand(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

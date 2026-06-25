@@ -8,7 +8,7 @@ import CompaniesClient from "./CompaniesClient"
 export default async function CompaniesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canViewCompanies((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canViewCompanies((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const companies = await prisma.company.findMany({
     orderBy: { createdAt: "desc" },
@@ -18,7 +18,7 @@ export default async function CompaniesPage() {
     },
   })
 
-  const canEdit = canManageCompanies((session.user as any).role)
+  const canEdit = canManageCompanies((session.user as Record<string, unknown>).role as string)
 
   return (
     <CompaniesClient

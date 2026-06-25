@@ -32,7 +32,7 @@ export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
       try {
         await markInvoicePaid(payModal.id, { amountPaid: Number(payAmount) })
         setPayModal(null); setPayAmount(""); router.refresh()
-      } catch (err: any) { alert(err.message) }
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -40,7 +40,7 @@ export default function InvoicesClient({ invoices }: { invoices: Invoice[] }) {
     if (!confirm("Void this invoice?")) return
     startTransition(async () => {
       try { await voidInvoice(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

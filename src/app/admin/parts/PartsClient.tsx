@@ -66,7 +66,7 @@ export default function PartsClient({ parts, categories, brands, canEdit }: {
         if (editId) await updatePart(editId, form)
         else await createPart(form)
         setShowForm(false); router.refresh()
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -74,7 +74,7 @@ export default function PartsClient({ parts, categories, brands, canEdit }: {
     if (!confirm("Delete this part?")) return
     startTransition(async () => {
       try { await deletePart(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

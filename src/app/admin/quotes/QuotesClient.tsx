@@ -56,7 +56,7 @@ export default function QuotesClient({ quotes, companies }: {
         })
         setShowForm(false)
         router.push(`/admin/quotes/${id}`)
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 

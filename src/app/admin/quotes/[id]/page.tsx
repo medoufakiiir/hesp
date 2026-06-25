@@ -8,7 +8,7 @@ import QuoteDetailClient from "./QuoteDetailClient"
 export default async function QuoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageQuotes((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const { id } = await params
   const quote = await prisma.quote.findUnique({

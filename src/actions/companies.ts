@@ -29,7 +29,7 @@ const ContactSchema = z.object({
 async function requireCompanyAccess() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageCompanies((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageCompanies((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 

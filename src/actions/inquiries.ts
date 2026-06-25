@@ -63,7 +63,7 @@ export async function createInquiry(data: InquiryInput) {
 export async function updateMessageStatus(id: string, status: "NEW" | "READ" | "REPLIED" | "ARCHIVED") {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canViewInquiries(role)) throw new Error("Forbidden")
 
   await prisma.contactMessage.update({
@@ -79,7 +79,7 @@ export async function updateMessageStatus(id: string, status: "NEW" | "READ" | "
 export async function deleteMessage(id: string) {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canDelete(role)) throw new Error("Forbidden")
 
   await prisma.contactMessage.delete({ where: { id } })
@@ -89,11 +89,11 @@ export async function deleteMessage(id: string) {
 export async function getMessages(statusFilter?: string) {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canViewInquiries(role)) throw new Error("Forbidden")
 
   const where = statusFilter && statusFilter !== "ALL"
-    ? { status: statusFilter as any }
+    ? { status: statusFilter as "NEW" | "READ" | "REPLIED" | "ARCHIVED" }
     : {}
 
   return prisma.contactMessage.findMany({
@@ -105,7 +105,7 @@ export async function getMessages(statusFilter?: string) {
 export async function getUnreadCount() {
   const session = await auth()
   if (!session?.user) return 0
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canViewInquiries(role)) return 0
 
   return prisma.contactMessage.count({ where: { status: "NEW" } })

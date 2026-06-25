@@ -8,7 +8,7 @@ import CategoriesClient from "./CategoriesClient"
 export default async function CategoriesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageCatalog((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const categories = await prisma.category.findMany({
     orderBy: { nameEn: "asc" },

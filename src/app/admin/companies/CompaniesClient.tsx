@@ -54,7 +54,7 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
         if (editId) await updateCompany(editId, form)
         else await createCompany(form)
         setShowForm(false); router.refresh()
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -62,7 +62,7 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
     if (!confirm("Delete this company?")) return
     startTransition(async () => {
       try { await deleteCompany(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -71,7 +71,7 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
       try {
         await addContact(companyId, contactForm)
         setShowContactForm(null); setContactForm(emptyContact); router.refresh()
-      } catch (err: any) { alert(err.message) }
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -79,7 +79,7 @@ export default function CompaniesClient({ companies, canEdit }: { companies: Com
     if (!confirm("Remove this contact?")) return
     startTransition(async () => {
       try { await deleteContact(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

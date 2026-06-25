@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react"
 export default function AdminPage() {
   const router = useRouter()
   const { data: session } = useSession()
-  const role = (session?.user as any)?.role
+  const role = (session?.user as Record<string, unknown>)?.role as string
 
   useEffect(() => {
     if (!role) return

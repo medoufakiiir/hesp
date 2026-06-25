@@ -8,7 +8,7 @@ import PartsClient from "./PartsClient"
 export default async function PartsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canViewCatalog((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canViewCatalog((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const [parts, categories, brands] = await Promise.all([
     prisma.part.findMany({
@@ -23,7 +23,7 @@ export default async function PartsPage() {
     prisma.brand.findMany({ orderBy: { nameEn: "asc" }, select: { id: true, nameEn: true } }),
   ])
 
-  const canEdit = (session.user as any).role !== "SALES"
+  const canEdit = (session.user as Record<string, unknown>).role as string !== "SALES"
 
   return (
     <PartsClient

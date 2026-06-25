@@ -9,7 +9,7 @@ import { canManageQuotes } from "@/lib/rbac"
 async function requireQuoteAccess() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageQuotes((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 

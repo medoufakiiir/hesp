@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { MessageSquare, Trash2, Mail, Phone, Building2, Eye, Archive, Reply, Filter } from "lucide-react"
+import { MessageSquare, Trash2, Mail, Phone, Building2, Eye, Archive, Reply } from "lucide-react"
 import { updateMessageStatus, deleteMessage } from "@/actions/inquiries"
 import { useRouter } from "next/navigation"
 

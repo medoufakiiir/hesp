@@ -75,8 +75,8 @@ export default function ContactForm() {
         source: "contact",
       })
       setSubmitted(true)
-    } catch (err: any) {
-      setServerError(err?.message || (isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again."))
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : (isArabic ? "حدث خطأ. حاول مرة أخرى." : "Something went wrong. Please try again."))
     }
   }
 

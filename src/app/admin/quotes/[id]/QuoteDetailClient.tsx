@@ -78,7 +78,7 @@ export default function QuoteDetailClient({ quote, parts }: { quote: QuoteData; 
           })),
         })
         router.refresh()
-      } catch (err: any) { alert(err.message) }
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -87,7 +87,7 @@ export default function QuoteDetailClient({ quote, parts }: { quote: QuoteData; 
       try {
         await updateQuoteNotes(quote.id, customerNote || null, internalNote || null)
         router.refresh()
-      } catch (err: any) { alert(err.message) }
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -101,7 +101,7 @@ export default function QuoteDetailClient({ quote, parts }: { quote: QuoteData; 
           await updateQuoteStatus(quote.id, newStatus)
         }
         router.refresh()
-      } catch (err: any) { alert(err.message) }
+      } catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

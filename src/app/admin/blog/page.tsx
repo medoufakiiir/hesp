@@ -7,7 +7,7 @@ import AdminBlogClient from "./AdminBlogClient"
 export default async function AdminBlogPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (!canManageBlog(role)) redirect("/admin/dashboard")
 
   const posts = await prisma.blogPost.findMany({

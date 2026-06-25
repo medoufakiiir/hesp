@@ -1,8 +1,6 @@
 "use server"
 
-import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
-import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canManageProducts, canDelete } from "@/lib/rbac"
 
@@ -19,26 +17,25 @@ const ProductSchema = z.object({
   featured: z.boolean(),
 })
 
+type ProductInput = z.infer<typeof ProductSchema>
+
 async function requireRole(minRole: "manager" | "super_admin") {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const role = (session.user as any).role
+  const role = (session.user as Record<string, unknown>).role as string
   if (minRole === "manager" && !canManageProducts(role)) throw new Error("Forbidden")
   if (minRole === "super_admin" && !canDelete(role)) throw new Error("Forbidden")
   return session
 }
 
-// Products catalog actions are not part of the requested B2B Quote/RFQ admin rebuild scope.
-// Keep these actions as no-ops so the app compiles after the Prisma schema swap.
-export async function createProduct(_data: z.infer<typeof ProductSchema>) {
+export async function createProduct(_data: ProductInput) {
   await requireRole("manager")
 }
 
-export async function updateProduct(_id: string, _data: z.infer<typeof ProductSchema>) {
+export async function updateProduct(_id: string, _data: ProductInput) {
   await requireRole("manager")
 }
 
 export async function deleteProduct(_id: string) {
   await requireRole("super_admin")
 }
-

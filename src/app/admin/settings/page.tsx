@@ -5,7 +5,7 @@ import { canManageSettings } from "@/lib/rbac"
 export default async function SettingsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageSettings((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canManageSettings((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   return (
     <div>

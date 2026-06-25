@@ -8,7 +8,7 @@ import EquipmentModelsClient from "./EquipmentModelsClient"
 export default async function EquipmentModelsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageCatalog((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const models = await prisma.equipmentModel.findMany({
     orderBy: [{ make: "asc" }, { model: "asc" }],

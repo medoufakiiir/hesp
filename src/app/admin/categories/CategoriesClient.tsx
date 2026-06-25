@@ -38,7 +38,7 @@ export default function CategoriesClient({ categories, allCategories }: {
         if (editId) await updateCategory(editId, form)
         else await createCategory(form)
         setShowForm(false); router.refresh()
-      } catch (err: any) { setError(err.message) }
+      } catch (err: unknown) { setError(err instanceof Error ? err.message : "Error") }
     })
   }
 
@@ -46,7 +46,7 @@ export default function CategoriesClient({ categories, allCategories }: {
     if (!confirm("Delete this category?")) return
     startTransition(async () => {
       try { await deleteCategory(id); router.refresh() }
-      catch (err: any) { alert(err.message) }
+      catch (err: unknown) { alert(err instanceof Error ? err.message : "Error") }
     })
   }
 

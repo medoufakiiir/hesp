@@ -8,7 +8,7 @@ import InvoicesClient from "./InvoicesClient"
 export default async function InvoicesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageQuotes((session.user as any).role)) redirect("/admin/dashboard")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
 
   const invoices = await prisma.invoice.findMany({
     orderBy: { createdAt: "desc" },

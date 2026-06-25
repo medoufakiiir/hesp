@@ -30,7 +30,7 @@ const UpdateQuoteItemsSchema = z.object({
 async function requireQuoteAccess() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageQuotes((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 
@@ -78,8 +78,8 @@ export async function createQuote(data: z.infer<typeof CreateQuoteSchema>) {
         customerNote: validated.customerNote,
         internalNote: validated.internalNote,
         validUntil: validated.validUntil ? new Date(validated.validUntil) : null,
-        createdById: (session.user as any).id,
-        assignedToId: (session.user as any).id,
+        createdById: (session.user as Record<string, unknown>).id as string,
+        assignedToId: (session.user as Record<string, unknown>).id as string,
         vatRate,
         subtotal: totals.subtotal,
         vatAmount: totals.vatAmount,

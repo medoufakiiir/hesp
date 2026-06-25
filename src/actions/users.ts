@@ -25,7 +25,7 @@ const UpdateUserSchema = z.object({
 async function requireSuperAdmin() {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  if (!canManageUsers((session.user as any).role)) throw new Error("Forbidden")
+  if (!canManageUsers((session.user as Record<string, unknown>).role as string)) throw new Error("Forbidden")
   return session
 }
 
@@ -59,7 +59,7 @@ export async function updateUser(id: string, data: z.infer<typeof UpdateUserSche
 export async function resetUserPassword(id: string, newPassword: string) {
   const session = await auth()
   if (!session?.user) throw new Error("Unauthorized")
-  const callerRole = (session.user as any).role
+  const callerRole = (session.user as Record<string, unknown>).role as string
 
   if (newPassword.length < 8) throw new Error("Password must be at least 8 characters")
 
@@ -85,7 +85,7 @@ export async function resetUserPassword(id: string, newPassword: string) {
 
 export async function deactivateUser(id: string) {
   const session = await requireSuperAdmin()
-  if ((session.user as any).id === id) throw new Error("Cannot deactivate yourself")
+  if ((session.user as Record<string, unknown>).id as string === id) throw new Error("Cannot deactivate yourself")
   await prisma.user.update({ where: { id }, data: { isActive: false } })
   revalidatePath("/admin/users")
 }
