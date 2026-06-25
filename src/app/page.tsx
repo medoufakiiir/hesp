@@ -3,6 +3,10 @@ import dynamic from "next/dynamic"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import { faqJsonLd } from "@/lib/seo"
+import {
+  getCategoryImage, getProductImage, getBrandLogo,
+  HOMEPAGE_CATEGORY_SLUGS, FEATURED_PRODUCT_CATEGORY_SLUGS,
+} from "@/data/catalog-assets"
 
 const LoadingScreen = dynamic(() => import("@/components/cinematic/LoadingScreen"))
 const ScrollHero = dynamic(() => import("@/components/cinematic/ScrollHero"), {
@@ -67,28 +71,52 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const { prisma } = await import("@/lib/db")
-  const { categories: staticCategories } = await import("@/data/categories")
-  const [rawCategories, rawParts] = await Promise.all([
-    prisma.category.findMany({ orderBy: { nameEn: "asc" } }),
+  const [rawCategories, rawFeaturedParts, rawBrands] = await Promise.all([
+    prisma.category.findMany({ where: { slug: { in: [...HOMEPAGE_CATEGORY_SLUGS] } } }),
     prisma.part.findMany({
-      where: { isActive: true, listPrice: { not: null } },
-      take: 8,
+      where: {
+        isActive: true,
+        category: { slug: { in: [...FEATURED_PRODUCT_CATEGORY_SLUGS] } },
+      },
+      orderBy: { listPrice: "desc" },
       include: { category: true, brand: true, images: { take: 1 } },
     }),
+    prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
   ])
-  const cats = rawCategories.map((c: any) => {
-    const sc = staticCategories.find((s: any) => s.slug === c.slug)
-    return {
+  // Real part counts per homepage category (aggregating each parent's children).
+  const catCounts = await Promise.all(
+    HOMEPAGE_CATEGORY_SLUGS.map((slug) =>
+      prisma.part.count({
+        where: { isActive: true, category: { OR: [{ slug }, { parent: { slug } }] } },
+      })
+    )
+  )
+  const countBySlug: Record<string, number> = Object.fromEntries(
+    HOMEPAGE_CATEGORY_SLUGS.map((slug, i) => [slug, catCounts[i]])
+  )
+  // Order the curated categories explicitly (findMany order isn't guaranteed).
+  const cats = HOMEPAGE_CATEGORY_SLUGS
+    .map((slug) => rawCategories.find((c) => c.slug === slug))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c))
+    .map((c) => ({
       id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
-      image: sc?.image || "/images/equipment/gear-parts.jpg",
-    }
-  })
-  const featured = rawParts.map((p: any) => ({
-    id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
-    descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
-    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
-    category: p.category?.slug || "", brand: p.brand?.slug || "",
-    partNumber: p.sku, inStock: p.stockQty > 0, featured: true,
+      image: getCategoryImage(c.slug),
+      productCount: countBySlug[c.slug] ?? 0,
+    }))
+  // One part per featured category → every card shows a distinct image.
+  const featured = FEATURED_PRODUCT_CATEGORY_SLUGS
+    .map((slug) => rawFeaturedParts.find((p) => p.category?.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => ({
+      id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
+      descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
+      image: getProductImage(p.images?.[0]?.url, p.category?.slug),
+      category: p.category?.slug || "", brand: p.brand?.slug || "",
+      partNumber: p.sku, inStock: p.stockQty > 0, featured: true,
+    }))
+  const brandList = rawBrands.map((b) => ({
+    id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
+    logo: getBrandLogo(b.slug, b.logoUrl),
   }))
   return (
     <main className="min-h-screen bg-brand-iron">
@@ -116,7 +144,7 @@ export default async function Home() {
       <div className="section-divider" />
       <WhyChooseUs />
       <div className="section-divider" />
-      <BrandsCarousel />
+      <BrandsCarousel brandsData={brandList} />
       <div className="section-divider" />
       <Testimonials />
       <div className="section-divider" />

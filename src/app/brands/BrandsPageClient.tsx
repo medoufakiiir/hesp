@@ -83,6 +83,18 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
                     bg-gradient-to-br from-brand-amber/[0.08] via-transparent to-brand-amber/[0.03] pointer-events-none" />
 
                   <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
+                    {brand.logo && (
+                      <div className={`flex mb-5 ${isArabic ? "justify-end" : ""}`}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={brand.logo}
+                          alt={`${brand.name} logo`}
+                          loading="lazy"
+                          className="h-10 w-auto max-w-[60%] object-contain grayscale opacity-80
+                            transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                        />
+                      </div>
+                    )}
                     <div className={`flex items-start justify-between mb-6 ${isArabic ? "flex-row-reverse" : ""}`}>
                       <div>
                         <h2 className={`text-brand-white font-extrabold text-2xl mb-1

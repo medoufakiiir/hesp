@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { categories as staticCategories } from "@/data/categories"
 import { breadcrumbJsonLd } from "@/lib/seo"
+import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 import CategoryPageClient from "./CategoryPageClient"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -27,35 +28,43 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const dbCat = await prisma.category.findUnique({ where: { slug } })
   if (!sc && !dbCat) notFound()
 
-  const category = sc || {
-    id: dbCat!.id, slug: dbCat!.slug,
-    nameEN: dbCat!.nameEn, nameAR: dbCat!.nameAr,
-    descriptionEN: "", descriptionAR: "", image: "", icon: "",
-    metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
-    keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
+  const category = {
+    ...(sc || {
+      id: dbCat!.id, slug: dbCat!.slug,
+      nameEN: dbCat!.nameEn, nameAR: dbCat!.nameAr,
+      descriptionEN: "", descriptionAR: "", icon: "",
+      metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
+      keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
+    }),
+    image: getCategoryImage(slug),
   }
 
+  // Match the category itself OR (when it's a parent) any of its child categories,
+  // so a top-level page like /products/filters shows all oil/fuel/air/hydraulic filters.
   const rawParts = await prisma.part.findMany({
-    where: { isActive: true, category: { slug } },
-    include: { brand: true, images: { take: 1 } },
+    where: { isActive: true, category: { OR: [{ slug }, { parent: { slug } }] } },
+    include: { brand: true, category: true, images: { take: 1 } },
   })
   const categoryProducts = rawParts.map((p) => ({
     id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
     descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
-    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
-    category: slug, brand: p.brand?.slug || "",
+    image: getProductImage(p.images?.[0]?.url, p.category?.slug),
+    category: p.category?.slug || slug, brand: p.brand?.slug || "",
     partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
   }))
 
   const rawOther = await prisma.category.findMany({ where: { slug: { not: slug } } })
   const otherCategories = rawOther.map((c) => {
     const s = staticCategories.find((sc) => sc.slug === c.slug)
-    return s || {
-      id: c.id, slug: c.slug,
-      nameEN: c.nameEn, nameAR: c.nameAr,
-      descriptionEN: "", descriptionAR: "", image: "", icon: "",
-      metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
-      keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
+    return {
+      ...(s || {
+        id: c.id, slug: c.slug,
+        nameEN: c.nameEn, nameAR: c.nameAr,
+        descriptionEN: "", descriptionAR: "", icon: "",
+        metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
+        keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
+      }),
+      image: getCategoryImage(c.slug),
     }
   })
 

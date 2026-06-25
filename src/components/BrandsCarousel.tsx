@@ -1,19 +1,74 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { useLang } from "@/context/LangContext"
 import { blurFadeIn, staggerContainer } from "@/lib/motion"
 
-const brands = [
+type BrandItem = {
+  id: string
+  slug: string
+  name: string
+  nameAR: string
+  logo: string | null
+}
+
+// Used for the scrolling marquee + grid when the section is rendered without DB data.
+const FALLBACK_NAMES = [
   "Caterpillar", "Komatsu", "Volvo CE", "JCB", "Hitachi",
-  "John Deere", "Liebherr", "Doosan", "Hyundai CE", "Manitowoc",
-  "Cummins", "Perkins", "Bobcat", "Terex", "Deutz",
+  "John Deere", "Liebherr", "Doosan", "Hyundai CE", "Cummins",
+  "Perkins", "Bosch", "Bobcat", "SANY", "XCMG",
 ]
 
-export default function BrandsCarousel() {
+/** Single brand cell: shows the real logo when present, else a styled wordmark.
+ *  Grayscale by default, full colour on hover. onError downgrades a missing/broken
+ *  logo file to the wordmark so the grid never shows a broken image. */
+function BrandCard({ brand, isArabic }: { brand: BrandItem; isArabic: boolean }) {
+  const [failed, setFailed] = useState(false)
+  const label = isArabic ? brand.nameAR : brand.name
+  const showLogo = brand.logo && !failed
+
+  return (
+    <motion.div
+      variants={blurFadeIn}
+      whileHover={{ scale: 1.06, borderColor: "rgba(217, 119, 6, 0.5)" }}
+      className="group flex items-center justify-center h-20 px-4 bg-brand-steel/60
+        border border-brand-amber/10 rounded-xl transition-all duration-300"
+      title={label}
+    >
+      {showLogo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={brand.logo as string}
+          alt={`${brand.name} logo`}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="max-h-9 w-auto max-w-[80%] object-contain
+            grayscale opacity-70 transition-all duration-300
+            group-hover:grayscale-0 group-hover:opacity-100"
+        />
+      ) : (
+        <span
+          className="text-brand-white/40 group-hover:text-brand-amber transition-colors duration-300
+            text-xs font-bold uppercase tracking-wide text-center leading-tight"
+          style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+        >
+          {label}
+        </span>
+      )}
+    </motion.div>
+  )
+}
+
+export default function BrandsCarousel({ brandsData = [] }: { brandsData?: BrandItem[] }) {
   const { t, isArabic } = useLang()
 
-  const doubled = [...brands, ...brands]
+  const gridBrands: BrandItem[] = brandsData.length
+    ? brandsData
+    : FALLBACK_NAMES.map((name, i) => ({ id: `fallback-${i}`, slug: name, name, nameAR: name, logo: null }))
+
+  const names = gridBrands.map((b) => (isArabic ? b.nameAR : b.name))
+  const doubled = [...names, ...names]
 
   return (
     <section className="py-16 bg-brand-plate border-y border-brand-amber/10 overflow-hidden relative">
@@ -97,28 +152,17 @@ export default function BrandsCarousel() {
         </div>
       </div>
 
-      {/* Brand grid with staggered reveal */}
+      {/* Brand logo grid with staggered reveal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-8 gap-3"
+          className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3"
         >
-          {brands.slice(0, 8).map((brand, i) => (
-            <motion.div
-              key={i}
-              variants={blurFadeIn}
-              whileHover={{ scale: 1.08, borderColor: "rgba(217, 119, 6, 0.5)" }}
-              className="flex items-center justify-center py-4 px-3 bg-brand-steel/60
-                border border-brand-amber/10 rounded-xl transition-all duration-300 cursor-default group"
-            >
-              <span className="text-brand-white/40 group-hover:text-brand-amber transition-colors duration-300
-                text-xs font-bold uppercase tracking-wide text-center leading-tight">
-                {brand}
-              </span>
-            </motion.div>
+          {gridBrands.map((brand) => (
+            <BrandCard key={brand.id} brand={brand} isArabic={isArabic} />
           ))}
         </motion.div>
       </div>

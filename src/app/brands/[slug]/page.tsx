@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { brands as staticBrands } from "@/data/brands"
 import { breadcrumbJsonLd } from "@/lib/seo"
+import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 import BrandPageClient from "./BrandPageClient"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -45,13 +46,13 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
 
   const rawParts = await prisma.part.findMany({
     where: { isActive: true, brand: { slug } },
-    include: { images: { take: 1 } },
+    include: { category: true, images: { take: 1 } },
   })
   const brandProducts = rawParts.map((p) => ({
     id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
     descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
-    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
-    category: "", brand: slug,
+    image: getProductImage(p.images?.[0]?.url, p.category?.slug),
+    category: p.category?.slug || "", brand: slug,
     partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
   }))
 
@@ -60,7 +61,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
     ? (await prisma.category.findMany({ where: { slug: { in: relatedCatSlugs } } }))
         .map(c => ({
           id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
-          descriptionEN: "", descriptionAR: "", image: "", icon: "",
+          descriptionEN: "", descriptionAR: "", image: getCategoryImage(c.slug), icon: "",
           metaTitleEN: "", metaTitleAR: "", metaDescEN: "", metaDescAR: "",
           keywordsEN: [] as string[], keywordsAR: [] as string[], productCount: 0,
         }))

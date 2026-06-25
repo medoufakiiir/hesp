@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
 import BrandsPageClient from "./BrandsPageClient"
 import { breadcrumbJsonLd } from "@/lib/seo"
+import { getBrandLogo } from "@/data/catalog-assets"
 
 export const metadata: Metadata = {
   title: "Heavy Equipment Brands | CAT, Komatsu, Volvo Parts | العلامات التجارية",
@@ -13,7 +14,7 @@ export default async function BrandsPage() {
   const rawBrands = await prisma.brand.findMany({ orderBy: { nameEn: "asc" } })
   const brands = rawBrands.map((b) => ({
     id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
-    logo: b.logoUrl || "",
+    logo: getBrandLogo(b.slug, b.logoUrl) ?? "",
   }))
 
   return (

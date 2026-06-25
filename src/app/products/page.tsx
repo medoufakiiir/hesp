@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
 import ProductsPageClient from "./ProductsPageClient"
 import { breadcrumbJsonLd } from "@/lib/seo"
+import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 
 export const metadata: Metadata = {
   title: "Heavy Equipment Spare Parts Catalog | قطع غيار المعدات الثقيلة",
@@ -23,18 +24,14 @@ export default async function ProductsPage() {
   const products = rawParts.map((p) => ({
     id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,
     descriptionEN: p.descriptionEn || "", descriptionAR: p.descriptionAr || "",
-    image: p.images?.[0]?.url || "/images/equipment/gear-parts.jpg",
+    image: getProductImage(p.images?.[0]?.url, p.category?.slug),
     category: p.category?.slug || "", brand: p.brand?.slug || "",
     partNumber: p.sku, inStock: p.stockQty > 0, featured: !!p.listPrice,
   }))
-  const { categories: staticCategories } = await import("@/data/categories")
-  const categories = rawCategories.map((c) => {
-    const sc = staticCategories.find((s: any) => s.slug === c.slug)
-    return {
-      id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
-      image: sc?.image || "/images/equipment/gear-parts.jpg",
-    }
-  })
+  const categories = rawCategories.map((c) => ({
+    id: c.id, slug: c.slug, nameEN: c.nameEn, nameAR: c.nameAr,
+    image: getCategoryImage(c.slug),
+  }))
   const brands = rawBrands.map((b) => ({
     id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
   }))
