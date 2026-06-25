@@ -139,6 +139,7 @@ export const FEATURED_PRODUCT_CATEGORY_SLUGS = [
  * See SOURCING note at the bottom for where to obtain the remaining marks.
  */
 export const brandLogos: Record<string, string> = {
+  // Icon marks sourced from Simple Icons
   caterpillar: "/images/brands/caterpillar.svg",
   "volvo-ce": "/images/brands/volvo-ce.svg",
   jcb: "/images/brands/jcb.svg",
@@ -146,6 +147,21 @@ export const brandLogos: Record<string, string> = {
   bosch: "/images/brands/bosch.svg",
   hitachi: "/images/brands/hitachi.svg",
   hyundai: "/images/brands/hyundai.svg",
+  // Typographic wordmark logos (not on Simple Icons — generated to match)
+  komatsu: "/images/brands/komatsu.svg",
+  doosan: "/images/brands/doosan.svg",
+  liebherr: "/images/brands/liebherr.svg",
+  case: "/images/brands/case.svg",
+  kobelco: "/images/brands/kobelco.svg",
+  sany: "/images/brands/sany.svg",
+  xcmg: "/images/brands/xcmg.svg",
+  bobcat: "/images/brands/bobcat.svg",
+  perkins: "/images/brands/perkins.svg",
+  cummins: "/images/brands/cummins.svg",
+  donaldson: "/images/brands/donaldson.svg",
+  fleetguard: "/images/brands/fleetguard.svg",
+  baldwin: "/images/brands/baldwin.svg",
+  "itr-berco": "/images/brands/itr-berco.svg",
 }
 
 /**
@@ -159,10 +175,10 @@ export function getBrandLogo(slug?: string | null, dbLogoUrl?: string | null): s
   return brandLogos[slug] ?? null
 }
 
-// ── SOURCING (brands still needing a logo file in /public/images/brands) ──
-// komatsu, doosan, liebherr, case, kobelco, sany, xcmg, bobcat, perkins,
-// cummins, donaldson, fleetguard, baldwin, itr-berco
-// Good free sources: Wikimedia Commons (search "<brand> logo svg"),
-// the brand's official press/brand-asset page, or https://cdn.simpleicons.org/<slug>
-// for any that get added to Simple Icons later. Save as <brand-slug>.svg and
-// add the entry to brandLogos above.
+// ── SOURCING ──
+// All 21 catalog brands now have a logo file. The 14 not on Simple Icons use
+// generated typographic wordmarks (Arial-bold, textLength-locked so they render
+// the same regardless of the viewer's fonts). To swap in an official mark: drop
+// the real SVG/PNG at /public/images/brands/<slug>.<ext> and update the path
+// above. Good free sources: Wikimedia Commons ("<brand> logo svg"), the brand's
+// press/brand-asset page, or https://cdn.simpleicons.org/<slug> if later added.

@@ -112,21 +112,36 @@ export default function BrandsPageClient({ brandsData }: { brandsData: BrandData
 
                     <p className={`text-brand-muted text-sm leading-relaxed line-clamp-3 mb-6
                       ${isArabic ? "font-arabic text-right" : ""}`}>
-                      {isArabic ? (brand.descriptionAR || "").slice(0, 120) + "..." : (brand.description || "").slice(0, 120) + "..."}
+                      {(() => {
+                        const desc = isArabic ? brand.descriptionAR : brand.description
+                        if (desc) return desc.length > 120 ? desc.slice(0, 120) + "…" : desc
+                        // No rich copy for this brand — show a generic bilingual line
+                        // rather than a bare "..." that makes the card look broken.
+                        return isArabic
+                          ? `قطع غيار أصلية وبديلة عالية الجودة لجميع موديلات ${brand.nameAR || brand.name}.`
+                          : `Genuine and OEM-quality spare parts for the full ${brand.name} heavy equipment range.`
+                      })()}
                     </p>
 
-                    <div className="h-px bg-white/[0.04] mb-4" />
-
-                    <div className={`flex items-center gap-4 text-brand-white/25 text-xs ${isArabic ? "flex-row-reverse" : ""}`}>
-                      <div className="flex items-center gap-1.5">
-                        <Globe size={12} className="text-brand-amber/50" />
-                        <span>{brand.country}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <Calendar size={12} className="text-brand-amber/50" />
-                        <span>{isArabic ? `تأسست ${toArabicNum(brand.founded || "")}` : `Est. ${brand.founded || ""}`}</span>
-                      </div>
-                    </div>
+                    {(brand.country || brand.founded) && (
+                      <>
+                        <div className="h-px bg-white/[0.04] mb-4" />
+                        <div className={`flex items-center gap-4 text-brand-white/25 text-xs ${isArabic ? "flex-row-reverse" : ""}`}>
+                          {brand.country && (
+                            <div className="flex items-center gap-1.5">
+                              <Globe size={12} className="text-brand-amber/50" />
+                              <span>{brand.country}</span>
+                            </div>
+                          )}
+                          {brand.founded && (
+                            <div className="flex items-center gap-1.5">
+                              <Calendar size={12} className="text-brand-amber/50" />
+                              <span>{isArabic ? `تأسست ${toArabicNum(brand.founded)}` : `Est. ${brand.founded}`}</span>
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
 
 
