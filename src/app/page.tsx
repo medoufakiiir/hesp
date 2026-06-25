@@ -9,7 +9,9 @@ import {
 } from "@/data/catalog-assets"
 
 const LoadingScreen = dynamic(() => import("@/components/cinematic/LoadingScreen"))
-const ScrollHero = dynamic(() => import("@/components/cinematic/ScrollHero"), {
+// Idle-gated wrapper around ScrollHero/Scene3D — keeps the 1MB Three.js bundle
+// off the critical path so it can't block initial render (TBT fix).
+const ScrollHero = dynamic(() => import("@/components/cinematic/HeroDeferred"), {
   loading: () => <div className="h-screen bg-brand-iron" />,
 })
 const CinematicStats = dynamic(() => import("@/components/cinematic/CinematicStats"), {

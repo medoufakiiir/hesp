@@ -1,4 +1,5 @@
 import type { NextConfig } from "next"
+import withBundleAnalyzer from "@next/bundle-analyzer"
 
 const csp = [
   "default-src 'self'",
@@ -30,6 +31,16 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
+  // Tree-shake barrel imports so only the icons/exports actually used ship to the
+  // client (cuts "unused JavaScript"). framer-motion is imported in 35 files and
+  // lucide-react in 42 — without this, each pulls far more than it uses.
+  experimental: {
+    optimizePackageImports: [
+      "framer-motion",
+      "lucide-react",
+      "@react-three/drei",
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
@@ -44,4 +55,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })(nextConfig)

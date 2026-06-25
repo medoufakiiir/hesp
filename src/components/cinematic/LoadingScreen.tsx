@@ -30,7 +30,7 @@ export default function LoadingScreen() {
   const animate = useCallback((timestamp: number) => {
     if (!startTime.current) startTime.current = timestamp
     const elapsed = timestamp - startTime.current
-    const duration = reduced ? 400 : 2400
+    const duration = reduced ? 400 : 1200
     const raw = Math.min(elapsed / duration, 1)
     const eased = 1 - Math.pow(1 - raw, 3)
     const val = Math.round(eased * 100)
@@ -46,7 +46,7 @@ export default function LoadingScreen() {
           document.body.style.overflow = ""
           setShouldRender(false)
         }, reduced ? 50 : 800)
-      }, reduced ? 100 : 700)
+      }, reduced ? 100 : 350)
       return
     }
 
