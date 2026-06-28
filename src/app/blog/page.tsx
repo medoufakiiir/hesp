@@ -2,6 +2,10 @@ import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
 import BlogPageClient from "./BlogPageClient"
 
+// Re-query the database at most once per minute so newly published
+// posts appear without needing a full redeploy (ISR).
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: "Heavy Equipment Blog | Maintenance Tips & Parts Guides | مدونة المعدات الثقيلة",
   description: "Expert articles on heavy equipment maintenance, spare parts selection, and fleet management. Tips for Saudi Arabia's construction industry. مقالات متخصصة عن صيانة المعدات الثقيلة.",

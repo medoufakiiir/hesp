@@ -4,6 +4,10 @@ import { prisma } from "@/lib/db"
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
+// ISR: regenerate post pages at most once per minute so edits and new
+// posts go live without a redeploy.
+export const revalidate = 60
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const post = await prisma.blogPost.findUnique({ where: { slug } })
