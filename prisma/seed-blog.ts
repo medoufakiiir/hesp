@@ -1626,6 +1626,1139 @@ HESP تعني **Heavy Equipment Spare Parts** — قسمنا المتخصص في
     published: true,
     publishedAt: new Date("2026-06-01"),
   },
+  {
+    slug: "komatsu-spare-parts-saudi-arabia-guide",
+    titleEn: "Komatsu Spare Parts in Saudi Arabia: The Complete Buyer's Guide",
+    titleAr: "قطع غيار كوماتسو في السعودية: الدليل الكامل للمشتري",
+    excerptEn: "Everything you need to know about sourcing genuine and aftermarket Komatsu spare parts in Saudi Arabia — for PC excavators, D-series dozers, WA wheel loaders, and HD dump trucks.",
+    excerptAr: "كل ما تحتاج معرفته عن شراء قطع غيار كوماتسو الأصلية والبديلة في السعودية — لحفارات PC وبلدوزرات السلسلة D ولودرات WA وشاحنات HD القلابة.",
+    bodyEn: `Komatsu is the second most common heavy equipment brand on Saudi job sites after Caterpillar, and for good reason: rugged hydraulics, fuel-efficient engines, and the KOMTRAX telematics system make Komatsu machines a favorite for contractors working on Vision 2030 mega-projects. But keeping a Komatsu fleet running in the Kingdom's harsh desert climate means having a reliable source of Komatsu spare parts. This guide covers everything fleet managers, workshop owners, and equipment operators need to know.
+
+## Komatsu Models Common in Saudi Arabia
+
+The Saudi market is dominated by a handful of Komatsu families:
+
+### PC Series Excavators
+The Komatsu PC200-8, PC210, PC300-8, PC360, and PC450 are workhorses on construction and infrastructure sites across Riyadh, Jeddah, Dammam, and NEOM. Common Komatsu excavator spare parts include hydraulic pumps, swing motors, travel motors, final drives, control valves, bucket cylinders, and track chains.
+
+### D-Series Bulldozers
+The Komatsu D65, D85, and D155 dozers handle earthmoving and land clearing. High-demand bulldozer parts include undercarriage components, blade cutting edges, ripper tips, torque converters, and steering clutches.
+
+### WA Wheel Loaders
+The Komatsu WA380, WA470, and WA500 wheel loaders move material in quarries and ports. Frequently replaced wheel loader parts include bucket teeth, transmission components, axle parts, brake discs, and articulation pins.
+
+### HD Dump Trucks
+Komatsu HD465 and HD785 rigid dump trucks are mining staples. Critical dump truck parts include suspension cylinders, brake components, and drivetrain parts.
+
+## Genuine Komatsu Parts vs Aftermarket
+
+Komatsu Genuine Parts guarantee perfect fit and carry a manufacturer warranty, but lead times for non-stock items shipped from Japan can stretch to weeks. For wear items — filters, bucket teeth, cutting edges, hoses, and seals — certified aftermarket parts from brands like Donaldson, Fleetguard, ITR, and Berco deliver OEM-equivalent performance at 40–60% lower cost.
+
+Our recommendation: source engine internals, hydraulic pumps, and electronic control modules as genuine Komatsu, and use quality aftermarket for high-frequency wear parts. This balanced strategy minimizes both downtime and total cost of ownership.
+
+## Komatsu Part Numbers and Identification
+
+Every Komatsu part has a unique part number, usually in a format like 6754-61-1010. The fastest way to order the correct part is to provide:
+
+1. The full machine model and serial number
+2. The component or assembly name
+3. The Komatsu part number if available
+4. A photo of the worn part and its mounting location
+
+Our engineering team uses Komatsu parts catalogs and cross-reference databases to identify the exact part, even when you only have a broken component in hand.
+
+## Maintaining Komatsu Equipment in the Saudi Climate
+
+Desert operating conditions accelerate wear. To protect your Komatsu investment:
+
+- Replace air filters every 200–250 hours instead of the standard 500 due to fine desert dust
+- Change hydraulic fluid and filters more frequently in 50°C heat
+- Clean radiators and coolers daily to prevent overheating
+- Inspect undercarriage tension weekly on tracked machines
+- Keep KOMTRAX active to catch fault codes early
+
+## Why Buy Komatsu Parts from Riyada Ventures (HESP)
+
+At HESP, we stock a deep inventory of Komatsu spare parts for excavators, bulldozers, wheel loaders, and dump trucks — both genuine and certified aftermarket. With a Riyadh-based warehouse, fast nationwide delivery, and an engineering team that knows Komatsu inside out, we keep your fleet productive.
+
+**Need Komatsu parts?** [Browse our catalog](/products) or [request a quote](/quote) and our team will identify the right part for your machine.`,
+    bodyAr: `كوماتسو هي ثاني أكثر علامة تجارية للمعدات الثقيلة شيوعاً في مواقع العمل السعودية بعد كاتربيلر، ولسبب وجيه: هيدروليك قوي، محركات موفرة للوقود، ونظام KOMTRAX للاتصال عن بُعد يجعل آلات كوماتسو المفضلة لدى المقاولين العاملين في مشاريع رؤية 2030 الضخمة. لكن إبقاء أسطول كوماتسو يعمل في مناخ المملكة الصحراوي القاسي يتطلب مصدراً موثوقاً لقطع غيار كوماتسو.
+
+## موديلات كوماتسو الشائعة في السعودية
+
+### حفارات سلسلة PC
+حفارات كوماتسو PC200-8 و PC300-8 و PC360 و PC450 هي خيول العمل في مواقع البناء والبنية التحتية في الرياض وجدة والدمام ونيوم. تشمل قطع غيار حفارات كوماتسو الشائعة المضخات الهيدروليكية ومحركات الدوران ومحركات الحركة والتروس النهائية وصمامات التحكم وأسطوانات الدلو وسلاسل الجنزير.
+
+### بلدوزرات السلسلة D
+بلدوزرات كوماتسو D65 و D85 و D155 تتعامل مع أعمال الحفر وتسوية الأرض. تشمل القطع عالية الطلب مكونات الهيكل السفلي وحواف القطع وأطراف التكسير ومحولات العزم.
+
+### لودرات WA
+لودرات كوماتسو WA380 و WA470 و WA500 تنقل المواد في المحاجر والموانئ. تشمل القطع المستبدلة بكثرة أسنان الدلو ومكونات ناقل الحركة وأجزاء المحور وأقراص الفرامل.
+
+## قطع كوماتسو الأصلية مقابل البديلة
+
+قطع كوماتسو الأصلية تضمن التركيب المثالي وتحمل ضمان الشركة المصنعة، لكن أوقات التوريد للقطع غير المتوفرة المشحونة من اليابان قد تمتد لأسابيع. لقطع التآكل — الفلاتر وأسنان الدلو وحواف القطع والخراطيم والحشوات — توفر القطع البديلة المعتمدة أداءً مكافئاً للأصلية بتكلفة أقل بنسبة 40-60%.
+
+## أرقام قطع كوماتسو والتعريف
+
+كل قطعة كوماتسو لها رقم فريد. أسرع طريقة لطلب القطعة الصحيحة هي تقديم موديل الآلة ورقمها التسلسلي واسم المكون ورقم القطعة إن وُجد وصورة للقطعة التالفة.
+
+## صيانة معدات كوماتسو في المناخ السعودي
+
+- استبدل فلاتر الهواء كل 200-250 ساعة بدلاً من 500 بسبب الغبار الصحراوي الناعم
+- غيّر السائل الهيدروليكي والفلاتر بشكل أكثر تكراراً في حرارة 50 درجة
+- نظّف المشعات والمبردات يومياً لمنع ارتفاع الحرارة
+- افحص شد الهيكل السفلي أسبوعياً
+
+## لماذا تشتري قطع كوماتسو من ريادة فنتشرز
+
+في HESP، نوفر مخزوناً عميقاً من قطع غيار كوماتسو للحفارات والبلدوزرات واللودرات والشاحنات القلابة — أصلية وبديلة معتمدة. مع مستودع بالرياض وتوصيل سريع على مستوى المملكة وفريق هندسي يعرف كوماتسو جيداً.
+
+**تحتاج قطع كوماتسو؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/excavator-1.jpg",
+    metaTitleEn: "Komatsu Spare Parts Saudi Arabia | PC, D-Series, WA Parts | HESP",
+    metaTitleAr: "قطع غيار كوماتسو السعودية | حفارات PC وبلدوزرات | HESP",
+    metaDescEn: "Complete guide to Komatsu spare parts in Saudi Arabia. Genuine & aftermarket parts for PC excavators, D-series dozers, WA loaders & HD dump trucks. Fast KSA delivery.",
+    metaDescAr: "دليل كامل لقطع غيار كوماتسو في السعودية. قطع أصلية وبديلة لحفارات PC وبلدوزرات D ولودرات WA وشاحنات HD القلابة. توصيل سريع.",
+    primaryKeyword: "Komatsu spare parts Saudi Arabia",
+    keywords: ["Komatsu parts KSA", "Komatsu PC200 parts", "Komatsu excavator parts", "Komatsu bulldozer parts", "Komatsu wheel loader parts", "genuine Komatsu parts Saudi", "Komatsu undercarriage", "KOMTRAX"],
+    published: true,
+    publishedAt: new Date("2026-02-05"),
+  },
+  {
+    slug: "wheel-loader-spare-parts-maintenance-guide",
+    titleEn: "Wheel Loader Spare Parts & Maintenance: A Complete Guide",
+    titleAr: "قطع غيار وصيانة اللودر: دليل كامل",
+    excerptEn: "From bucket teeth and transmission parts to axles and brakes, learn which wheel loader spare parts wear fastest and how to maintain CAT, Komatsu, and Volvo loaders in Saudi Arabia.",
+    excerptAr: "من أسنان الدلو وقطع ناقل الحركة إلى المحاور والفرامل، تعرف على قطع غيار اللودر الأسرع تآكلاً وكيفية صيانة لودرات كاتربيلر وكوماتسو وفولفو في السعودية.",
+    bodyEn: `Wheel loaders are among the hardest-working machines on any Saudi site — loading trucks in quarries, handling aggregate at concrete batching plants, moving material in ports, and feeding crushers around the clock. That constant duty cycle means wheel loader spare parts wear out faster than on almost any other machine. This guide explains which parts to watch, how to extend their life, and where to source quality replacements.
+
+## How a Wheel Loader Wears
+
+A wheel loader combines a powerful diesel engine, a torque converter and powershift transmission, heavy-duty axles, articulated steering, and a hydraulic lift-and-tilt linkage. Every one of these systems has high-wear components that need periodic replacement.
+
+## Ground Engaging Tools (GET)
+
+The fastest-wearing wheel loader parts are the ground engaging tools at the bucket:
+
+- **Bucket teeth and adapters** — replaced most frequently, especially in abrasive rock and aggregate
+- **Cutting edges and end bits** — bolt-on wear protection for the bucket lip
+- **Bucket wear plates and segments** — protect the bucket floor and sides
+
+Quality aftermarket GET from brands like ITR, Hensley, and ESCO matches OEM performance at a lower cost, and these parts are designed to be swapped quickly.
+
+## Drivetrain and Transmission Parts
+
+The powershift transmission and torque converter take heavy loads during every dig-and-dump cycle. Common drivetrain spare parts include:
+
+- Clutch packs and friction discs
+- Transmission solenoids and control valves
+- Drive shafts and universal joints
+- Axle differentials, planetary gears, and bearings
+- Wheel hub seals
+
+## Brakes and Tires
+
+Wet disc brakes are standard on modern loaders. Brake discs, seals, and accumulators are regular replacement items. Tires — though not technically a spare part — are a major cost center; rotating and matching tire pressure to load protects them.
+
+## Hydraulic and Steering Parts
+
+The lift and tilt cylinders, steering cylinders, hydraulic pumps, and control valves keep the loader productive. Worn cylinder seals cause drift and slow cycle times. Articulation pins and bushings at the center hinge wear from the constant twisting motion and should be greased daily.
+
+## Engine and Cooling Parts
+
+Air filters, fuel filters, oil filters, hydraulic filters, belts, hoses, water pumps, and radiators all need routine attention — especially in Saudi Arabia, where 50°C heat and fine dust shorten service intervals dramatically.
+
+## Wheel Loader Maintenance Checklist
+
+1. Grease all pivot points and the center articulation joint daily
+2. Inspect bucket teeth and cutting edges every shift; rotate or replace before they wear into the bucket
+3. Change air filters every 200–250 hours in dusty conditions
+4. Check transmission and hydraulic oil levels and condition weekly
+5. Monitor brake performance and accumulator pressure
+6. Keep tire pressures correct and inspect for cuts
+7. Clean the cooling package daily to prevent overheating
+
+## Source Wheel Loader Parts from HESP
+
+Riyada Ventures stocks wheel loader spare parts for CAT 950/966/980, Komatsu WA series, Volvo L-series, JCB, and other major brands — covering GET, drivetrain, hydraulics, brakes, and engine components. Our team identifies the right part fast and delivers nationwide.
+
+**Keep your loaders working.** [Browse the catalog](/products) or [request a quote](/quote) today.`,
+    bodyAr: `اللودرات من أكثر الآلات عملاً في أي موقع سعودي — تحميل الشاحنات في المحاجر، مناولة الركام في محطات الخرسانة، نقل المواد في الموانئ، وتغذية الكسارات على مدار الساعة. هذه الدورة التشغيلية المستمرة تعني أن قطع غيار اللودر تتآكل أسرع من أي آلة أخرى تقريباً.
+
+## أدوات الحفر (GET)
+
+أسرع قطع اللودر تآكلاً هي أدوات الحفر في الدلو:
+
+- **أسنان الدلو والمحولات** — الأكثر استبدالاً، خاصة في الصخور والركام الكاشط
+- **حواف القطع والأطراف** — حماية تآكل مثبتة بالبراغي لشفة الدلو
+- **ألواح تآكل الدلو** — تحمي أرضية وجوانب الدلو
+
+القطع البديلة المعتمدة من علامات مثل ITR و ESCO تطابق أداء الأصلية بتكلفة أقل.
+
+## قطع نقل الحركة وناقل الحركة
+
+ناقل الحركة ومحول العزم يتحملان أحمالاً كبيرة في كل دورة. تشمل قطع الغيار الشائعة:
+
+- حزم القابض والأقراص الاحتكاكية
+- صمامات التحكم في ناقل الحركة
+- أعمدة الإدارة والوصلات
+- تروس المحور والمحامل
+
+## الفرامل والإطارات
+
+أقراص الفرامل والحشوات والمراكم من عناصر الاستبدال المنتظمة. الإطارات مركز تكلفة رئيسي؛ تدويرها وضبط ضغطها يحميها.
+
+## القطع الهيدروليكية والتوجيه
+
+أسطوانات الرفع والإمالة وأسطوانات التوجيه والمضخات الهيدروليكية وصمامات التحكم. حشوات الأسطوانات البالية تسبب الانجراف وبطء الدورة. مسامير وجلب التمفصل في المفصل المركزي يجب تشحيمها يومياً.
+
+## قائمة صيانة اللودر
+
+1. شحّم جميع نقاط الدوران والمفصل المركزي يومياً
+2. افحص أسنان الدلو وحواف القطع كل وردية
+3. غيّر فلاتر الهواء كل 200-250 ساعة في الظروف المغبرة
+4. تحقق من مستويات زيت ناقل الحركة والهيدروليك أسبوعياً
+5. حافظ على ضغط الإطارات الصحيح
+6. نظّف حزمة التبريد يومياً
+
+## احصل على قطع اللودر من HESP
+
+ريادة فنتشرز توفر قطع غيار اللودر لكاتربيلر 950/966/980 وسلسلة كوماتسو WA وسلسلة فولفو L و JCB وعلامات كبرى أخرى.
+
+**أبقِ لوداراتك تعمل.** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/loader-1.jpg",
+    metaTitleEn: "Wheel Loader Spare Parts & Maintenance Guide | CAT, Komatsu, Volvo",
+    metaTitleAr: "دليل قطع غيار وصيانة اللودر | كاتربيلر، كوماتسو، فولفو",
+    metaDescEn: "Complete wheel loader spare parts & maintenance guide. Bucket teeth, transmission, axles, brakes & hydraulics for CAT, Komatsu & Volvo loaders in Saudi Arabia.",
+    metaDescAr: "دليل كامل لقطع غيار وصيانة اللودر. أسنان الدلو وناقل الحركة والمحاور والفرامل والهيدروليك لكاتربيلر وكوماتسو وفولفو.",
+    primaryKeyword: "wheel loader spare parts",
+    keywords: ["wheel loader parts Saudi Arabia", "front loader spare parts", "bucket teeth", "loader transmission parts", "CAT 950 parts", "Komatsu WA parts", "Volvo loader parts", "GET ground engaging tools"],
+    published: true,
+    publishedAt: new Date("2026-02-18"),
+  },
+  {
+    slug: "bulldozer-dozer-spare-parts-guide",
+    titleEn: "Bulldozer Spare Parts Guide: Undercarriage, Blades & Drivetrain",
+    titleAr: "دليل قطع غيار البلدوزر: الهيكل السفلي والشفرات ونقل الحركة",
+    excerptEn: "Bulldozers face the toughest wear of any earthmover. Learn about undercarriage parts, blade cutting edges, ripper tips, and drivetrain components for CAT, Komatsu, and Shantui dozers.",
+    excerptAr: "تواجه البلدوزرات أصعب تآكل بين معدات الحفر. تعرف على قطع الهيكل السفلي وحواف القطع وأطراف التكسير وقطع نقل الحركة لبلدوزرات كاتربيلر وكوماتسو وشانتوي.",
+    bodyEn: `No machine works harder against the ground than a bulldozer. Pushing earth, ripping rock, clearing land, and grading slopes puts enormous stress on the undercarriage, blade, and drivetrain. Because dozers operate in direct, continuous contact with abrasive material, their spare parts wear faster — and represent a larger share of operating cost — than almost any other heavy equipment. This guide breaks down the critical bulldozer spare parts and how to manage them.
+
+## The Undercarriage: 50% of Dozer Maintenance Cost
+
+The undercarriage is the single biggest spare parts expense on a tracked dozer, often accounting for up to half of total maintenance cost. Key undercarriage components include:
+
+- **Track chains** — pins, bushings, and links that wear with every meter traveled
+- **Track shoes / grousers** — the ground-contact plates; many can be turned 180° to double their life
+- **Sprockets** — drive the track; replace when teeth hook or round
+- **Track rollers and carrier rollers** — support the machine's weight; replace when seals leak or flats develop
+- **Front idlers** — guide the track; check for excessive play
+- **Recoil springs and track adjusters** — maintain correct tension
+
+Correct track tension is the single most important factor in undercarriage life. Too tight wastes fuel and accelerates wear; too loose risks de-tracking.
+
+## Blade and Ground Engaging Parts
+
+The dozer blade does the work, and its wear parts are replaced regularly:
+
+- **Cutting edges and end bits** — bolt-on edges that protect the blade base
+- **Blade wear plates** — protect the moldboard
+- **Push arms, tilt cylinders, and trunnions** — control blade position
+
+## Ripper Parts
+
+For rock and hardpan, the rear ripper takes the abuse:
+
+- **Ripper tips and shanks** — the points that fracture material
+- **Tip protectors and pins**
+
+## Drivetrain and Power Components
+
+A bulldozer transfers engine power through a torque converter, transmission, and steering system. High-value drivetrain spare parts include:
+
+- Torque converters and transmission clutch packs
+- Steering clutches and brakes (or hydrostatic steering pumps and motors on modern dozers)
+- Final drives and planetary gears
+- Bevel gears and pinions
+
+## Engine, Hydraulic & Cooling Parts
+
+Diesel engine filters, fuel injectors, turbochargers, water pumps, hydraulic pumps for the blade and ripper, hoses, and seals all need routine service. In Saudi Arabia's heat and dust, shorten filter and fluid intervals to protect these systems.
+
+## Bulldozer Models Common in Saudi Arabia
+
+The Saudi fleet includes the Caterpillar D6, D7, D8, and D9; Komatsu D65, D85, and D155; and increasingly Shantui SD16/SD22 and other value brands. HESP supplies undercarriage and wear parts for all of them.
+
+## Extending Bulldozer Parts Life
+
+1. Maintain correct track tension and check it weekly
+2. Turn track shoes and rotate components before they wear past the limit
+3. Avoid unnecessary travel — transport the dozer by truck between sites
+4. Match grouser type to ground conditions
+5. Keep the undercarriage clean of packed mud and rock
+6. Replace cutting edges before they wear into the blade base
+
+## Source Bulldozer Parts from HESP
+
+Riyada Ventures stocks complete undercarriage kits, cutting edges, ripper tips, and drivetrain parts for CAT, Komatsu, Shantui, and other dozer brands — genuine and certified aftermarket. Our engineers help you spec the right parts for your terrain and machine.
+
+**Ready to order?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `لا توجد آلة تعمل ضد الأرض أكثر من البلدوزر. دفع التراب وتكسير الصخور وتطهير الأرض وتسوية المنحدرات يضع ضغطاً هائلاً على الهيكل السفلي والشفرة ونقل الحركة. ولأن البلدوزرات تعمل في تماس مباشر مستمر مع المواد الكاشطة، تتآكل قطع غيارها أسرع وتمثل حصة أكبر من تكلفة التشغيل.
+
+## الهيكل السفلي: 50% من تكلفة صيانة البلدوزر
+
+الهيكل السفلي هو أكبر مصروف قطع غيار في البلدوزر المجنزر. تشمل المكونات الرئيسية:
+
+- **سلاسل الجنزير** — المسامير والجلب والوصلات
+- **أحذية الجنزير** — ألواح التماس مع الأرض؛ يمكن قلب الكثير منها 180 درجة لمضاعفة عمرها
+- **العجلات المسننة** — تحرك الجنزير؛ استبدلها عند تآكل الأسنان
+- **بكرات الجنزير والبكرات الحاملة**
+- **العجلات الأمامية الموجهة**
+- **زنبركات الارتداد وضوابط الجنزير**
+
+شد الجنزير الصحيح هو أهم عامل في عمر الهيكل السفلي.
+
+## قطع الشفرة والحفر
+
+- **حواف القطع والأطراف** — حواف مثبتة بالبراغي تحمي قاعدة الشفرة
+- **ألواح تآكل الشفرة**
+- **أذرع الدفع وأسطوانات الإمالة**
+
+## قطع التكسير (الريبر)
+
+- **أطراف وسيقان الريبر** — النقاط التي تكسر المواد
+- **حماة الأطراف والمسامير**
+
+## قطع نقل الحركة والطاقة
+
+- محولات العزم وحزم قابض ناقل الحركة
+- قوابض وفرامل التوجيه
+- التروس النهائية والكوكبية
+- التروس المخروطية
+
+## القطع المحركية والهيدروليكية والتبريد
+
+فلاتر المحرك الديزل وحاقنات الوقود والشواحن التوربينية ومضخات المياه والمضخات الهيدروليكية والخراطيم والحشوات. في حرارة وغبار السعودية، قصّر فترات الفلاتر والسوائل.
+
+## موديلات البلدوزر الشائعة في السعودية
+
+كاتربيلر D6 و D7 و D8 و D9؛ كوماتسو D65 و D85 و D155؛ وبشكل متزايد شانتوي SD16/SD22.
+
+## احصل على قطع البلدوزر من HESP
+
+ريادة فنتشرز توفر مجموعات هيكل سفلي كاملة وحواف قطع وأطراف ريبر وقطع نقل الحركة لكاتربيلر وكوماتسو وشانتوي.
+
+**مستعد للطلب؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/bulldozer-1.jpg",
+    metaTitleEn: "Bulldozer Spare Parts Guide | Undercarriage, Blades & Drivetrain | HESP",
+    metaTitleAr: "دليل قطع غيار البلدوزر | الهيكل السفلي والشفرات | HESP",
+    metaDescEn: "Complete bulldozer spare parts guide. Undercarriage, track chains, cutting edges, ripper tips & drivetrain for CAT, Komatsu & Shantui dozers in Saudi Arabia.",
+    metaDescAr: "دليل كامل لقطع غيار البلدوزر. الهيكل السفلي وسلاسل الجنزير وحواف القطع وأطراف الريبر لبلدوزرات كاتربيلر وكوماتسو وشانتوي.",
+    primaryKeyword: "bulldozer spare parts",
+    keywords: ["bulldozer parts Saudi Arabia", "dozer undercarriage parts", "track chains", "cutting edges", "ripper tips", "CAT D8 parts", "Komatsu D85 parts", "Shantui parts", "grousers track shoes"],
+    published: true,
+    publishedAt: new Date("2026-03-02"),
+  },
+  {
+    slug: "diesel-engine-parts-heavy-equipment-overhaul",
+    titleEn: "Diesel Engine Parts & Overhaul for Heavy Equipment Explained",
+    titleAr: "قطع المحرك الديزل وعمرة المعدات الثقيلة بالتفصيل",
+    excerptEn: "From pistons and liners to turbochargers and injectors, understand the diesel engine parts that keep excavators, loaders, and trucks running — and when an engine overhaul makes sense.",
+    excerptAr: "من المكابس والبطانات إلى الشواحن التوربينية والحاقنات، افهم قطع المحرك الديزل التي تبقي الحفارات واللودرات والشاحنات تعمل — ومتى تكون العمرة مجدية.",
+    bodyEn: `The diesel engine is the heart of every piece of heavy equipment. A failed engine can idle a machine for weeks and cost tens of thousands of riyals. Understanding diesel engine parts — and knowing when to repair, rebuild, or overhaul — is essential for any fleet manager or workshop in Saudi Arabia. This guide covers the major engine components and the overhaul process for engines like the Caterpillar C7, C9, C15, Komatsu SAA6D, and Cummins QSB/QSL.
+
+## Core Engine Components
+
+### Cylinder Block Group
+- **Pistons** — convert combustion pressure into motion; replaced during overhaul
+- **Cylinder liners** — the wear surface inside each cylinder; available as wet or dry liners
+- **Piston rings** — seal compression and control oil; a common overhaul item
+- **Connecting rods and bearings** — link pistons to the crankshaft
+- **Crankshaft and main bearings** — the rotating backbone of the engine
+
+### Cylinder Head Group
+- **Cylinder head** — houses valves and combustion chambers
+- **Valves, guides, and springs** — control air and exhaust flow
+- **Head gasket** — seals the head to the block; a critical sealing component
+- **Rocker arms and pushrods**
+
+### Fuel System
+- **Fuel injectors** — meter precise fuel into each cylinder; worn injectors cause smoke and power loss
+- **Injection pump** — high-pressure fuel delivery
+- **Fuel filters and water separators** — protect the system from contamination, vital in dusty Saudi conditions
+
+### Air and Forced Induction
+- **Turbocharger** — boosts power and efficiency; a common failure point under heat and dust
+- **Air filters** — primary and secondary; change frequently in the desert
+- **Intercooler / aftercooler** — cools intake air for denser charge
+
+### Cooling and Lubrication
+- **Water pump** — circulates coolant
+- **Oil pump** — maintains lubrication pressure
+- **Thermostats, radiators, and oil coolers**
+- **Oil filters** — full-flow and bypass
+
+## Signs Your Engine Needs Attention
+
+- Blue or black exhaust smoke (oil burning or fuel issues)
+- Loss of power and poor fuel economy
+- Excessive oil consumption or low oil pressure
+- Coolant in the oil or oil in the coolant (head gasket or liner seal failure)
+- Knocking, ticking, or other abnormal noises
+- Hard starting and excessive blow-by
+
+## Repair vs Rebuild vs Overhaul
+
+- **Repair**: Replace a single failed component — an injector, water pump, or turbocharger.
+- **In-frame overhaul**: Replace pistons, liners, rings, and bearings without removing the engine from the machine. Cost-effective when the block and crank are still good.
+- **Out-of-frame / major overhaul**: Remove the engine, recondition the block and crankshaft, and replace all wear components. Restores the engine to near-new condition at a fraction of the cost of a new engine.
+
+A quality overhaul kit includes pistons, liners, rings, bearings, gaskets, and seals — everything needed to bring an engine back to spec.
+
+## Overhaul Parts in the Saudi Climate
+
+Heat and fine dust are the enemies of diesel engines in Saudi Arabia. Shorten oil and filter change intervals, keep the cooling system clean, and use quality air filtration to extend the time between overhauls.
+
+## Source Engine Parts and Overhaul Kits from HESP
+
+Riyada Ventures supplies diesel engine parts and complete overhaul kits for Caterpillar, Komatsu, Cummins, Perkins, Volvo, and other engines used in heavy equipment across Saudi Arabia — genuine and certified aftermarket. Our engineering team helps you spec the right kit for your engine model and serial number.
+
+**Planning an overhaul?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `المحرك الديزل هو قلب كل قطعة من المعدات الثقيلة. المحرك المعطل قد يعطّل الآلة لأسابيع ويكلف عشرات آلاف الريالات. فهم قطع المحرك الديزل — ومعرفة متى تصلح أو تعيد البناء أو تعمل عمرة — أمر أساسي لأي مدير أسطول أو ورشة في السعودية.
+
+## المكونات الأساسية للمحرك
+
+### مجموعة كتلة الأسطوانات
+- **المكابس** — تحوّل ضغط الاحتراق إلى حركة
+- **بطانات الأسطوانات** — سطح التآكل داخل كل أسطوانة
+- **حلقات المكبس** — تحكم الانضغاط والزيت
+- **أذرع التوصيل والمحامل**
+- **عمود المرفق والمحامل الرئيسية**
+
+### مجموعة رأس الأسطوانة
+- **رأس الأسطوانة** — يحتوي الصمامات وغرف الاحتراق
+- **الصمامات والأدلة والزنبركات**
+- **جوان الرأس** — يختم الرأس بالكتلة
+
+### نظام الوقود
+- **حاقنات الوقود** — الحاقنات البالية تسبب الدخان وفقدان القوة
+- **مضخة الحقن**
+- **فلاتر الوقود وفواصل الماء**
+
+### الهواء والشحن القسري
+- **الشاحن التوربيني** — نقطة فشل شائعة تحت الحرارة والغبار
+- **فلاتر الهواء** — غيّرها بكثرة في الصحراء
+- **المبرد البيني**
+
+### التبريد والتزييت
+- **مضخة المياه** و **مضخة الزيت**
+- **الثرموستات والمشعات ومبردات الزيت**
+- **فلاتر الزيت**
+
+## علامات حاجة محركك للاهتمام
+
+- دخان عادم أزرق أو أسود
+- فقدان القوة وضعف اقتصاد الوقود
+- استهلاك زيت مفرط أو ضغط زيت منخفض
+- وجود سائل تبريد في الزيت أو العكس
+- أصوات طرق غير طبيعية
+
+## الإصلاح مقابل إعادة البناء مقابل العمرة
+
+- **الإصلاح**: استبدال مكون واحد فاشل
+- **عمرة داخل الإطار**: استبدال المكابس والبطانات والحلقات والمحامل دون إزالة المحرك
+- **عمرة كبرى**: إزالة المحرك وإعادة تأهيل الكتلة وعمود المرفق
+
+تتضمن مجموعة العمرة الجيدة المكابس والبطانات والحلقات والمحامل والجوانات والحشوات.
+
+## احصل على قطع المحرك ومجموعات العمرة من HESP
+
+ريادة فنتشرز توفر قطع المحرك الديزل ومجموعات العمرة الكاملة لكاتربيلر وكوماتسو وكمنز وبيركنز وفولفو.
+
+**تخطط لعمرة؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/gear-parts.jpg",
+    metaTitleEn: "Diesel Engine Parts & Overhaul for Heavy Equipment | HESP Guide",
+    metaTitleAr: "قطع المحرك الديزل وعمرة المعدات الثقيلة | دليل HESP",
+    metaDescEn: "Diesel engine parts & overhaul guide for heavy equipment. Pistons, liners, injectors, turbochargers & overhaul kits for CAT, Komatsu & Cummins engines in Saudi Arabia.",
+    metaDescAr: "دليل قطع المحرك الديزل والعمرة للمعدات الثقيلة. المكابس والبطانات والحاقنات والشواحن التوربينية ومجموعات العمرة لمحركات كاتربيلر وكوماتسو وكمنز.",
+    primaryKeyword: "diesel engine parts heavy equipment",
+    keywords: ["engine overhaul kit", "diesel engine spare parts", "pistons and liners", "fuel injectors", "turbocharger", "CAT C15 parts", "Cummins parts Saudi", "engine rebuild KSA", "crankshaft bearings"],
+    published: true,
+    publishedAt: new Date("2026-03-16"),
+  },
+  {
+    slug: "crane-spare-parts-lifting-equipment-saudi",
+    titleEn: "Crane & Lifting Equipment Spare Parts in Saudi Arabia",
+    titleAr: "قطع غيار الرافعات ومعدات الرفع في السعودية",
+    excerptEn: "Tower cranes, mobile cranes, and crawler cranes power Saudi Arabia's skyline. Learn about wire ropes, sheaves, slew rings, brakes, and hydraulic parts that keep lifting equipment safe.",
+    excerptAr: "الرافعات البرجية والمتنقلة والزاحفة تشغّل أفق السعودية. تعرف على الحبال السلكية والبكرات وحلقات الدوران والفرامل والقطع الهيدروليكية التي تبقي معدات الرفع آمنة.",
+    bodyEn: `From the towers rising over Riyadh and Jeddah to the megastructures of NEOM, cranes are the backbone of Saudi Arabia's vertical construction. But lifting equipment carries unique safety responsibilities — a failed component on a crane can be catastrophic. That makes sourcing quality crane spare parts, and maintaining them on schedule, non-negotiable. This guide covers the critical spare parts for tower cranes, mobile (all-terrain and truck) cranes, and crawler cranes.
+
+## Why Crane Parts Are Different
+
+Unlike an excavator, where a worn part means lost productivity, a worn or failed crane component can mean a dropped load and lives at risk. Crane parts must meet strict specifications, and many are subject to mandatory inspection and certification. Never compromise on quality for lifting equipment.
+
+## Wire Ropes and Rigging
+
+- **Wire ropes (hoist and luffing)** — the most safety-critical wear item; inspected for broken wires, corrosion, and diameter reduction, and replaced on a strict schedule
+- **Hook blocks and load hooks** — with safety latches
+- **Slings, shackles, and rigging hardware**
+
+## Sheaves, Drums, and Bearings
+
+- **Sheaves (pulleys)** — guide the wire rope; worn grooves damage the rope and must be replaced
+- **Hoist drums** — wind the rope; inspect grooving for wear
+- **Drum and sheave bearings**
+
+## Slewing System
+
+- **Slew ring / slewing bearing** — the large turntable bearing that lets the crane rotate; a high-value, critical component
+- **Slew gear and pinion**
+- **Slew motors and brakes**
+
+## Brakes and Safety Systems
+
+- **Hoist and slewing brakes** — fail-safe braking is essential
+- **Load moment indicators (LMI) and overload sensors**
+- **Limit switches and anti-two-block devices**
+
+## Hydraulic System (Mobile & Crawler Cranes)
+
+- **Hydraulic pumps and motors**
+- **Telescoping boom cylinders and outrigger cylinders**
+- **Control valves, hoses, and seals**
+- **Counterweight and stabilizer components**
+
+## Engine and Drivetrain (Mobile Cranes)
+
+Truck-mounted and all-terrain cranes share many parts with heavy trucks — diesel engine parts, transmission components, axles, and brakes.
+
+## Crane Models in the Saudi Market
+
+The Kingdom's lifting fleet includes Liebherr, Potain, Tadano, Grove, XCMG, Zoomlion, and Sany cranes. HESP sources spare parts and consumables for all major crane brands.
+
+## Crane Maintenance and Safety
+
+1. Inspect wire ropes every shift and replace per the discard criteria
+2. Grease the slew ring and check for play regularly
+3. Test brakes, limit switches, and overload protection on schedule
+4. Inspect sheaves and drums for groove wear
+5. Maintain hydraulic systems and check for leaks
+6. Keep certification and inspection records up to date
+
+## Source Crane Parts from HESP
+
+Riyada Ventures supplies wire ropes, sheaves, slew rings, brakes, hydraulic components, and safety parts for tower, mobile, and crawler cranes across Saudi Arabia. Our team understands the safety stakes and sources only quality-certified lifting parts.
+
+**Need crane parts?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `من الأبراج التي ترتفع فوق الرياض وجدة إلى المنشآت العملاقة في نيوم، الرافعات هي العمود الفقري للبناء العمودي في السعودية. لكن معدات الرفع تحمل مسؤوليات سلامة فريدة — فشل مكون في الرافعة قد يكون كارثياً. لذلك فإن شراء قطع غيار رافعات عالية الجودة وصيانتها في موعدها أمر غير قابل للتفاوض.
+
+## لماذا قطع الرافعات مختلفة
+
+على عكس الحفار، حيث يعني الجزء البالي فقدان إنتاجية، فإن مكون الرافعة البالي قد يعني سقوط الحمل وتعريض الأرواح للخطر. لا تساوم أبداً على الجودة في معدات الرفع.
+
+## الحبال السلكية والتجهيزات
+
+- **الحبال السلكية (الرفع والتلويح)** — أكثر عناصر التآكل حساسية للسلامة
+- **كتل الخطاف وخطافات الحمل** — مع مزاليج الأمان
+- **الأحزمة والأصفاد**
+
+## البكرات والأسطوانات والمحامل
+
+- **البكرات** — توجه الحبل السلكي
+- **أسطوانات الرفع**
+- **محامل الأسطوانات والبكرات**
+
+## نظام الدوران
+
+- **حلقة الدوران** — المحمل الذي يسمح للرافعة بالدوران؛ مكون حيوي عالي القيمة
+- **ترس الدوران والترس الصغير**
+- **محركات وفرامل الدوران**
+
+## الفرامل وأنظمة السلامة
+
+- **فرامل الرفع والدوران**
+- **مؤشرات عزم الحمل وحساسات الحمل الزائد**
+- **مفاتيح الحد وأجهزة منع الكتلتين**
+
+## النظام الهيدروليكي (الرافعات المتنقلة والزاحفة)
+
+- **المضخات والمحركات الهيدروليكية**
+- **أسطوانات الذراع التلسكوبي وأسطوانات الدعامات**
+- **صمامات التحكم والخراطيم والحشوات**
+
+## موديلات الرافعات في السوق السعودي
+
+ليبهير وبوتان وتادانو وغروف و XCMG وزوملايون وساني.
+
+## صيانة الرافعات والسلامة
+
+1. افحص الحبال السلكية كل وردية واستبدلها حسب معايير الاستبعاد
+2. شحّم حلقة الدوران وتحقق من الخلوص بانتظام
+3. اختبر الفرامل ومفاتيح الحد وحماية الحمل الزائد
+4. افحص البكرات والأسطوانات لتآكل الأخاديد
+
+## احصل على قطع الرافعات من HESP
+
+ريادة فنتشرز توفر الحبال السلكية والبكرات وحلقات الدوران والفرامل والمكونات الهيدروليكية وقطع السلامة للرافعات البرجية والمتنقلة والزاحفة.
+
+**تحتاج قطع رافعات؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/crane-1.jpg",
+    metaTitleEn: "Crane Spare Parts Saudi Arabia | Tower, Mobile & Crawler Cranes | HESP",
+    metaTitleAr: "قطع غيار الرافعات السعودية | برجية ومتنقلة وزاحفة | HESP",
+    metaDescEn: "Crane & lifting equipment spare parts in Saudi Arabia. Wire ropes, sheaves, slew rings, brakes & hydraulics for tower, mobile & crawler cranes. Liebherr, Potain, Tadano.",
+    metaDescAr: "قطع غيار الرافعات ومعدات الرفع في السعودية. الحبال السلكية والبكرات وحلقات الدوران والفرامل للرافعات البرجية والمتنقلة والزاحفة.",
+    primaryKeyword: "crane spare parts Saudi Arabia",
+    keywords: ["crane parts KSA", "tower crane parts", "mobile crane parts", "crawler crane parts", "wire rope", "slew ring", "lifting equipment parts", "Liebherr parts", "Potain parts", "Tadano parts"],
+    published: true,
+    publishedAt: new Date("2026-03-30"),
+  },
+  {
+    slug: "volvo-construction-equipment-parts-ksa",
+    titleEn: "Volvo Construction Equipment Parts in Saudi Arabia: Buyer's Guide",
+    titleAr: "قطع غيار معدات فولفو الإنشائية في السعودية: دليل المشتري",
+    excerptEn: "Volvo CE excavators, wheel loaders, and articulated haulers are prized for durability. Learn where to source genuine and aftermarket Volvo construction equipment parts in KSA.",
+    excerptAr: "حفارات ولودرات وقلابات فولفو المفصلية مقدّرة لمتانتها. تعرف على أفضل مصادر قطع غيار معدات فولفو الإنشائية الأصلية والبديلة في المملكة.",
+    bodyEn: `Volvo Construction Equipment (Volvo CE) has built a strong reputation in Saudi Arabia for fuel efficiency, operator comfort, and long component life. As Volvo's market share grows on infrastructure and quarry projects, so does demand for Volvo construction equipment parts. This guide helps fleet managers source the right parts for Volvo excavators, wheel loaders, and articulated haulers.
+
+## Volvo Models Common in the Kingdom
+
+### Volvo Excavators
+The EC210, EC250, EC350, and EC480 crawler excavators are widely used in Saudi construction. Common Volvo excavator spare parts include hydraulic pumps, main control valves, travel and swing motors, final drives, bucket cylinders, and undercarriage components.
+
+### Volvo Wheel Loaders
+The L60, L90, L120, and L150 wheel loaders are quarry and material-handling favorites. High-demand parts include bucket teeth, transmission components, axle parts, brake discs, and articulation pins.
+
+### Volvo Articulated Haulers
+Volvo invented the articulated dump truck, and the A25, A35, and A40 haulers are staples on large earthmoving and mining jobs. Critical hauler parts include suspension components, drivetrain parts, brake components, and hydraulic cylinders.
+
+## Genuine Volvo Parts vs Aftermarket
+
+Volvo Genuine Parts deliver precise fit and warranty coverage but command premium pricing. For wear items — filters, GET, undercarriage, seals, and hoses — quality aftermarket alternatives offer significant savings. Reserve genuine parts for engine internals, hydraulic pumps, electronics, and safety-critical systems.
+
+Volvo's engines (D-series) and Volvo's electronic systems (Care Track telematics) sometimes require genuine or Volvo-approved parts to avoid fault codes — your supplier should advise where genuine is essential.
+
+## Identifying Volvo Parts
+
+Provide the machine model, serial number (PIN), and the Volvo part number when ordering. Volvo's parts numbering and the Care Track system make accurate identification easier, and our team cross-references to find equivalents where appropriate.
+
+## Maintaining Volvo Equipment in Saudi Arabia
+
+- Service air and fuel filters more frequently in dusty conditions
+- Change hydraulic and transmission fluids on shortened intervals in extreme heat
+- Keep cooling packages clean
+- Grease pins and bushings daily
+- Monitor Care Track alerts to catch issues early
+
+## Source Volvo Parts from HESP
+
+Riyada Ventures supplies Volvo construction equipment parts — genuine and certified aftermarket — for excavators, wheel loaders, and articulated haulers across Saudi Arabia. Fast nationwide delivery and expert part identification keep your Volvo fleet productive.
+
+**Need Volvo parts?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `بنت معدات فولفو الإنشائية (Volvo CE) سمعة قوية في السعودية بفضل كفاءة الوقود وراحة المشغّل وطول عمر المكونات. ومع نمو حصة فولفو في مشاريع البنية التحتية والمحاجر، يزداد الطلب على قطع غيار معدات فولفو الإنشائية.
+
+## موديلات فولفو الشائعة في المملكة
+
+### حفارات فولفو
+حفارات EC210 و EC250 و EC350 و EC480 الزاحفة مستخدمة على نطاق واسع. تشمل قطع الغيار الشائعة المضخات الهيدروليكية وصمامات التحكم الرئيسية ومحركات الحركة والدوران والتروس النهائية.
+
+### لودرات فولفو
+لودرات L60 و L90 و L120 و L150 مفضلة في المحاجر ومناولة المواد. تشمل القطع عالية الطلب أسنان الدلو ومكونات ناقل الحركة وأجزاء المحور.
+
+### قلابات فولفو المفصلية
+اخترعت فولفو الشاحنة القلابة المفصلية، وقلابات A25 و A35 و A40 أساسية في أعمال الحفر والتعدين الكبيرة.
+
+## قطع فولفو الأصلية مقابل البديلة
+
+قطع فولفو الأصلية توفر تركيباً دقيقاً وتغطية ضمان لكن بأسعار مرتفعة. لقطع التآكل، توفر البدائل المعتمدة وفورات كبيرة. احتفظ بالقطع الأصلية للمكونات الداخلية للمحرك والمضخات الهيدروليكية والإلكترونيات.
+
+## تحديد قطع فولفو
+
+قدّم موديل الآلة ورقمها التسلسلي ورقم قطعة فولفو عند الطلب.
+
+## صيانة معدات فولفو في السعودية
+
+- خدمة فلاتر الهواء والوقود بشكل أكثر تكراراً في الظروف المغبرة
+- تغيير سوائل الهيدروليك وناقل الحركة بفترات أقصر في الحرارة الشديدة
+- إبقاء حزم التبريد نظيفة
+
+## احصل على قطع فولفو من HESP
+
+ريادة فنتشرز توفر قطع غيار معدات فولفو الإنشائية — أصلية وبديلة معتمدة — للحفارات واللودرات والقلابات المفصلية.
+
+**تحتاج قطع فولفو؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/loader-1.jpg",
+    metaTitleEn: "Volvo Construction Equipment Parts Saudi Arabia | EC, L-Series | HESP",
+    metaTitleAr: "قطع غيار معدات فولفو الإنشائية السعودية | HESP",
+    metaDescEn: "Buyer's guide to Volvo construction equipment parts in Saudi Arabia. Genuine & aftermarket parts for EC excavators, L-series loaders & A-series articulated haulers.",
+    metaDescAr: "دليل شراء قطع غيار معدات فولفو الإنشائية في السعودية. قطع أصلية وبديلة لحفارات EC ولودرات L وقلابات A المفصلية.",
+    primaryKeyword: "Volvo construction equipment parts",
+    keywords: ["Volvo CE parts Saudi Arabia", "Volvo excavator parts", "Volvo wheel loader parts", "Volvo articulated hauler parts", "Volvo EC210 parts", "Volvo L120 parts", "genuine Volvo parts KSA", "Care Track"],
+    published: true,
+    publishedAt: new Date("2026-04-10"),
+  },
+  {
+    slug: "air-fuel-oil-hydraulic-filters-heavy-equipment-guide",
+    titleEn: "Filters for Heavy Equipment: Air, Fuel, Oil & Hydraulic Guide",
+    titleAr: "فلاتر المعدات الثقيلة: دليل الهواء والوقود والزيت والهيدروليك",
+    excerptEn: "Filters are the cheapest insurance for your fleet. Learn how air, fuel, oil, and hydraulic filters protect heavy equipment, and why Saudi conditions demand shorter change intervals.",
+    excerptAr: "الفلاتر هي أرخص تأمين لأسطولك. تعرف على كيفية حماية فلاتر الهواء والوقود والزيت والهيدروليك للمعدات الثقيلة، ولماذا تتطلب الظروف السعودية فترات تغيير أقصر.",
+    bodyEn: `Filters are the single most cost-effective maintenance item in any heavy equipment fleet. A filter that costs a few hundred riyals protects an engine, hydraulic system, or transmission worth tens of thousands. Yet filters are often neglected — especially in Saudi Arabia, where fine desert dust and extreme heat shorten their effective life dramatically. This guide explains the four main filter types and how to manage them.
+
+## Air Filters
+
+The air filter protects the engine from abrasive dust — the number one cause of premature engine wear in desert operations. Heavy equipment typically uses a two-stage system:
+
+- **Primary (outer) air filter** — captures the bulk of contaminants
+- **Safety (inner) air filter** — backup protection during primary changes
+
+In Saudi Arabia's fine, dusty conditions, air filters often need changing every 200–250 hours instead of the standard 500. Many machines have a filter restriction indicator — service the filter when it shows red, and never run without a filter installed. Pre-cleaners and cyclonic dust ejectors extend filter life on dusty sites.
+
+## Fuel Filters
+
+Modern diesel engines with high-pressure common-rail injection demand extremely clean fuel. Contaminated fuel destroys injectors and pumps. The fuel system uses:
+
+- **Primary fuel filter / water separator** — removes water and larger particles
+- **Secondary (fine) fuel filter** — protects injectors with fine filtration
+
+Water contamination is a serious risk in Saudi Arabia due to condensation in tanks. Drain water separators daily and change fuel filters on schedule.
+
+## Engine Oil Filters
+
+The oil filter removes metal particles, carbon, and contaminants from the lubricating oil:
+
+- **Full-flow oil filter** — filters all oil before it reaches the engine
+- **Bypass oil filter** — provides finer filtration on some engines
+
+Change oil filters with every oil change. In Saudi heat, oil degrades faster, so shorten oil and filter intervals from 500 hours to 350–400 hours.
+
+## Hydraulic Filters
+
+Hydraulic systems are extremely sensitive to contamination — most hydraulic failures trace back to dirty fluid. Filters include:
+
+- **Return filters** — clean fluid returning to the tank
+- **Pressure filters** — protect pumps and valves
+- **Suction strainers** — coarse protection at the pump inlet
+- **Breather filters** — keep tank-vented air clean
+
+## Why Genuine and Quality Aftermarket Matter
+
+A cheap filter that bypasses or sheds media does more harm than no filter at all. Stick with genuine filters or quality aftermarket brands like Donaldson, Fleetguard, Baldwin, and Mann — all engineered to meet or exceed OEM filtration standards.
+
+## Building a Filter Maintenance Program
+
+1. Stock a complete filter kit for each machine model in your fleet
+2. Shorten intervals for Saudi dust and heat
+3. Service air filters by indicator, not just by hours
+4. Drain water separators daily
+5. Track filter changes in a maintenance log
+6. Buy filters in bulk to reduce cost and avoid stockouts
+
+## Source Filters from HESP
+
+Riyada Ventures stocks air, fuel, oil, and hydraulic filters for all major heavy equipment brands — CAT, Komatsu, Volvo, JCB, Hitachi, and more — in both genuine and quality aftermarket. Bulk filter kits and fast delivery keep your fleet protected.
+
+**Stock up on filters.** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `الفلاتر هي عنصر الصيانة الأكثر فعالية من حيث التكلفة في أي أسطول معدات ثقيلة. فلتر يكلف بضع مئات من الريالات يحمي محركاً أو نظاماً هيدروليكياً أو ناقل حركة يساوي عشرات الآلاف. ومع ذلك تُهمل الفلاتر غالباً — خاصة في السعودية حيث يقصّر الغبار الصحراوي الناعم والحرارة الشديدة عمرها الفعال بشكل كبير.
+
+## فلاتر الهواء
+
+يحمي فلتر الهواء المحرك من الغبار الكاشط — السبب الأول للتآكل المبكر للمحرك في عمليات الصحراء. تستخدم المعدات الثقيلة عادة نظاماً من مرحلتين:
+
+- **فلتر الهواء الأساسي (الخارجي)**
+- **فلتر الأمان (الداخلي)**
+
+في الظروف السعودية المغبرة، تحتاج فلاتر الهواء غالباً للتغيير كل 200-250 ساعة بدلاً من 500. اخدم الفلتر عند ظهور مؤشر التقييد باللون الأحمر.
+
+## فلاتر الوقود
+
+تتطلب محركات الديزل الحديثة بحقن السكة المشتركة عالية الضغط وقوداً نظيفاً للغاية:
+
+- **فلتر الوقود الأساسي / فاصل الماء**
+- **فلتر الوقود الثانوي (الدقيق)**
+
+اصرف فواصل الماء يومياً وغيّر فلاتر الوقود في موعدها.
+
+## فلاتر زيت المحرك
+
+- **فلتر الزيت الكامل التدفق**
+- **فلتر الزيت الجانبي**
+
+غيّر فلاتر الزيت مع كل تغيير زيت. في حرارة السعودية، قصّر فترات الزيت والفلاتر من 500 إلى 350-400 ساعة.
+
+## الفلاتر الهيدروليكية
+
+- **فلاتر العودة**
+- **فلاتر الضغط**
+- **مصافي الشفط**
+- **فلاتر التنفس**
+
+## لماذا تهم القطع الأصلية والبديلة الجيدة
+
+الفلتر الرخيص الذي يتجاوز أو يفقد وسائطه أكثر ضرراً من عدم وجود فلتر. التزم بالفلاتر الأصلية أو علامات بديلة جيدة مثل Donaldson و Fleetguard و Baldwin و Mann.
+
+## احصل على الفلاتر من HESP
+
+ريادة فنتشرز توفر فلاتر الهواء والوقود والزيت والهيدروليك لجميع العلامات الكبرى — كاتربيلر وكوماتسو وفولفو و JCB وهيتاشي.
+
+**جهّز مخزونك من الفلاتر.** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/workshop.jpg",
+    metaTitleEn: "Heavy Equipment Filters Guide | Air, Fuel, Oil & Hydraulic | HESP",
+    metaTitleAr: "دليل فلاتر المعدات الثقيلة | الهواء والوقود والزيت والهيدروليك | HESP",
+    metaDescEn: "Complete guide to heavy equipment filters — air, fuel, oil & hydraulic. Why Saudi dust & heat demand shorter intervals. Genuine & aftermarket filters from HESP.",
+    metaDescAr: "دليل كامل لفلاتر المعدات الثقيلة — الهواء والوقود والزيت والهيدروليك. لماذا يتطلب غبار وحرارة السعودية فترات أقصر. فلاتر أصلية وبديلة من HESP.",
+    primaryKeyword: "heavy equipment filters",
+    keywords: ["air filter heavy equipment", "fuel filter", "oil filter", "hydraulic filter", "Donaldson filters", "Fleetguard", "filter change interval Saudi", "excavator filters", "Baldwin filters"],
+    published: true,
+    publishedAt: new Date("2026-04-24"),
+  },
+  {
+    slug: "dump-truck-articulated-hauler-parts-mining",
+    titleEn: "Dump Truck & Articulated Hauler Parts for Mining & Earthmoving",
+    titleAr: "قطع الشاحنات القلابة والقلابات المفصلية للتعدين والحفر",
+    excerptEn: "Rigid dump trucks and articulated haulers move millions of tonnes across Saudi mines and mega-projects. Learn about suspension, drivetrain, brake, and body parts that keep them hauling.",
+    excerptAr: "الشاحنات القلابة الصلبة والقلابات المفصلية تنقل ملايين الأطنان عبر مناجم ومشاريع السعودية الضخمة. تعرف على قطع التعليق ونقل الحركة والفرامل والصندوق.",
+    bodyEn: `Saudi Arabia's mining sector — phosphate at Waad Al Shamal, gold at Mansourah-Massarah, bauxite at Az Zabirah — plus the vast earthmoving needs of NEOM and other mega-projects, depend on dump trucks and articulated haulers moving enormous volumes of material. These machines operate under extreme loads and long duty cycles, and their spare parts must be tough and readily available. This guide covers parts for both rigid dump trucks and articulated haulers (ADTs).
+
+## Rigid Dump Trucks vs Articulated Haulers
+
+- **Rigid dump trucks** (e.g., CAT 770/777, Komatsu HD465/HD785) carry the largest payloads on prepared haul roads in mines and large quarries.
+- **Articulated haulers / ADTs** (e.g., CAT 730/745, Volvo A30/A40, Bell B30) flex at a center joint for off-road traction on rough, soft, or steep terrain.
+
+Both share many high-wear systems but differ in suspension and steering.
+
+## Suspension Parts
+
+Hauling heavy loads over rough ground punishes suspension components:
+
+- **Suspension struts / cylinders (oleo-pneumatic)** — absorb load shock; nitrogen charge and seals need maintenance
+- **A-frames, struts, and bushings**
+- **King pins and pivot bearings**
+
+## Drivetrain Parts
+
+- **Transmission and torque converter** — handle constant load shifting
+- **Differentials, planetary final drives, and axle shafts**
+- **Drive shafts and universal joints**
+- **Wet brake packs and differential locks**
+
+## Brake System Parts
+
+Braking a fully loaded hauler downhill generates enormous heat:
+
+- **Oil-cooled multi-disc brakes** — discs, plates, and seals
+- **Brake accumulators and valves**
+- **Retarder components** — slow the machine without overheating service brakes
+
+## Body and Frame Parts
+
+- **Dump body / bed** — wear liners protect against impact and abrasion
+- **Hoist cylinders** — raise and lower the bed
+- **Tailgate and body pivot pins**
+- **Frame and chassis components**
+
+## Tires
+
+Off-the-road (OTR) tires are one of the largest operating costs for haulers. While not a traditional spare part, tire management — pressure, rotation, and matching to haul road conditions — has a major cost impact.
+
+## Engine and Cooling
+
+Large diesel engines power these haulers; engine parts, turbochargers, radiators, filters, and cooling components need routine service, with shortened intervals in Saudi heat and dust.
+
+## Maintaining Haulers in Saudi Conditions
+
+1. Inspect suspension strut charge and seals regularly
+2. Monitor brake and retarder performance on long downhill hauls
+3. Replace body wear liners before the bed structure is damaged
+4. Service filters frequently in dusty mining environments
+5. Keep cooling packages clean to handle high ambient temperatures
+6. Track tire condition and pressures closely
+
+## Source Hauler & Dump Truck Parts from HESP
+
+Riyada Ventures supplies suspension, drivetrain, brake, body, and engine parts for rigid dump trucks and articulated haulers from CAT, Komatsu, Volvo, Bell, and other brands operating in Saudi mining and construction. Our team helps keep your haul fleet moving.
+
+**Need hauler parts?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `يعتمد قطاع التعدين في السعودية — الفوسفات في وعد الشمال، الذهب في منصورة-مسرة، البوكسيت في الزبيرة — إضافة إلى احتياجات الحفر الهائلة لنيوم والمشاريع الضخمة الأخرى، على الشاحنات القلابة والقلابات المفصلية التي تنقل كميات هائلة من المواد. تعمل هذه الآلات تحت أحمال شديدة ودورات تشغيل طويلة.
+
+## الشاحنات القلابة الصلبة مقابل القلابات المفصلية
+
+- **الشاحنات القلابة الصلبة** (مثل CAT 770/777، Komatsu HD465/HD785) تحمل أكبر الحمولات على طرق نقل معدة
+- **القلابات المفصلية** (مثل CAT 730، Volvo A30/A40، Bell B30) تنثني عند مفصل مركزي للجر على الطرق الوعرة
+
+## قطع التعليق
+
+- **دعامات/أسطوانات التعليق (الهوائية الزيتية)** — تمتص صدمة الحمل
+- **الإطارات A والجلب**
+- **مسامير الملك ومحامل المحور**
+
+## قطع نقل الحركة
+
+- **ناقل الحركة ومحول العزم**
+- **التروس التفاضلية والتروس النهائية الكوكبية وأعمدة المحور**
+- **أعمدة الإدارة والوصلات**
+- **حزم الفرامل الرطبة وأقفال التفاضل**
+
+## قطع نظام الفرامل
+
+- **الفرامل متعددة الأقراص المبردة بالزيت**
+- **مراكم وصمامات الفرامل**
+- **مكونات المبطئ (الريتاردر)**
+
+## قطع الصندوق والهيكل
+
+- **صندوق القلب** — بطانات التآكل تحمي من الصدم والكشط
+- **أسطوانات الرفع**
+- **مسامير المحور والصندوق**
+
+## الإطارات
+
+إطارات الطرق الوعرة (OTR) من أكبر تكاليف التشغيل.
+
+## صيانة القلابات في الظروف السعودية
+
+1. افحص شحنة دعامات التعليق والحشوات بانتظام
+2. راقب أداء الفرامل والمبطئ في النزول الطويل
+3. استبدل بطانات تآكل الصندوق قبل تلف هيكله
+4. اخدم الفلاتر بكثرة في بيئات التعدين المغبرة
+
+## احصل على قطع القلابات والشاحنات من HESP
+
+ريادة فنتشرز توفر قطع التعليق ونقل الحركة والفرامل والصندوق والمحرك للشاحنات القلابة الصلبة والقلابات المفصلية من كاتربيلر وكوماتسو وفولفو وبيل.
+
+**تحتاج قطع قلابات؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/dump-truck-1.jpg",
+    metaTitleEn: "Dump Truck & Articulated Hauler Parts | Mining & Earthmoving | HESP",
+    metaTitleAr: "قطع الشاحنات القلابة والقلابات المفصلية | التعدين والحفر | HESP",
+    metaDescEn: "Dump truck & articulated hauler spare parts for Saudi mining & earthmoving. Suspension, drivetrain, brakes & body parts for CAT, Komatsu, Volvo & Bell haulers.",
+    metaDescAr: "قطع غيار الشاحنات القلابة والقلابات المفصلية للتعدين والحفر في السعودية. التعليق ونقل الحركة والفرامل والصندوق لكاتربيلر وكوماتسو وفولفو وبيل.",
+    primaryKeyword: "dump truck spare parts",
+    keywords: ["articulated hauler parts", "dump truck parts Saudi Arabia", "mining equipment parts", "rigid dump truck parts", "CAT 777 parts", "Komatsu HD785 parts", "Volvo A40 parts", "Bell hauler parts", "suspension cylinder"],
+    published: true,
+    publishedAt: new Date("2026-05-08"),
+  },
+  {
+    slug: "motor-grader-road-construction-equipment-parts",
+    titleEn: "Motor Grader & Road Construction Equipment Spare Parts",
+    titleAr: "قطع غيار الجريدر ومعدات إنشاء الطرق",
+    excerptEn: "Motor graders, compactors, and pavers build Saudi Arabia's roads. Learn about moldboard cutting edges, circle parts, blade controls, and drum parts that keep road equipment working.",
+    excerptAr: "الجريدرات والمدكات والفرّادات تبني طرق السعودية. تعرف على حواف القطع وقطع الدائرة وأنظمة التحكم بالشفرة وقطع الأسطوانة التي تبقي معدات الطرق تعمل.",
+    bodyEn: `Saudi Arabia is building and upgrading thousands of kilometres of roads — from the highways linking new cities to the internal networks of NEOM, Qiddiya, and the Red Sea Project. The machines that build these roads — motor graders, soil and asphalt compactors, and pavers — have specialized spare parts that differ from earthmoving equipment. This guide covers the key road construction equipment parts.
+
+## Motor Grader Parts
+
+The motor grader is the precision instrument of road building, creating the fine grade and crown of a road surface. Models like the CAT 140/160 and Komatsu GD555/GD655 are common in the Kingdom.
+
+### Moldboard and Cutting Edges
+- **Cutting edges and end bits** — the wear edge of the blade (moldboard); bolt-on and replaced frequently
+- **Moldboard wear strips and slides**
+- **Grader blades** — curved, serrated, or carbide-tipped for hard surfaces
+
+### Circle and Drawbar
+- **Circle gear and pinion** — rotate the blade; wear here causes blade positioning problems
+- **Circle wear inserts / shoes**
+- **Drawbar ball and socket**
+
+### Hydraulics and Controls
+- **Blade lift and side-shift cylinders**
+- **Articulation cylinders and pins**
+- **Control valves and hoses**
+
+### Front Axle, Tandem & Drivetrain
+- **Tandem drive chains and bearings**
+- **Front axle king pins and tie rods**
+- **Transmission and differential parts**
+- **Scarifier and ripper teeth** (for breaking hard ground)
+
+## Compactor / Roller Parts
+
+Soil and asphalt compactors consolidate road layers. Single-drum, double-drum, and pneumatic rollers each have specific parts:
+
+- **Drum and drum bearings**
+- **Vibration / eccentric assembly** — generates compaction force; bearings and seals wear
+- **Scraper bars** — keep the drum clean
+- **Pad-foot shells / kits** (for soil compactors)
+- **Pneumatic roller tires and ballast**
+- **Drive motors and hydraulic components**
+- **Water spray system parts** (for asphalt rollers)
+
+## Asphalt Paver Parts
+
+- **Screed plates and heating elements**
+- **Conveyor chains and flights**
+- **Auger segments and bearings**
+- **Track or tire components**
+- **Tamper bars and vibrators**
+
+## Maintaining Road Equipment in Saudi Conditions
+
+1. Replace grader cutting edges before they wear into the moldboard
+2. Keep the circle greased and free of compacted dirt
+3. Inspect compactor vibration bearings and seals regularly
+4. Service filters frequently in dusty conditions
+5. Maintain paver screed plates for consistent mat quality
+6. Protect hydraulic systems from contamination
+
+## Source Road Construction Parts from HESP
+
+Riyada Ventures supplies cutting edges, circle parts, drum and vibration components, screed parts, and hydraulics for motor graders, compactors, and pavers from CAT, Komatsu, BOMAG, Hamm, Dynapac, Wirtgen, and other road equipment brands across Saudi Arabia.
+
+**Building roads?** [Browse our catalog](/products) or [request a quote](/quote).`,
+    bodyAr: `تبني السعودية وتطوّر آلاف الكيلومترات من الطرق — من الطرق السريعة التي تربط المدن الجديدة إلى الشبكات الداخلية لنيوم والقدية ومشروع البحر الأحمر. الآلات التي تبني هذه الطرق — الجريدرات ومدكات التربة والأسفلت والفرّادات — لها قطع غيار متخصصة تختلف عن معدات الحفر.
+
+## قطع الجريدر
+
+الجريدر هو الأداة الدقيقة لبناء الطرق. موديلات مثل CAT 140/160 و Komatsu GD555/GD655 شائعة في المملكة.
+
+### الشفرة وحواف القطع
+- **حواف القطع والأطراف** — حافة تآكل الشفرة، مثبتة بالبراغي
+- **شرائط تآكل الشفرة**
+- **شفرات الجريدر** — منحنية أو مسننة أو بأطراف كربيد
+
+### الدائرة وعمود الجر
+- **ترس الدائرة والترس الصغير** — يدير الشفرة
+- **إدخالات/أحذية تآكل الدائرة**
+- **كرة ومقبس عمود الجر**
+
+### الهيدروليك والتحكم
+- **أسطوانات رفع وإزاحة الشفرة**
+- **أسطوانات ومسامير التمفصل**
+
+### المحور الأمامي والترادفي ونقل الحركة
+- **سلاسل ومحامل الدفع الترادفي**
+- **مسامير الملك وقضبان الربط**
+- **أسنان التخديش والريبر**
+
+## قطع المدك / الحدّالة
+
+- **الأسطوانة ومحاملها**
+- **مجموعة الاهتزاز / اللامركزية**
+- **قضبان الكشط**
+- **أغلفة القدم الوسادية** (لمدكات التربة)
+- **إطارات الحدّالة الهوائية**
+- **نظام رش الماء** (لحدّالات الأسفلت)
+
+## قطع فرّادة الأسفلت
+
+- **ألواح وعناصر تسخين الشفرة**
+- **سلاسل الناقل**
+- **قطع البريمة ومحاملها**
+- **قضبان الدك والهزازات**
+
+## احصل على قطع معدات الطرق من HESP
+
+ريادة فنتشرز توفر حواف القطع وقطع الدائرة ومكونات الأسطوانة والاهتزاز وقطع الفرّادة والهيدروليك للجريدرات والمدكات والفرّادات من كاتربيلر وكوماتسو و BOMAG و Hamm و Dynapac و Wirtgen.
+
+**تبني طرقاً؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/grader-1.jpg",
+    metaTitleEn: "Motor Grader & Road Construction Equipment Parts | HESP Saudi Arabia",
+    metaTitleAr: "قطع غيار الجريدر ومعدات إنشاء الطرق | HESP السعودية",
+    metaDescEn: "Road construction equipment spare parts in Saudi Arabia. Motor grader cutting edges, circle parts, compactor drums & paver screed parts. CAT, Komatsu, BOMAG, Hamm.",
+    metaDescAr: "قطع غيار معدات إنشاء الطرق في السعودية. حواف قطع الجريدر وقطع الدائرة وأسطوانات المدك وقطع الفرّادة. كاتربيلر وكوماتسو و BOMAG و Hamm.",
+    primaryKeyword: "motor grader parts",
+    keywords: ["road construction equipment parts", "grader cutting edges", "compactor parts", "roller parts", "asphalt paver parts", "CAT 140 grader parts", "BOMAG parts Saudi", "Hamm roller parts", "circle gear"],
+    published: true,
+    publishedAt: new Date("2026-05-22"),
+  },
+  {
+    slug: "vision-2030-neom-heavy-equipment-parts-supply-chain",
+    titleEn: "Vision 2030 & NEOM: Securing the Heavy Equipment Parts Supply Chain",
+    titleAr: "رؤية 2030 ونيوم: تأمين سلسلة إمداد قطع المعدات الثقيلة",
+    excerptEn: "Saudi Arabia's giga-projects demand thousands of machines running non-stop. Learn how contractors can build a resilient heavy equipment spare parts supply chain to avoid costly downtime.",
+    excerptAr: "تتطلب المشاريع العملاقة في السعودية آلاف الآلات تعمل بلا توقف. تعرف على كيف يبني المقاولون سلسلة إمداد مرنة لقطع غيار المعدات الثقيلة لتجنب التوقف المكلف.",
+    bodyEn: `Saudi Arabia is in the middle of the largest construction boom in its history. Vision 2030 giga-projects — NEOM and The Line, Qiddiya, the Red Sea Project, Diriyah Gate, ROSHN housing developments, the Riyadh Metro, and the expansion of mining at Waad Al Shamal — have put tens of thousands of pieces of heavy equipment into the field. Every excavator, loader, dozer, crane, and hauler on these sites needs spare parts to keep running. For contractors, building a resilient heavy equipment parts supply chain is now a competitive advantage. This article explains how.
+
+## The Scale of the Challenge
+
+Giga-projects run on tight schedules with severe penalties for delay. A single machine sitting idle for parts can stall an entire work front. Multiply that across a fleet of hundreds, and parts availability becomes a make-or-break factor. The challenges include:
+
+- **Demand spikes** as projects ramp up simultaneously across the Kingdom
+- **Long OEM lead times** for parts shipped from Japan, Europe, or the USA
+- **Remote sites** like NEOM, far from traditional dealer networks
+- **Harsh conditions** that accelerate wear and increase parts consumption
+- **Multi-brand fleets** requiring parts for CAT, Komatsu, Volvo, Hitachi, JCB, SANY, XCMG, and more
+
+## Building a Resilient Parts Supply Chain
+
+### 1. Forecast Parts Demand
+Use machine hours, telematics data (KOMTRAX, VisionLink, Care Track), and historical consumption to predict which parts you'll need and when. Wear parts — filters, GET, undercarriage, cutting edges — follow predictable patterns.
+
+### 2. Stock Critical Spares Locally
+Keep a strategic inventory of high-failure, long-lead-time, and mission-critical parts on or near site. The cost of holding inventory is far lower than the cost of a stalled work front.
+
+### 3. Partner with a Local Specialist Supplier
+A Saudi-based specialist like **Riyada Ventures (HESP)** shortens the supply chain dramatically. Instead of waiting weeks for an overseas shipment, parts can reach your site in days. Local suppliers also offer multi-brand coverage, so you deal with one partner instead of many dealers.
+
+### 4. Balance OEM and Aftermarket
+Reserve genuine OEM parts for engine internals, hydraulics, and safety-critical components. Use quality certified aftermarket for filters, GET, undercarriage, and other wear items to control cost and improve availability.
+
+### 5. Standardize Where Possible
+Standardizing fleet brands and models reduces the variety of parts you must stock and simplifies the supply chain.
+
+### 6. Use Digital Part Identification
+Online catalogs and part-number lookup speed up ordering and reduce costly mistakes from wrong parts.
+
+## Why Local Sourcing Wins on Giga-Projects
+
+For a project like NEOM, hundreds of kilometres from Jeddah or Riyadh, the difference between a same-week and a same-month parts delivery is enormous. A local specialist supplier with deep inventory, multi-brand coverage, and technical support turns the parts supply chain from a liability into a competitive edge.
+
+## How HESP Supports Vision 2030 Contractors
+
+Riyada Ventures (HESP) is built for the Saudi market. We maintain a deep, multi-brand inventory of heavy equipment spare parts — covering excavators, loaders, dozers, cranes, graders, compactors, and haulers — with a Riyadh warehouse, fast nationwide delivery, and an engineering team that identifies the right part fast. For contractors working on Vision 2030 giga-projects, we are the partner that keeps your fleet — and your schedule — on track.
+
+**Securing your supply chain?** [Browse our catalog](/products) or [request a quote](/quote) and let's keep your project moving.`,
+    bodyAr: `تشهد السعودية أكبر طفرة بناء في تاريخها. مشاريع رؤية 2030 العملاقة — نيوم وذا لاين والقدية ومشروع البحر الأحمر وبوابة الدرعية ومشاريع روشن السكنية ومترو الرياض وتوسعة التعدين في وعد الشمال — وضعت عشرات الآلاف من قطع المعدات الثقيلة في الميدان. كل حفار ولودر وبلدوزر ورافعة وقلابة في هذه المواقع يحتاج قطع غيار ليستمر في العمل.
+
+## حجم التحدي
+
+تعمل المشاريع العملاقة بجداول ضيقة مع غرامات شديدة للتأخير. آلة واحدة متوقفة بانتظار قطعة قد توقف جبهة عمل كاملة. تشمل التحديات:
+
+- **ارتفاع الطلب** مع تسارع المشاريع في آن واحد
+- **أوقات توريد طويلة للقطع الأصلية** المشحونة من اليابان وأوروبا وأمريكا
+- **مواقع نائية** مثل نيوم، بعيدة عن شبكات الوكلاء التقليدية
+- **ظروف قاسية** تسرّع التآكل
+- **أساطيل متعددة العلامات** تتطلب قطعاً لكاتربيلر وكوماتسو وفولفو وهيتاشي و JCB و SANY و XCMG
+
+## بناء سلسلة إمداد مرنة للقطع
+
+### 1. توقّع الطلب على القطع
+استخدم ساعات الآلة وبيانات الاتصال عن بُعد (KOMTRAX و VisionLink و Care Track) والاستهلاك التاريخي للتنبؤ بالقطع التي ستحتاجها ومتى.
+
+### 2. خزّن القطع الحرجة محلياً
+احتفظ بمخزون استراتيجي من القطع عالية الفشل وطويلة التوريد والحرجة في الموقع أو قربه.
+
+### 3. اشترك مع مورد متخصص محلي
+مورد سعودي متخصص مثل **ريادة فنتشرز (HESP)** يقصّر سلسلة الإمداد بشكل كبير. بدلاً من انتظار أسابيع لشحنة خارجية، تصل القطع لموقعك في أيام.
+
+### 4. وازن بين الأصلية والبديلة
+احتفظ بالقطع الأصلية للمكونات الداخلية للمحرك والهيدروليك والمكونات الحرجة للسلامة. استخدم البديلة المعتمدة لقطع التآكل.
+
+### 5. وحّد حيثما أمكن
+توحيد العلامات والموديلات يقلل تنوع القطع التي يجب تخزينها.
+
+### 6. استخدم التعريف الرقمي للقطع
+الكتالوجات الإلكترونية والبحث برقم القطعة يسرّع الطلب ويقلل الأخطاء.
+
+## لماذا يفوز التوريد المحلي في المشاريع العملاقة
+
+لمشروع مثل نيوم، البعيد مئات الكيلومترات عن جدة أو الرياض، الفرق بين توصيل في نفس الأسبوع وآخر في نفس الشهر هائل.
+
+## كيف تدعم HESP مقاولي رؤية 2030
+
+ريادة فنتشرز (HESP) مبنية للسوق السعودي. نحتفظ بمخزون عميق متعدد العلامات من قطع غيار المعدات الثقيلة — يغطي الحفارات واللودرات والبلدوزرات والرافعات والجريدرات والمدكات والقلابات — مع مستودع بالرياض وتوصيل سريع على مستوى المملكة.
+
+**تؤمّن سلسلة إمدادك؟** [تصفح الكتالوج](/products) أو [اطلب عرض سعر](/quote).`,
+    coverImageUrl: "/images/equipment/crane-1.jpg",
+    metaTitleEn: "Vision 2030 & NEOM Heavy Equipment Parts Supply Chain | HESP",
+    metaTitleAr: "رؤية 2030 ونيوم: سلسلة إمداد قطع المعدات الثقيلة | HESP",
+    metaDescEn: "How contractors secure a resilient heavy equipment spare parts supply chain for Vision 2030 & NEOM giga-projects. Avoid downtime with local multi-brand sourcing in KSA.",
+    metaDescAr: "كيف يؤمّن المقاولون سلسلة إمداد مرنة لقطع غيار المعدات الثقيلة لمشاريع رؤية 2030 ونيوم العملاقة. تجنب التوقف بالتوريد المحلي متعدد العلامات.",
+    primaryKeyword: "heavy equipment parts supply chain Saudi Arabia",
+    keywords: ["Vision 2030 construction equipment", "NEOM heavy equipment parts", "giga-project parts supply", "spare parts logistics KSA", "construction boom Saudi Arabia", "fleet parts availability", "reduce equipment downtime", "multi-brand parts supplier"],
+    published: true,
+    publishedAt: new Date("2026-06-15"),
+  },
 ]
 
 async function main() {
