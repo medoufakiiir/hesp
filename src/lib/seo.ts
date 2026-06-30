@@ -12,20 +12,24 @@ export const DEFAULT_OG_IMAGE = "/images/equipment/excavator-1.jpg"
 /**
  * Shared per-page metadata builder: title (template-bypassing so it never gets
  * the root layout's " | Riyada Ventures - HESP" suffix appended twice),
- * canonical/hreflang, openGraph, and twitter. There's no locale-prefixed
- * routing (AR/EN render at the same URL via client-side toggle — see
- * src/context/LangContext.tsx), so `languages` intentionally points both
- * "en" and "ar" at the same canonical URL rather than fabricating URLs that
- * don't exist.
+ * canonical/hreflang, openGraph, and twitter. AR/EN now have real,
+ * server-rendered, distinct URLs (/en/... and /ar/...) via next-intl
+ * locale-prefixed routing, so `languages` points at the actual per-locale
+ * URL for each — no longer the same-URL placeholder from before locale
+ * routing existed.
  */
 export function buildMetadata(opts: {
   title: string
   description: string
   path: string
+  locale: string
   keywords?: string[]
   ogImage?: string
 }): Metadata {
-  const url = `${SITE_URL}${opts.path}`
+  const { locale, path } = opts
+  const url = `${SITE_URL}/${locale}${path}`
+  const enUrl = `${SITE_URL}/en${path}`
+  const arUrl = `${SITE_URL}/ar${path}`
   const image = opts.ogImage || DEFAULT_OG_IMAGE
   return {
     title: { absolute: opts.title },
@@ -33,7 +37,7 @@ export function buildMetadata(opts: {
     ...(opts.keywords ? { keywords: opts.keywords } : {}),
     alternates: {
       canonical: url,
-      languages: { en: url, ar: url },
+      languages: { en: enUrl, ar: arUrl, "x-default": enUrl },
     },
     openGraph: {
       type: "website",
@@ -41,8 +45,8 @@ export function buildMetadata(opts: {
       description: opts.description,
       url,
       siteName: SITE_NAME,
-      locale: "en_US",
-      alternateLocale: "ar_SA",
+      locale: locale === "ar" ? "ar_SA" : "en_US",
+      alternateLocale: locale === "ar" ? "en_US" : "ar_SA",
       images: [{ url: image, width: 1200, height: 630, alt: opts.title }],
     },
     twitter: {
@@ -161,6 +165,7 @@ export function articleJsonLd(post: {
   date: string
   author: string
   slug: string
+  locale: string
 }) {
   return {
     "@context": "https://schema.org",
@@ -175,11 +180,11 @@ export function articleJsonLd(post: {
       name: "Riyada Ventures",
       logo: { "@type": "ImageObject", url: `${SITE_URL}/images/logo.png` },
     },
-    mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+    mainEntityOfPage: `${SITE_URL}/${post.locale}/blog/${post.slug}`,
   }
 }
 
-export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
+export function breadcrumbJsonLd(locale: string, items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -187,7 +192,7 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: `${SITE_URL}${item.url}`,
+      item: `${SITE_URL}/${locale}${item.url}`,
     })),
   }
 }
@@ -198,6 +203,7 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
  * listing page it actually appears on). Caps to keep the JSON-LD payload sane.
  */
 export function productListJsonLd(
+  locale: string,
   products: { name: string; url: string; image?: string; sku?: string; brand?: string; inStock?: boolean }[],
   limit = 30,
 ) {
@@ -210,7 +216,7 @@ export function productListJsonLd(
       item: {
         "@type": "Product",
         name: p.name,
-        url: `${SITE_URL}${p.url}`,
+        url: `${SITE_URL}/${locale}${p.url}`,
         ...(p.image ? { image: p.image.startsWith("http") ? p.image : `${SITE_URL}${p.image}` } : {}),
         ...(p.sku ? { sku: p.sku } : {}),
         ...(p.brand ? { brand: { "@type": "Brand", name: p.brand } } : {}),

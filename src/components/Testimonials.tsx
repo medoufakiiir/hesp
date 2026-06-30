@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion"
 import { Star, Quote } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale, useTranslations } from "next-intl"
 
 export default function Testimonials() {
-  const { t, isArabic } = useLang()
+  const t = useTranslations("testimonials")
+  const isArabic = useLocale() === "ar"
+  const items = t.raw("items") as { quote: string; name: string; company: string }[]
 
   return (
     <section className="py-24 lg:py-32 bg-brand-steel relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
@@ -23,7 +25,7 @@ export default function Testimonials() {
           <div className="inline-flex items-center gap-3 mb-4">
             <span className="h-px w-8 bg-brand-amber/40" />
             <span className={`text-brand-amber text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
-              {t.testimonials.eyebrow}
+              {t("eyebrow")}
             </span>
             <span className="h-px w-8 bg-brand-amber/40" />
           </div>
@@ -32,12 +34,12 @@ export default function Testimonials() {
               ? "font-arabic font-bold text-[clamp(2rem,5vw,4rem)]"
               : "font-display font-extrabold uppercase tracking-tight text-[clamp(2.5rem,5vw,5rem)]"
           }`}>
-            {t.testimonials.title}
+            {t("title")}
           </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
-          {t.testimonials.items.map((item, i) => (
+          {items.map((item, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50, rotateX: 8 }}

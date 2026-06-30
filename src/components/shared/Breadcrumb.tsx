@@ -1,8 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { ChevronRight } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale } from "next-intl"
+import { Link } from "@/i18n/navigation"
 
 interface BreadcrumbItem {
   labelEN: string
@@ -11,7 +11,7 @@ interface BreadcrumbItem {
 }
 
 export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
 
   return (
     <nav aria-label="Breadcrumb" className="py-4" dir={isArabic ? "rtl" : "ltr"}>

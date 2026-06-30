@@ -2,14 +2,16 @@
 
 import { motion } from "framer-motion"
 import { ShieldCheck, Truck, Wrench, DollarSign } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale, useTranslations } from "next-intl"
 import { staggerContainer, fadeInUp } from "@/lib/motion"
 import { toArabicNum } from "@/lib/utils"
 
 const icons = [ShieldCheck, Truck, Wrench, DollarSign]
 
 export default function WhyChooseUs() {
-  const { t, isArabic } = useLang()
+  const t = useTranslations("why")
+  const isArabic = useLocale() === "ar"
+  const items = t.raw("items") as { title: string; desc: string }[]
 
   return (
     <section className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden">
@@ -31,7 +33,7 @@ export default function WhyChooseUs() {
           dir={isArabic ? "rtl" : "ltr"}
         >
           <motion.p variants={fadeInUp} className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>
-            {t.why.eyebrow}
+            {t("eyebrow")}
           </motion.p>
           <motion.h2
             variants={fadeInUp}
@@ -41,16 +43,16 @@ export default function WhyChooseUs() {
                 : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,6vw,5.5rem)]"
             }`}
           >
-            {t.why.title}
+            {t("title")}
           </motion.h2>
           <motion.p variants={fadeInUp} className={`text-brand-muted text-lg max-w-xl ${isArabic ? "font-arabic" : ""}`}>
-            {t.why.sub}
+            {t("sub")}
           </motion.p>
         </motion.div>
 
         {/* 3D Glass Cards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" style={{ perspective: "1000px" }}>
-          {t.why.items.map((item, i) => {
+          {items.map((item, i) => {
             const Icon = icons[i]
             return (
               <motion.div

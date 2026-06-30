@@ -1,10 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { useLocale } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
-import { useLang } from "@/context/LangContext"
 import type { CategoryData } from "@/types/db"
 import { toArabicNum } from "@/lib/utils"
 import { useRef } from "react"
@@ -48,7 +48,7 @@ function Card3D({ children, className = "" }: { children: React.ReactNode; class
 }
 
 export default function ProductCategories({ categoriesData }: { categoriesData: CategoryData[] }) {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
   const categories = categoriesData
 
   return (

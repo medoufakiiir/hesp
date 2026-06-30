@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useLang } from "@/context/LangContext"
+import { useLocale } from "next-intl"
 
 interface PageHeaderProps {
   eyebrowEN: string
@@ -13,7 +13,7 @@ interface PageHeaderProps {
 }
 
 export default function PageHeader({ eyebrowEN, eyebrowAR, titleEN, titleAR, subtitleEN, subtitleAR }: PageHeaderProps) {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
 
   return (
     <section className="relative pt-32 lg:pt-36 pb-20 overflow-hidden">

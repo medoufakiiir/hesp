@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Phone } from "lucide-react"
-import { useLang } from "@/context/LangContext"
 
 const navLinks = [
   { href: "/", labelEN: "Home", labelAR: "الرئيسية" },
@@ -18,10 +17,16 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const { lang, setLang, isArabic } = useLang()
+  const locale = useLocale()
+  const isArabic = locale === "ar"
+  const router = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
+
+  const toggleLocale = () => {
+    router.replace(pathname, { locale: isArabic ? "en" : "ar" })
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48)
@@ -109,12 +114,12 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3" dir={isArabic ? "rtl" : "ltr"}>
           <button
-            onClick={() => setLang(lang === "EN" ? "AR" : "EN")}
+            onClick={toggleLocale}
             className="text-[10px] font-bold text-brand-white/60 border border-brand-white/15 px-3.5 py-1.5
               rounded-full hover:border-brand-amber hover:text-brand-amber transition-all uppercase tracking-wider cursor-pointer"
             aria-label="Toggle language"
           >
-            {lang === "EN" ? "عربي" : "EN"}
+            {isArabic ? "EN" : "عربي"}
           </button>
 
           <Link

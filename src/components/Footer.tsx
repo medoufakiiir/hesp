@@ -1,10 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { useLocale } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
-import { useLang } from "@/context/LangContext"
 import { staggerContainer, blurFadeIn, fadeInUp } from "@/lib/motion"
 import { toArabicNum } from "@/lib/utils"
 
@@ -46,7 +46,7 @@ const socials = [
 ]
 
 export default function Footer() {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
 
   return (
     <footer className="bg-black border-t border-brand-amber/20 pt-20 pb-10 relative overflow-hidden">

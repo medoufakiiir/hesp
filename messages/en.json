@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tag": "Saudi Arabia's Premier Parts Partner",
+    "headline1": "Parts That",
+    "headline2": "Move the World",
+    "sub": "Heavy equipment spare parts — fast delivery across Saudi Arabia.",
+    "cta1": "Order Now",
+    "cta2": "Browse Catalog"
+  },
+  "stats": [
+    { "num": 15, "suffix": "+", "label": "Years Experience" },
+    { "num": 500, "suffix": "+", "label": "Trusted Brands" },
+    { "num": 10000, "suffix": "+", "label": "Parts Available" },
+    { "num": 30, "suffix": "+", "label": "Countries Served" }
+  ],
+  "categories": {
+    "eyebrow": "Product Categories",
+    "title": "Engineered for Every Machine",
+    "sub": "Premium spare parts covering the full spectrum of heavy equipment.",
+    "items": [
+      { "nameEN": "Excavator Parts", "descEN": "Full catalog for all excavator models" },
+      { "nameEN": "Bulldozer Parts", "descEN": "Heavy dozer drivetrain & chassis" },
+      { "nameEN": "Crane & Lifting Parts", "descEN": "Lifting, rigging & hoist components" },
+      { "nameEN": "Loader Parts", "descEN": "Wheel loader hydraulics & drivetrain" },
+      { "nameEN": "Road Construction", "descEN": "Compaction & paving equipment parts" },
+      { "nameEN": "Engine & Hydraulic", "descEN": "Power systems & hydraulic circuits" }
+    ]
+  },
+  "equipment": {
+    "eyebrow": "Our Fleet Coverage",
+    "title": "Heavy Machinery. Every Make.",
+    "sub": "From excavators to cranes — we source the part, wherever it is."
+  },
+  "why": {
+    "eyebrow": "Why Choose Us",
+    "title": "The Backbone of Saudi Industrial Maintenance",
+    "sub": "We don't just supply parts — we supply uptime.",
+    "items": [
+      { "title": "Original Parts Only", "desc": "OEM-certified and verified aftermarket components you can trust." },
+      { "title": "Fast Saudi Delivery", "desc": "Air-freight in 3–5 days. Same-day pickup in Riyadh." },
+      { "title": "Expert Technical Support", "desc": "Engineering-grade consultation for every procurement decision." },
+      { "title": "Competitive Pricing", "desc": "Direct sourcing from global manufacturers — no middlemen." }
+    ]
+  },
+  "brands": {
+    "eyebrow": "Supported Brands",
+    "title": "We Cover Every Major Brand"
+  },
+  "testimonials": {
+    "eyebrow": "Client Testimonials",
+    "title": "Trusted by Saudi's Largest Fleets",
+    "items": [
+      {
+        "quote": "Riyada reduced our fleet downtime by 40%. Critical parts delivered within 48 hours — unmatched reliability.",
+        "name": "Mohammed Al-Rashidi",
+        "company": "Fleet Manager — Saudi Aramco Contractors"
+      },
+      {
+        "quote": "Best aftermarket parts supplier in the Kingdom. Our workshop runs entirely on Riyada sourcing.",
+        "name": "Eng. Abdullah Al-Otaibi",
+        "company": "Procurement Head — SARC Construction Co."
+      },
+      {
+        "quote": "Professional service, competitive pricing, fast delivery. Riyada is our first call for every part.",
+        "name": "Omar Al-Ghamdi",
+        "company": "Operations Director — Al-Muhaidib Group"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Get in Touch",
+    "title": "Let's Keep Your Fleet Running",
+    "sub": "Submit a part request and we'll respond within 2 hours.",
+    "namePlaceholder": "Full Name",
+    "companyPlaceholder": "Company (optional)",
+    "phonePlaceholder": "Phone Number",
+    "partPlaceholder": "Part needed (e.g. CAT 320D hydraulic pump)",
+    "send": "Send via WhatsApp",
+    "phone": "+966 55 228 2868",
+    "email": "info@riyada-ventures.com",
+    "address": "Al Faisaliyyah, Riyadh 12882, KSA",
+    "hours": "Sun – Thu  ·  8:00 AM – 6:00 PM"
+  },
+  "footer": {
+    "tagline": "The backbone of Saudi industrial maintenance and heavy equipment spare parts.",
+    "links": "Quick Links",
+    "products": "Products",
+    "contact": "Contact",
+    "rights": "All rights reserved. Riyada Ventures.",
+    "vision2030": "Saudi Vision 2030"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "title": "Built for Saudi Industry",
+    "text": "Riyada Ventures was established to solve a persistent market problem: operators need the right part, fast, from a reliable source — without guesswork. We are the backbone of Saudi industrial maintenance.",
+    "vision": "To be the most trusted heavy equipment partner in the Middle East.",
+    "mission": "Delivering engineering excellence through precision global sourcing."
+  }
+}

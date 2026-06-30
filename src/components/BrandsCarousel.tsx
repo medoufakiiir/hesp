@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { useLang } from "@/context/LangContext"
+import { useLocale, useTranslations } from "next-intl"
 import { blurFadeIn, staggerContainer } from "@/lib/motion"
 
 type BrandItem = {
@@ -66,7 +66,8 @@ function BrandCard({ brand, isArabic }: { brand: BrandItem; isArabic: boolean })
 }
 
 export default function BrandsCarousel({ brandsData = [] }: { brandsData?: BrandItem[] }) {
-  const { t, isArabic } = useLang()
+  const t = useTranslations("brands")
+  const isArabic = useLocale() === "ar"
 
   const gridBrands: BrandItem[] = brandsData.length
     ? brandsData
@@ -93,7 +94,7 @@ export default function BrandsCarousel({ brandsData = [] }: { brandsData?: Brand
           className={`text-center ${isArabic ? "font-arabic" : ""}`}
         >
           <motion.p variants={blurFadeIn} className={`text-brand-amber text-xs font-semibold mb-2 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
-            {t.brands.eyebrow}
+            {t("eyebrow")}
           </motion.p>
           <motion.h2
             variants={blurFadeIn}
@@ -103,7 +104,7 @@ export default function BrandsCarousel({ brandsData = [] }: { brandsData?: Brand
                 : "font-display font-extrabold uppercase tracking-tight text-4xl"
             }`}
           >
-            {t.brands.title}
+            {t("title")}
           </motion.h2>
         </motion.div>
       </div>

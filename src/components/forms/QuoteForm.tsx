@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { motion, AnimatePresence } from "framer-motion"
 import { Send, CheckCircle, MessageCircle, Loader2, AlertCircle } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale } from "next-intl"
 import { submitPublicQuote } from "@/actions/public-quote"
 
 const quoteSchema = z.object({
@@ -67,8 +67,8 @@ function FormField({ label, error, children, id, isArabic }: {
 }
 
 export default function QuoteForm() {
-  const { lang, isArabic } = useLang()
-  const labels = t[lang]
+  const isArabic = useLocale() === "ar"
+  const labels = t[isArabic ? "AR" : "EN"]
   const [submitted, setSubmitted] = useState(false)
   const [serverError, setServerError] = useState("")
   const [savedData, setSavedData] = useState<QuoteFormData | null>(null)

@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion"
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale, useTranslations } from "next-intl"
 import ContactForm from "@/components/forms/ContactForm"
 
 export default function ContactCTA() {
-  const { t, isArabic } = useLang()
+  const t = useTranslations("contact")
+  const isArabic = useLocale() === "ar"
 
   return (
     <section id="contact" className="py-24 lg:py-32 bg-brand-iron relative overflow-hidden" dir={isArabic ? "rtl" : "ltr"}>
@@ -24,13 +25,13 @@ export default function ContactCTA() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className={`mb-14 ${isArabic ? "text-right" : ""}`}
         >
-          <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>{t.contact.eyebrow}</p>
+          <p className={`text-brand-amber text-xs font-semibold mb-3 ${isArabic ? "font-arabic" : "uppercase tracking-[0.25em]"}`}>{t("eyebrow")}</p>
           <h2 className={`text-brand-white leading-[0.95] mb-4 ${
             isArabic
               ? "font-arabic font-bold text-[clamp(2.5rem,6vw,5rem)]"
               : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,7vw,6rem)]"
-          }`}>{t.contact.title}</h2>
-          <p className={`text-brand-muted text-lg ${isArabic ? "font-arabic" : ""}`}>{t.contact.sub}</p>
+          }`}>{t("title")}</h2>
+          <p className={`text-brand-muted text-lg ${isArabic ? "font-arabic" : ""}`}>{t("sub")}</p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -47,9 +48,9 @@ export default function ContactCTA() {
 
           <div className="space-y-4">
             {[
-              { Icon: Phone, value: t.contact.phone, href: `tel:${t.contact.phone}`, ltr: true },
-              { Icon: Mail, value: t.contact.email, href: `mailto:${t.contact.email}`, ltr: true },
-              { Icon: MapPin, value: t.contact.address, href: "#", ltr: false },
+              { Icon: Phone, value: t("phone"), href: `tel:${t("phone")}`, ltr: true },
+              { Icon: Mail, value: t("email"), href: `mailto:${t("email")}`, ltr: true },
+              { Icon: MapPin, value: t("address"), href: "#", ltr: false },
             ].map(({ Icon, value, href, ltr }, i) => (
               <motion.a key={i} href={href}
                 initial={{ opacity: 0, x: isArabic ? -30 : 30 }}
@@ -69,7 +70,7 @@ export default function ContactCTA() {
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06]">
               <Clock size={18} className="text-brand-amber flex-shrink-0" />
-              <span className={`text-brand-muted text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>{t.contact.hours}</span>
+              <span className={`text-brand-muted text-xs font-semibold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>{t("hours")}</span>
               <motion.span className="w-2.5 h-2.5 rounded-full bg-emerald-500 ms-auto"
                 animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
                 transition={{ repeat: Infinity, duration: 2 }} />

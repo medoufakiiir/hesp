@@ -1,14 +1,14 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
+import { useLocale } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { motion } from "framer-motion"
 import { ArrowUpRight, Package } from "lucide-react"
-import { useLang } from "@/context/LangContext"
 import type { ProductData } from "@/types/db"
 
 export default function FeaturedProducts({ productsData }: { productsData: ProductData[] }) {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
   const featured = productsData
 
   return (

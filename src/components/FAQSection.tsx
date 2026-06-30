@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, HelpCircle } from "lucide-react"
-import { useLang } from "@/context/LangContext"
+import { useLocale } from "next-intl"
 
 interface FAQ {
   questionEN: string
@@ -13,7 +13,7 @@ interface FAQ {
 }
 
 export default function FAQSection({ faqs }: { faqs: FAQ[] }) {
-  const { isArabic } = useLang()
+  const isArabic = useLocale() === "ar"
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
-import { useLang } from "@/context/LangContext"
+import { useLocale } from "next-intl"
 import { cinematicText } from "@/data/cinematic-translations"
 import { useReducedMotion } from "@/hooks/useReducedMotion"
 
@@ -47,8 +47,8 @@ const particles = [
 ]
 
 export default function Hero() {
-  const { lang, isArabic } = useLang()
-  const frames = cinematicText[lang].hero.frames
+  const isArabic = useLocale() === "ar"
+  const frames = cinematicText[isArabic ? "AR" : "EN"].hero.frames
   const reduced = useReducedMotion()
 
   const [active, setActive] = useState(0)
