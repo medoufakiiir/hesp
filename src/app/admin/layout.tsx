@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import AdminProviders from "./providers"
 import AdminShell from "./AdminShell"
+import IdleTimeoutHandler from "@/components/admin/IdleTimeoutHandler"
 import { barlowCondensed, inter, tajawalArabic } from "@/lib/fonts"
 import "../globals.css"
 import { cn } from "@/lib/utils"
@@ -25,6 +26,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     >
       <body className="min-h-full bg-brand-iron text-brand-white">
         <AdminProviders>
+          <IdleTimeoutHandler />
           <AdminShell>{children}</AdminShell>
         </AdminProviders>
       </body>
