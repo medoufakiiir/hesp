@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
-import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo"
+import { articleJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
 // ISR: regenerate post pages at most once per minute so edits and new
@@ -13,15 +13,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = await prisma.blogPost.findUnique({ where: { slug } })
   if (!post || !post.published) return {}
 
+  const title = post.metaTitleEn || post.titleEn
+  const description = post.metaDescEn || post.excerptEn || ""
+  const base = buildMetadata({
+    title, description, path: `/blog/${slug}`,
+    keywords: post.keywords.length > 0 ? post.keywords : undefined,
+    ogImage: post.coverImageUrl || undefined,
+  })
+
   return {
-    title: post.metaTitleEn || post.titleEn,
-    description: post.metaDescEn || post.excerptEn || "",
-    alternates: { canonical: `https://riyada-ventures.com/blog/${slug}` },
+    ...base,
     openGraph: {
+      ...base.openGraph,
       type: "article",
-      title: post.metaTitleEn || post.titleEn,
-      description: post.metaDescEn || post.excerptEn || "",
-      images: post.coverImageUrl ? [{ url: post.coverImageUrl, width: 1200, height: 630, alt: post.titleEn }] : [],
       publishedTime: (post.publishedAt || post.createdAt).toISOString(),
     },
   }

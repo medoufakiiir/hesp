@@ -4,7 +4,7 @@ import "./globals.css"
 import { LangProvider } from "@/context/LangContext"
 import VisitorTracker from "@/components/VisitorTracker"
 import { cn } from "@/lib/utils"
-import { organizationJsonLd, localBusinessJsonLd } from "@/lib/seo"
+import { organizationJsonLd, localBusinessJsonLd, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo"
 
 const barlowCondensed = Barlow_Condensed({
   variable: "--font-display",
@@ -29,7 +29,7 @@ const tajawalArabic = Tajawal({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://riyada-ventures.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Riyada Ventures | Heavy Equipment Spare Parts Saudi Arabia | قطع غيار معدات ثقيلة",
     template: "%s | Riyada Ventures - HESP",
@@ -75,10 +75,10 @@ export const metadata: Metadata = {
     type: "website",
     title: "Riyada Ventures | Heavy Equipment Spare Parts Saudi Arabia",
     description: "Premium heavy equipment spare parts — CAT, Komatsu, Volvo, JCB, Hitachi. Fast delivery across Saudi Arabia.",
-    siteName: "Riyada Ventures - HESP",
+    siteName: SITE_NAME,
     locale: "en_US",
     alternateLocale: "ar_SA",
-    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630, alt: "Riyada Ventures Heavy Equipment Spare Parts" }],
+    images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: "Riyada Ventures Heavy Equipment Spare Parts" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -86,11 +86,8 @@ export const metadata: Metadata = {
     description: "Saudi Arabia's premier heavy equipment spare parts supplier.",
   },
   alternates: {
-    canonical: "https://riyada-ventures.com",
-    languages: { "en": "https://riyada-ventures.com", "ar": "https://riyada-ventures.com" },
-  },
-  verification: {
-    google: "your-google-verification-code",
+    canonical: SITE_URL,
+    languages: { en: SITE_URL, ar: SITE_URL },
   },
   category: "Industrial Equipment",
 }

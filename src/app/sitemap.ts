@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next"
 import { prisma } from "@/lib/db"
+import { SITE_URL } from "@/lib/seo"
 
 export const revalidate = 3600
 
-const BASE = "https://riyada-ventures.com"
+const BASE = SITE_URL
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString()

@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { brands as staticBrands } from "@/data/brands"
-import { breadcrumbJsonLd } from "@/lib/seo"
-import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
+import { breadcrumbJsonLd, buildMetadata, productListJsonLd } from "@/lib/seo"
+import { getCategoryImage, getProductImage, getBrandLogo } from "@/data/catalog-assets"
 import BrandPageClient from "./BrandPageClient"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -14,11 +14,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!brand) return {}
 
   const name = "name" in brand ? brand.name : (brand as any).nameEn
-  return {
-    title: ("metaTitleEN" in brand && brand.metaTitleEN) || `${name} Parts | Heavy Equipment Spare Parts`,
-    description: ("metaDescEN" in brand && brand.metaDescEN) || `Browse ${name} spare parts for heavy equipment.`,
-    alternates: { canonical: `https://riyada-ventures.com/brands/${slug}` },
-  }
+  const title = ("metaTitleEN" in brand && brand.metaTitleEN) || `${name} Parts | Heavy Equipment Spare Parts`
+  const desc = ("metaDescEN" in brand && brand.metaDescEN) || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`
+  const keywords = [
+    `${name} parts`,
+    `${name} spare parts Saudi Arabia`,
+    `${name} parts Riyadh`,
+    `${name} parts supplier`,
+    "heavy machinery parts Saudi Arabia",
+    "OEM heavy machinery parts",
+    `قطع غيار ${name}`,
+  ]
+
+  return buildMetadata({
+    title, description: desc, path: `/brands/${slug}`, keywords,
+    ogImage: getBrandLogo(slug, "logoUrl" in brand ? brand.logoUrl : null) || undefined,
+  })
 }
 
 export default async function BrandPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -75,6 +86,16 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
           { name: "Brands", url: "/brands" },
           { name: brand.name, url: `/brands/${slug}` },
         ])) }}
+      />
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productListJsonLd(brandProducts.map((p) => ({
+          name: p.nameEN,
+          url: `/brands/${slug}`,
+          image: p.image,
+          sku: p.partNumber,
+          brand: brand.name,
+          inStock: p.inStock,
+        })))) }}
       />
       <BrandPageClient brand={brand} products={brandProducts} relatedCategories={relatedCategories} />
     </>

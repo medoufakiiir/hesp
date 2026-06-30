@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import dynamic from "next/dynamic"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { faqJsonLd } from "@/lib/seo"
+import { faqJsonLd, buildMetadata } from "@/lib/seo"
 import {
   getCategoryImage, getProductImage, getBrandLogo,
   HOMEPAGE_CATEGORY_SLUGS, FEATURED_PRODUCT_CATEGORY_SLUGS,
@@ -64,11 +64,33 @@ const homeFaqs = [
   },
 ]
 
-export const metadata: Metadata = {
-  title: "Riyada Ventures | Heavy Equipment Spare Parts Saudi Arabia | قطع غيار معدات ثقيلة السعودية",
+export const metadata: Metadata = buildMetadata({
+  title: "Heavy Equipment Spare Parts Saudi Arabia | HESP",
   description: "Saudi Arabia's premier heavy equipment spare parts supplier. CAT, Komatsu, Volvo, JCB, Hitachi parts. Fast delivery across KSA. قطع غيار المعدات الثقيلة — توصيل سريع.",
-  alternates: { canonical: "https://riyada-ventures.com" },
-}
+  path: "",
+  keywords: [
+    "heavy equipment spare parts",
+    "heavy machinery parts Saudi Arabia",
+    "construction equipment parts Riyadh",
+    "undercarriage parts",
+    "ground engaging tools",
+    "engine and transmission parts",
+    "Caterpillar parts Saudi Arabia",
+    "Komatsu spare parts KSA",
+    "excavator parts supplier",
+    "bulldozer parts Riyadh",
+    "heavy equipment spare parts supplier Saudi Arabia",
+    "B2B heavy equipment parts",
+    "OEM heavy machinery parts",
+    "قطع غيار المعدات الثقيلة",
+    "قطع غيار معدات ثقيلة الرياض",
+    "قطع غيار كاتربيلر السعودية",
+    "قطع غيار كوماتسو",
+    "موردي قطع غيار معدات ثقيلة",
+    "قطع غيار الجرافات",
+    "قطع غيار الحفارات",
+  ],
+})
 
 // Read live catalog data: regenerate at most every 5 min, and instantly
 // on-demand whenever the admin panel mutates the catalog (revalidateCatalog).

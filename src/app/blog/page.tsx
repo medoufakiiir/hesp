@@ -1,16 +1,26 @@
 import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
 import BlogPageClient from "./BlogPageClient"
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 
 // Re-query the database at most once per minute so newly published
 // posts appear without needing a full redeploy (ISR).
 export const revalidate = 60
 
-export const metadata: Metadata = {
-  title: "Heavy Equipment Blog | Maintenance Tips & Parts Guides | مدونة المعدات الثقيلة",
+export const metadata: Metadata = buildMetadata({
+  title: "Heavy Equipment Blog | Maintenance Tips | HESP",
   description: "Expert articles on heavy equipment maintenance, spare parts selection, and fleet management. Tips for Saudi Arabia's construction industry. مقالات متخصصة عن صيانة المعدات الثقيلة.",
-  alternates: { canonical: "https://riyada-ventures.com/blog" },
-}
+  path: "/blog",
+  keywords: [
+    "heavy equipment maintenance tips",
+    "heavy machinery parts Saudi Arabia",
+    "construction equipment parts Riyadh",
+    "fleet management Saudi Arabia",
+    "spare parts selection guide",
+    "مقالات صيانة المعدات الثقيلة",
+    "قطع غيار المعدات الثقيلة",
+  ],
+})
 
 export default async function BlogPage() {
   const posts = await prisma.blogPost.findMany({
@@ -37,5 +47,14 @@ export default async function BlogPage() {
     metaDescAR: p.metaDescAr || "",
   }))
 
-  return <BlogPageClient postsData={postsData} />
+  return (
+    <>
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([
+          { name: "Home", url: "/" }, { name: "Blog", url: "/blog" },
+        ])) }}
+      />
+      <BlogPageClient postsData={postsData} />
+    </>
+  )
 }

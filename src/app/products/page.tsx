@@ -1,14 +1,31 @@
 import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
 import ProductsPageClient from "./ProductsPageClient"
-import { breadcrumbJsonLd } from "@/lib/seo"
+import { breadcrumbJsonLd, buildMetadata, productListJsonLd } from "@/lib/seo"
 import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 
-export const metadata: Metadata = {
-  title: "Heavy Equipment Spare Parts Catalog | قطع غيار المعدات الثقيلة",
+export const metadata: Metadata = buildMetadata({
+  title: "Heavy Equipment Spare Parts Catalog | HESP",
   description: "Browse our complete catalog of heavy equipment spare parts. Excavator, bulldozer, crane, loader, and engine parts for CAT, Komatsu, Volvo, JCB, Hitachi. تصفح كتالوج قطع غيار المعدات الثقيلة.",
-  alternates: { canonical: "https://riyada-ventures.com/products" },
-}
+  path: "/products",
+  keywords: [
+    "heavy equipment spare parts catalog",
+    "construction equipment parts Riyadh",
+    "undercarriage parts",
+    "ground engaging tools",
+    "engine and transmission parts",
+    "excavator parts supplier",
+    "bulldozer parts Riyadh",
+    "crane parts Saudi Arabia",
+    "loader parts catalog",
+    "OEM heavy machinery parts",
+    "aftermarket heavy equipment parts KSA",
+    "قطع غيار المعدات الثقيلة",
+    "كتالوج قطع غيار معدات ثقيلة",
+    "قطع غيار الحفارات",
+    "قطع غيار الجرافات",
+  ],
+})
 
 // Live catalog: ISR every 5 min + on-demand revalidation on admin edits.
 export const revalidate = 300
@@ -50,6 +67,7 @@ export default async function ProductsPage() {
   const brands = rawBrands.map((b) => ({
     id: b.id, slug: b.slug, name: b.nameEn, nameAR: b.nameAr,
   }))
+  const brandNameBySlug = new Map(brands.map((b) => [b.slug, b.name]))
 
   return (
     <>
@@ -57,6 +75,16 @@ export default async function ProductsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([
           { name: "Home", url: "/" }, { name: "Products", url: "/products" },
         ])) }}
+      />
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productListJsonLd(products.map((p) => ({
+          name: p.nameEN,
+          url: `/products/${p.category}`,
+          image: p.image,
+          sku: p.partNumber,
+          brand: brandNameBySlug.get(p.brand),
+          inStock: p.inStock,
+        })))) }}
       />
       <ProductsPageClient
         productsData={JSON.parse(JSON.stringify(products))}

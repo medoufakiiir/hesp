@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { categories as staticCategories } from "@/data/categories"
-import { breadcrumbJsonLd } from "@/lib/seo"
+import { breadcrumbJsonLd, buildMetadata, productListJsonLd } from "@/lib/seo"
 import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 import CategoryPageClient from "./CategoryPageClient"
 
@@ -13,12 +13,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const dbCat = !sc ? await prisma.category.findUnique({ where: { slug } }) : null
   if (!sc && !dbCat) return {}
 
-  const title = sc?.metaTitleEN || `${dbCat?.nameEn} | Heavy Equipment Spare Parts`
-  const desc = sc?.metaDescEN || `Browse ${dbCat?.nameEn} spare parts for heavy equipment.`
-  return {
-    title, description: desc,
-    alternates: { canonical: `https://riyada-ventures.com/products/${slug}` },
-  }
+  const name = sc?.nameEN || dbCat?.nameEn || ""
+  const title = sc?.metaTitleEN || `${name} | Heavy Equipment Spare Parts`
+  const desc = sc?.metaDescEN || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`
+  const keywords = sc
+    ? [...sc.keywordsEN, ...sc.keywordsAR]
+    : [`${name} parts`, `${name} parts Saudi Arabia`, `${name} parts Riyadh`, "heavy equipment spare parts", `قطع غيار ${name}`]
+
+  return buildMetadata({
+    title, description: desc, path: `/products/${slug}`, keywords,
+    ogImage: getCategoryImage(slug),
+  })
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -77,6 +82,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             { name: "Products", url: "/products" },
             { name: category.nameEN, url: `/products/${slug}` },
           ])),
+        }}
+      />
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productListJsonLd(categoryProducts.map((p) => ({
+            name: p.nameEN,
+            url: `/products/${slug}`,
+            image: p.image,
+            sku: p.partNumber,
+            inStock: p.inStock,
+          })))),
         }}
       />
       <CategoryPageClient category={category} products={categoryProducts} otherCategories={otherCategories} />
