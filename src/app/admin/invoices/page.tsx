@@ -2,14 +2,14 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canManageQuotes } from "@/lib/rbac"
+import { canManageQuotes, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import { resolvePermissions } from "@/lib/permissions"
 import InvoicesClient from "./InvoicesClient"
 
 export default async function InvoicesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   const invoices = await prisma.invoice.findMany({
     orderBy: { createdAt: "desc" },

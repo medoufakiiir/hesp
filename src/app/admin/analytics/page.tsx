@@ -2,14 +2,14 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canViewAnalytics } from "@/lib/rbac"
+import { canViewAnalytics, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import AnalyticsClient from "./AnalyticsClient"
 
 export default async function AnalyticsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
   const role = (session.user as Record<string, unknown>).role as string
-  if (!canViewAnalytics(role)) redirect("/admin/dashboard")
+  if (!canViewAnalytics(role)) redirect(FORBIDDEN_ROUTE)
 
   const now = new Date()
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)

@@ -2,13 +2,13 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect, notFound } from "next/navigation"
-import { canManageQuotes } from "@/lib/rbac"
+import { canManageQuotes, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import QuoteDetailClient from "./QuoteDetailClient"
 
 export default async function QuoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canManageQuotes((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   const { id } = await params
   const quote = await prisma.quote.findUnique({

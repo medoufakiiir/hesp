@@ -1,11 +1,11 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canManageSettings } from "@/lib/rbac"
+import { canManageSettings, FORBIDDEN_ROUTE } from "@/lib/rbac"
 
 export default async function SettingsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageSettings((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canManageSettings((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   return (
     <div>

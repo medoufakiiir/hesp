@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canViewInquiries } from "@/lib/rbac"
+import { canViewInquiries, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import { resolvePermissions } from "@/lib/permissions"
 import { prisma } from "@/lib/db"
 import AdminMessagesClient from "./AdminMessagesClient"
@@ -9,7 +9,7 @@ export default async function AdminMessagesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
   const role = (session.user as Record<string, unknown>).role as string
-  if (!canViewInquiries(role)) redirect("/admin/dashboard")
+  if (!canViewInquiries(role)) redirect(FORBIDDEN_ROUTE)
 
   const messages = await prisma.contactMessage.findMany({
     orderBy: { createdAt: "desc" },

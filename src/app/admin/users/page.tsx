@@ -3,12 +3,14 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import { resolvePermissions } from "@/lib/permissions"
+import { FORBIDDEN_ROUTE } from "@/lib/rbac"
 import UsersClient from "./UsersClient"
 
 export default async function UsersPage() {
   const session = await auth()
-  if (!session?.user || (session.user as Record<string, unknown>).role as string !== "SUPER_ADMIN") {
-    redirect("/admin/dashboard")
+  if (!session?.user) redirect("/admin/login")
+  if ((session.user as Record<string, unknown>).role as string !== "SUPER_ADMIN") {
+    redirect(FORBIDDEN_ROUTE)
   }
 
   const users = await prisma.user.findMany({

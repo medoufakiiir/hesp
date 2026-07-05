@@ -1,5 +1,12 @@
 export type Role = "SUPER_ADMIN" | "MANAGER" | "MARKETING" | "SALES"
 
+// Where page-level role guards send an authenticated user whose role can't
+// view a section. The branded 403 lives under the public [locale] segment;
+// admin is English-only, so the English variant is used. Unauthenticated
+// users never reach these guards — the middleware bounces them to
+// /admin/login first.
+export const FORBIDDEN_ROUTE = "/en/forbidden"
+
 const ROLE_HIERARCHY: Record<Role, number> = {
   SUPER_ADMIN: 4,
   MANAGER: 3,

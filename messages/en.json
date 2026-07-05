@@ -101,5 +101,28 @@
     "text": "Riyada Ventures was established to solve a persistent market problem: operators need the right part, fast, from a reliable source — without guesswork. We are the backbone of Saudi industrial maintenance.",
     "vision": "To be the most trusted heavy equipment partner in the Middle East.",
     "mission": "Delivering engineering excellence through precision global sourcing."
+  },
+  "errorPages": {
+    "notFound": {
+      "eyebrow": "Error 404",
+      "title": "Page Not Found",
+      "message": "The page you're looking for doesn't exist or has been moved. Check the address, or head back to solid ground.",
+      "homeBtn": "Back to Home",
+      "catalogBtn": "Browse Catalog"
+    },
+    "forbidden": {
+      "eyebrow": "Error 403",
+      "title": "Access Denied",
+      "message": "Your account doesn't have permission to view this page. If you believe this is a mistake, contact your administrator.",
+      "homeBtn": "Back to Home",
+      "dashboardBtn": "Go to Dashboard"
+    },
+    "error": {
+      "eyebrow": "Unexpected Error",
+      "title": "Something Went Wrong",
+      "message": "An unexpected error occurred while loading this page. Try again — if it keeps happening, we're already working on it.",
+      "retryBtn": "Try Again",
+      "homeBtn": "Back to Home"
+    }
   }
 }

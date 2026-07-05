@@ -2,14 +2,14 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canViewCatalog } from "@/lib/rbac"
+import { canViewCatalog, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import { resolvePermissions } from "@/lib/permissions"
 import PartsClient from "./PartsClient"
 
 export default async function PartsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canViewCatalog((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canViewCatalog((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   const [parts, categories, brands] = await Promise.all([
     prisma.part.findMany({

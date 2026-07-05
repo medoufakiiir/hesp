@@ -2,14 +2,14 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canViewCompanies } from "@/lib/rbac"
+import { canViewCompanies, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import { resolvePermissions } from "@/lib/permissions"
 import ContactsClient from "./ContactsClient"
 
 export default async function ContactsPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canViewCompanies((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canViewCompanies((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   const [contacts, permissions] = await Promise.all([
     prisma.contact.findMany({

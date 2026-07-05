@@ -2,13 +2,13 @@ export const dynamic = "force-dynamic"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canManageCatalog } from "@/lib/rbac"
+import { canManageCatalog, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import CategoriesClient from "./CategoriesClient"
 
 export default async function CategoriesPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
-  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) redirect("/admin/dashboard")
+  if (!canManageCatalog((session.user as Record<string, unknown>).role as string)) redirect(FORBIDDEN_ROUTE)
 
   const categories = await prisma.category.findMany({
     orderBy: { nameEn: "asc" },

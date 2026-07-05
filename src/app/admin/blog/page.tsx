@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { canManageBlog } from "@/lib/rbac"
+import { canManageBlog, FORBIDDEN_ROUTE } from "@/lib/rbac"
 import { prisma } from "@/lib/db"
 import AdminBlogClient from "./AdminBlogClient"
 
@@ -8,7 +8,7 @@ export default async function AdminBlogPage() {
   const session = await auth()
   if (!session?.user) redirect("/admin/login")
   const role = (session.user as Record<string, unknown>).role as string
-  if (!canManageBlog(role)) redirect("/admin/dashboard")
+  if (!canManageBlog(role)) redirect(FORBIDDEN_ROUTE)
 
   const posts = await prisma.blogPost.findMany({
     orderBy: { createdAt: "desc" },
