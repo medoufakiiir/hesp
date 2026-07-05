@@ -5,7 +5,7 @@ import { useLocale } from "next-intl"
 import { Link } from "@/i18n/navigation"
 import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
-import { staggerContainer, blurFadeIn, fadeInUp } from "@/lib/motion"
+import { staggerContainer, blurFadeIn } from "@/lib/motion"
 import { toArabicNum } from "@/lib/utils"
 
 const navLinks = [
@@ -15,6 +15,11 @@ const navLinks = [
   { href: "/about",    labelEN: "About",    labelAR: "عن الشركة" },
   { href: "/blog",     labelEN: "Blog",     labelAR: "المدونة" },
   { href: "/contact",  labelEN: "Contact",  labelAR: "اتصل بنا" },
+]
+
+const legalLinks = [
+  { href: "/terms",   labelEN: "Terms of Service", labelAR: "شروط الاستخدام" },
+  { href: "/privacy", labelEN: "Privacy Policy",   labelAR: "سياسة الخصوصية" },
 ]
 
 const productLinks = [
@@ -195,6 +200,15 @@ export default function Footer() {
               <span className={`text-[10px] font-bold ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
                 {isArabic ? "رؤية المملكة ٢٠٣٠" : "Saudi Vision 2030"}
               </span>
+            </div>
+            <div className="flex items-center gap-5">
+              {legalLinks.map((l) => (
+                <Link key={l.href} href={l.href}
+                  className={`text-[10px] font-bold text-brand-white/30 hover:text-brand-amber transition-colors
+                    ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
+                  {isArabic ? l.labelAR : l.labelEN}
+                </Link>
+              ))}
             </div>
             <p className={`text-[10px] font-bold text-brand-white/20 ${isArabic ? "font-arabic" : "uppercase tracking-widest"}`}>
               © {isArabic ? toArabicNum(new Date().getFullYear()) : new Date().getFullYear()} {isArabic ? "جميع الحقوق محفوظة. ريادة فنتشرز." : "All rights reserved. Riyada Ventures."}
