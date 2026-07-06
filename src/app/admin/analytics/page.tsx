@@ -14,6 +14,12 @@ export default async function AnalyticsPage() {
   const now = new Date()
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  // "Today" starts at midnight Riyadh time (UTC+3, no DST) regardless of server timezone.
+  const RIYADH_OFFSET_MS = 3 * 60 * 60 * 1000
+  const DAY_MS = 24 * 60 * 60 * 1000
+  const startOfToday = new Date(
+    Math.floor((now.getTime() + RIYADH_OFFSET_MS) / DAY_MS) * DAY_MS - RIYADH_OFFSET_MS
+  )
 
   // B2B analytics powered by Quote/RFQ + catalog relationships.
   // We keep the existing UI shape (Stats/RecentInquiry/Top categories/brands) by mapping quote/invoice fields.
@@ -191,6 +197,7 @@ export default async function AnalyticsPage() {
     uniqueVisitorsRows,
     uniqueVisitors30dRows,
     uniqueVisitors7dRows,
+    uniqueVisitorsTodayRows,
   ] = await Promise.all([
     prisma.pageView.count(),
     prisma.pageView.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
@@ -198,11 +205,13 @@ export default async function AnalyticsPage() {
     prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView"`,
     prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${thirtyDaysAgo}`,
     prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${sevenDaysAgo}`,
+    prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${startOfToday}`,
   ])
 
   const uniqueVisitors = Number(uniqueVisitorsRows[0]?.count ?? 0)
   const uniqueVisitors30d = Number(uniqueVisitors30dRows[0]?.count ?? 0)
   const uniqueVisitors7d = Number(uniqueVisitors7dRows[0]?.count ?? 0)
+  const uniqueVisitorsToday = Number(uniqueVisitorsTodayRows[0]?.count ?? 0)
 
   // Visitor → quote conversion: how many unique visitors turned into an RFQ.
   const visitorConversionRate =
@@ -249,6 +258,7 @@ export default async function AnalyticsPage() {
         uniqueVisitors,
         uniqueVisitors30d,
         uniqueVisitors7d,
+        uniqueVisitorsToday,
         visitorConversionRate: Number(visitorConversionRate.toFixed(1)),
         visitorConversionRate30d: Number(visitorConversionRate30d.toFixed(1)),
       }}

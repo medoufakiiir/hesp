@@ -25,6 +25,7 @@ interface Traffic {
   uniqueVisitors: number
   uniqueVisitors30d: number
   uniqueVisitors7d: number
+  uniqueVisitorsToday: number
   visitorConversionRate: number
   visitorConversionRate30d: number
 }
@@ -82,11 +83,12 @@ export default function AnalyticsClient({ stats, traffic, recentInquiries, topCa
       {/* Website Traffic */}
       <div className="mb-8">
         <h2 className="text-brand-white font-display font-extrabold uppercase text-lg mb-4">Website Traffic</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
           {[
+            { label: "Visitors Today", value: traffic.uniqueVisitorsToday.toLocaleString(), icon: Users, color: "text-violet-400", bg: "bg-violet-400/10" },
+            { label: "Visitors (7d)", value: traffic.uniqueVisitors7d.toLocaleString(), icon: TrendingUp, color: "text-green-400", bg: "bg-green-400/10" },
             { label: "Unique Visitors", value: traffic.uniqueVisitors.toLocaleString(), icon: UserCheck, color: "text-cyan-400", bg: "bg-cyan-400/10" },
             { label: "Page Views", value: traffic.totalPageViews.toLocaleString(), icon: Eye, color: "text-sky-400", bg: "bg-sky-400/10" },
-            { label: "Visitors (7d)", value: traffic.uniqueVisitors7d.toLocaleString(), icon: TrendingUp, color: "text-green-400", bg: "bg-green-400/10" },
             { label: "Visitor → Quote", value: `${traffic.visitorConversionRate}%`, icon: Target, color: "text-amber-400", bg: "bg-amber-400/10" },
           ].map(({ label, value, icon: Icon, color, bg }, i) => (
             <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border border-white/[0.06]">
