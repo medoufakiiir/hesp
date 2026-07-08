@@ -1,4 +1,5 @@
 import Link from "next/link"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 import { barlowCondensed, inter, tajawalArabic } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import "./globals.css"
@@ -16,6 +17,9 @@ export default function RootNotFound() {
       dir="ltr"
       className={cn("antialiased", barlowCondensed.variable, inter.variable, tajawalArabic.variable)}
     >
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className="min-h-full bg-brand-iron text-brand-white">
         <main className="min-h-screen bg-brand-iron flex items-center justify-center relative overflow-hidden px-4">
           <div className="absolute inset-0 pointer-events-none">

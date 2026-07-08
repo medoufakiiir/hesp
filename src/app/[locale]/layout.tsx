@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing"
 import { barlowCondensed, inter, tajawalArabic } from "@/lib/fonts"
 import "../globals.css"
 import { LangProvider } from "@/context/LangContext"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 import VisitorTracker from "@/components/VisitorTracker"
 import WhatsAppButton from "@/components/WhatsAppButton"
 import { cn } from "@/lib/utils"
@@ -124,6 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           }}
         />
         {/* End Google Tag Manager */}
+        <GoogleAnalytics />
         <link rel="icon" href="/images/logo.ico" />
         <link rel="apple-touch-icon" href="/images/logo.png" />
         <script

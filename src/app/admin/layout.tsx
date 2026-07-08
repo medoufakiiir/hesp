@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 import AdminProviders from "./providers"
 import AdminShell from "./AdminShell"
 import IdleTimeoutHandler from "@/components/admin/IdleTimeoutHandler"
@@ -24,6 +25,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       suppressHydrationWarning
       className={cn("antialiased", barlowCondensed.variable, inter.variable, tajawalArabic.variable)}
     >
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className="min-h-full bg-brand-iron text-brand-white">
         <AdminProviders>
           <IdleTimeoutHandler />
