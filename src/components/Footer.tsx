@@ -18,8 +18,9 @@ const navLinks = [
 ]
 
 const legalLinks = [
-  { href: "/terms",   labelEN: "Terms of Service", labelAR: "شروط الاستخدام" },
-  { href: "/privacy", labelEN: "Privacy Policy",   labelAR: "سياسة الخصوصية" },
+  { href: "/terms",           labelEN: "Terms of Service",   labelAR: "شروط الاستخدام" },
+  { href: "/privacy",         labelEN: "Privacy Policy",     labelAR: "سياسة الخصوصية" },
+  { href: "/returns-policy",  labelEN: "Returns & Warranty", labelAR: "سياسة الإرجاع والضمان" },
 ]
 
 const productLinks = [

@@ -128,5 +128,82 @@
   "whatsapp": {
     "ariaLabel": "Chat with us on WhatsApp",
     "label": "Chat with us"
+  },
+  "returnsPolicy": {
+    "metaTitle": "Returns & Warranty Policy | HESP",
+    "metaDescription": "Return conditions, non-returnable items, and manufacturer warranty coverage for heavy equipment spare parts supplied by HESP across Saudi Arabia.",
+    "eyebrow": "Legal",
+    "title": "Returns & Warranty Policy",
+    "lastUpdated": "Last updated: July 8, 2026",
+    "intro": [
+      "This policy applies to all spare parts supplied by Riyada Ventures through the HESP platform under confirmed quotations and invoices within the Kingdom of Saudi Arabia. HESP is a quotation-based B2B supplier: every order is agreed through a formal quotation and invoice rather than an online checkout, and this policy should be read together with our Terms of Service.",
+      "Our goal is simple — if we got something wrong, we fix it at our cost; and if you need to return a part, this page explains exactly how."
+    ],
+    "sections": [
+      {
+        "heading": "1. Inspection on Delivery",
+        "paragraphs": [
+          "Please inspect every delivery on receipt. If an item is wrong, damaged, or missing, notify us within seven (7) days of delivery, quoting the invoice or quotation number and attaching clear photos of the item, its packaging, and any visible damage. Reporting within this window allows us to resolve the claim quickly with our suppliers and carriers."
+        ]
+      },
+      {
+        "heading": "2. Return Conditions",
+        "paragraphs": [
+          "A part is eligible for return when it is unused and uninstalled, in its original packaging with all labels and documentation intact, and accompanied by the original invoice.",
+          "Returns are accepted within fourteen (14) days of delivery. A restocking fee may apply to returns that are not due to an error on our side; the applicable fee, if any, is confirmed when the Return Authorization is issued."
+        ]
+      },
+      {
+        "heading": "3. Non-Returnable Items",
+        "paragraphs": [
+          "The following items cannot be returned:"
+        ],
+        "bullets": [
+          "Electrical and electronic components once installed, connected, or energized — sensors, control units, alternators, starter motors, wiring harnesses, and similar items.",
+          "Special-order and custom-imported parts procured specifically at your request.",
+          "Items sold explicitly as final sale, as marked on the quotation or invoice.",
+          "Consumables — filters, fluids, seals, and similar items — once the seal or packaging has been opened."
+        ],
+        "note": "If an item in these categories arrives defective or does not match the confirmed quotation, Section 4 applies and the item is replaced or credited at no cost to you."
+      },
+      {
+        "heading": "4. Wrong or Defective Parts Supplied by HESP",
+        "paragraphs": [
+          "If we supplied an item that is incorrect or defective compared with the confirmed quotation, we make it right at no cost to you: we arrange a replacement or issue a credit, and we bear the return shipping. Simply report the issue with the invoice number and photos, and our team handles the rest."
+        ]
+      },
+      {
+        "heading": "5. Warranty",
+        "paragraphs": [
+          "Parts carry the warranty of their manufacturer — OEM or aftermarket brand — which we pass through to you in full. Warranty periods and conditions therefore vary by manufacturer and product line.",
+          "Warranty claims require proof of purchase (the invoice) and are subject to the manufacturer's inspection and terms. Warranty coverage does not extend to damage caused by improper installation, misuse, or modification, nor to normal wear and tear."
+        ]
+      },
+      {
+        "heading": "6. Return Process",
+        "paragraphs": [
+          "Returning a part takes five steps:"
+        ],
+        "bullets": [
+          "Contact our sales team by WhatsApp or email with the invoice number, the part concerned, and photos.",
+          "We review the request and issue a Return Authorization with delivery instructions.",
+          "You ship or deliver the item to us as instructed — unused and in its original packaging.",
+          "Our team inspects the returned item on arrival.",
+          "Once approved, we process a replacement, credit note, or refund through the approved payment method."
+        ]
+      },
+      {
+        "heading": "7. Governing Terms",
+        "paragraphs": [
+          "This policy operates in accordance with the applicable commercial regulations of the Kingdom of Saudi Arabia and forms part of our Terms of Service. We may update this policy from time to time; the version published on this page applies. The \"last updated\" date at the top of this page reflects the current version."
+        ]
+      }
+    ],
+    "contact": {
+      "heading": "Questions About a Return?",
+      "paragraph": "Our sales team responds fastest on WhatsApp — send the invoice number and photos and we take it from there. You can also reach us by email.",
+      "whatsappLabel": "WhatsApp",
+      "emailLabel": "Email"
+    }
   }
 }

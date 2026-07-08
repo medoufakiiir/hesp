@@ -49,6 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/blog", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { path: "/terms", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { path: "/privacy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { path: "/returns-policy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     ...categories.map((c): RouteDef => ({
       path: `/products/${c.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.85,
     })),
