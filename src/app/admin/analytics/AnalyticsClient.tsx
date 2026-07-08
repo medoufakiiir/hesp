@@ -1,6 +1,6 @@
 "use client"
 
-import { MessageSquare, Package, TrendingUp, ShoppingCart, BarChart3, Users, FileText, Layers, Eye, UserCheck, Target } from "lucide-react"
+import { MessageSquare, MessageCircle, Package, TrendingUp, ShoppingCart, BarChart3, Users, FileText, Layers, Eye, UserCheck, Target } from "lucide-react"
 
 interface Stats {
   totalInquiries: number
@@ -28,6 +28,10 @@ interface Traffic {
   uniqueVisitorsToday: number
   visitorConversionRate: number
   visitorConversionRate30d: number
+  whatsappClicks: number
+  whatsappClicks30d: number
+  whatsappClicks7d: number
+  whatsappClicksToday: number
 }
 
 interface RecentInquiry {
@@ -83,12 +87,13 @@ export default function AnalyticsClient({ stats, traffic, recentInquiries, topCa
       {/* Website Traffic */}
       <div className="mb-8">
         <h2 className="text-brand-white font-display font-extrabold uppercase text-lg mb-4">Website Traffic</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
           {[
             { label: "Visitors Today", value: traffic.uniqueVisitorsToday.toLocaleString(), icon: Users, color: "text-violet-400", bg: "bg-violet-400/10" },
             { label: "Visitors (7d)", value: traffic.uniqueVisitors7d.toLocaleString(), icon: TrendingUp, color: "text-green-400", bg: "bg-green-400/10" },
             { label: "Unique Visitors", value: traffic.uniqueVisitors.toLocaleString(), icon: UserCheck, color: "text-cyan-400", bg: "bg-cyan-400/10" },
             { label: "Page Views", value: traffic.totalPageViews.toLocaleString(), icon: Eye, color: "text-sky-400", bg: "bg-sky-400/10" },
+            { label: "WhatsApp Clicks", value: traffic.whatsappClicks.toLocaleString(), icon: MessageCircle, color: "text-emerald-400", bg: "bg-emerald-400/10" },
             { label: "Visitor → Quote", value: `${traffic.visitorConversionRate}%`, icon: Target, color: "text-amber-400", bg: "bg-amber-400/10" },
           ].map(({ label, value, icon: Icon, color, bg }, i) => (
             <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border border-white/[0.06]">
@@ -102,7 +107,7 @@ export default function AnalyticsClient({ stats, traffic, recentInquiries, topCa
         </div>
 
         {/* Conversion funnel: visitors → quotes */}
-        <div className="mt-4 grid md:grid-cols-2 gap-4">
+        <div className="mt-4 grid md:grid-cols-3 gap-4">
           <div className="p-5 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border border-white/[0.06]">
             <p className="text-brand-muted text-xs uppercase tracking-widest mb-4">Conversion — All Time</p>
             <div className="flex items-end justify-between gap-4">
@@ -132,6 +137,24 @@ export default function AnalyticsClient({ stats, traffic, recentInquiries, topCa
                 <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-1">Quotes</p>
               </div>
               <span className="text-brand-amber font-display font-extrabold text-2xl pb-2">{traffic.visitorConversionRate30d}%</span>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-white/[0.06] to-transparent border border-white/[0.06]">
+            <p className="text-brand-muted text-xs uppercase tracking-widest mb-4">WhatsApp Clicks</p>
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="text-brand-white font-display font-extrabold text-2xl">{traffic.whatsappClicksToday.toLocaleString()}</p>
+                <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-1">Today</p>
+              </div>
+              <div className="text-center">
+                <p className="text-brand-white font-display font-extrabold text-2xl">{traffic.whatsappClicks7d.toLocaleString()}</p>
+                <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-1">Last 7 Days</p>
+              </div>
+              <div className="text-right">
+                <p className="text-brand-white font-display font-extrabold text-2xl">{traffic.whatsappClicks30d.toLocaleString()}</p>
+                <p className="text-brand-muted text-[10px] uppercase tracking-widest mt-1">Last 30 Days</p>
+              </div>
             </div>
           </div>
         </div>

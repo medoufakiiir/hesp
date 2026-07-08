@@ -263,3 +263,16 @@ model PageView {
   @@index([visitorId])
 }
 
+// Clicks on the floating WhatsApp contact button.
+model WhatsAppClick {
+  id          String   @id @default(cuid())
+  path        String
+  visitorId   String // same anonymous `vid` cookie id as PageView
+  locale      String
+  productName String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([visitorId])
+}
+

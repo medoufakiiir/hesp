@@ -124,5 +124,9 @@
       "retryBtn": "Try Again",
       "homeBtn": "Back to Home"
     }
+  },
+  "whatsapp": {
+    "ariaLabel": "Chat with us on WhatsApp",
+    "label": "Chat with us"
   }
 }

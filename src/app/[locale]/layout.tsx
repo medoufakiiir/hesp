@@ -7,6 +7,7 @@ import { barlowCondensed, inter, tajawalArabic } from "@/lib/fonts"
 import "../globals.css"
 import { LangProvider } from "@/context/LangContext"
 import VisitorTracker from "@/components/VisitorTracker"
+import WhatsAppButton from "@/components/WhatsAppButton"
 import { cn } from "@/lib/utils"
 import { organizationJsonLd, localBusinessJsonLd, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo"
 
@@ -131,6 +132,7 @@ export default async function LocaleLayout({
         <VisitorTracker />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <LangProvider>{children}</LangProvider>
+          <WhatsAppButton />
         </NextIntlClientProvider>
       </body>
     </html>

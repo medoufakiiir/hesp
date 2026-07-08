@@ -208,6 +208,19 @@ export default async function AnalyticsPage() {
     prisma.$queryRaw<{ count: bigint }[]>`SELECT COUNT(DISTINCT "visitorId") AS count FROM "PageView" WHERE "createdAt" >= ${startOfToday}`,
   ])
 
+  // ---------- WhatsApp button clicks ----------
+  const [
+    whatsappClicks,
+    whatsappClicks30d,
+    whatsappClicks7d,
+    whatsappClicksToday,
+  ] = await Promise.all([
+    prisma.whatsAppClick.count(),
+    prisma.whatsAppClick.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+    prisma.whatsAppClick.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+    prisma.whatsAppClick.count({ where: { createdAt: { gte: startOfToday } } }),
+  ])
+
   const uniqueVisitors = Number(uniqueVisitorsRows[0]?.count ?? 0)
   const uniqueVisitors30d = Number(uniqueVisitors30dRows[0]?.count ?? 0)
   const uniqueVisitors7d = Number(uniqueVisitors7dRows[0]?.count ?? 0)
@@ -261,6 +274,10 @@ export default async function AnalyticsPage() {
         uniqueVisitorsToday,
         visitorConversionRate: Number(visitorConversionRate.toFixed(1)),
         visitorConversionRate30d: Number(visitorConversionRate30d.toFixed(1)),
+        whatsappClicks,
+        whatsappClicks30d,
+        whatsappClicks7d,
+        whatsappClicksToday,
       }}
       recentInquiries={normalizedRecentInquiries}
       topCategories={topCategories as any}
