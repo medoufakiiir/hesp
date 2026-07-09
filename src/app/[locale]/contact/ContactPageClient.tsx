@@ -129,7 +129,7 @@ export default function ContactPageClient() {
               className="rounded-2xl overflow-hidden border border-white/[0.06] h-56 hover:border-brand-amber/20 transition-colors"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.2!2d46.674!3d24.742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQ0JzMxLjIiTiA0NsKwNDAnMjYuNCJF!5e0!3m2!1sen!2ssa!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.7!2d46.7627519!3d24.6326533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f07b0f39f08b7%3A0x412abe6d37e9d8d6!2sRiyada%20Ventures%20For%20Heavy%20Equipment%20Spare%20Parts%20%26%20Aftermarket%20Solutions!5e0!3m2!1sen!2ssa!4v1720000000000"
                 width="100%" height="100%"
                 style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
                 allowFullScreen={false} loading="lazy"
