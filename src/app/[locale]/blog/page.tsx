@@ -10,8 +10,12 @@ export const revalidate = 60
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   return buildMetadata({
-    title: "Heavy Equipment Blog | Maintenance Tips | HESP",
-    description: "Expert articles on heavy equipment maintenance, spare parts selection, and fleet management. Tips for Saudi Arabia's construction industry. مقالات متخصصة عن صيانة المعدات الثقيلة.",
+    title: locale === "ar"
+      ? "مدونة المعدات الثقيلة | نصائح الصيانة | HESP"
+      : "Heavy Equipment Blog | Maintenance Tips | HESP",
+    description: locale === "ar"
+      ? "مقالات متخصصة عن صيانة المعدات الثقيلة واختيار قطع الغيار وإدارة الأساطيل — نصائح عملية لقطاع الإنشاءات في السعودية."
+      : "Expert articles on heavy equipment maintenance, spare parts selection, and fleet management. Tips for Saudi Arabia's construction industry. مقالات متخصصة عن صيانة المعدات الثقيلة.",
     path: "/blog",
     locale,
     keywords: [

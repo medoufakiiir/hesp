@@ -5,8 +5,12 @@ import { buildMetadata } from "@/lib/seo"
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   return buildMetadata({
-    title: "About Riyada Ventures | Heavy Equipment Parts Supplier",
-    description: "Learn about Riyada Ventures — Saudi Arabia's trusted heavy equipment spare parts supplier. Our mission, vision, and commitment to the Saudi industrial sector. عن ريادة فنتشرز.",
+    title: locale === "ar"
+      ? "عن ريادة فنتشرز | مورد قطع غيار المعدات الثقيلة"
+      : "About Riyada Ventures | Heavy Equipment Parts Supplier",
+    description: locale === "ar"
+      ? "تعرف على ريادة فنتشرز — المورد الموثوق لقطع غيار المعدات الثقيلة في السعودية. رسالتنا ورؤيتنا والتزامنا تجاه القطاع الصناعي السعودي."
+      : "Learn about Riyada Ventures — Saudi Arabia's trusted heavy equipment spare parts supplier. Our mission, vision, and commitment to the Saudi industrial sector. عن ريادة فنتشرز.",
     path: "/about",
     locale,
     keywords: [

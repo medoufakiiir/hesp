@@ -5,8 +5,12 @@ import { buildMetadata } from "@/lib/seo"
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   return buildMetadata({
-    title: "Contact Us | Heavy Equipment Parts Riyadh | HESP",
-    description: "Contact Riyada Ventures for heavy equipment spare parts in Saudi Arabia. WhatsApp +966 55 228 2868, Riyadh office, fast response. تواصل معنا لقطع غيار المعدات الثقيلة.",
+    title: locale === "ar"
+      ? "تواصل معنا | قطع غيار معدات ثقيلة الرياض | HESP"
+      : "Contact Us | Heavy Equipment Parts Riyadh | HESP",
+    description: locale === "ar"
+      ? "تواصل مع ريادة فنتشرز لقطع غيار المعدات الثقيلة في السعودية. واتساب +966 55 228 2868، مكتب الرياض، استجابة سريعة لطلبات الأسعار."
+      : "Contact Riyada Ventures for heavy equipment spare parts in Saudi Arabia. WhatsApp +966 55 228 2868, Riyadh office, fast response. تواصل معنا لقطع غيار المعدات الثقيلة.",
     path: "/contact",
     locale,
     keywords: [

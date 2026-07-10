@@ -5,8 +5,12 @@ import { buildMetadata } from "@/lib/seo"
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   return buildMetadata({
-    title: "Request a Quote | Heavy Equipment Parts | HESP",
-    description: "Request a quote for heavy equipment spare parts. Get competitive pricing on CAT, Komatsu, Volvo, JCB, Hitachi parts. Fast response within 2 hours. طلب عرض سعر لقطع غيار المعدات الثقيلة.",
+    title: locale === "ar"
+      ? "طلب عرض سعر | قطع غيار المعدات الثقيلة | HESP"
+      : "Request a Quote | Heavy Equipment Parts | HESP",
+    description: locale === "ar"
+      ? "اطلب عرض سعر لقطع غيار المعدات الثقيلة — أسعار تنافسية لقطع كاتربيلر وكوماتسو وفولفو وJCB وهيتاشي مع رد سريع خلال ساعتين."
+      : "Request a quote for heavy equipment spare parts. Get competitive pricing on CAT, Komatsu, Volvo, JCB, Hitachi parts. Fast response within 2 hours. طلب عرض سعر لقطع غيار المعدات الثقيلة.",
     path: "/quote",
     locale,
     keywords: [
