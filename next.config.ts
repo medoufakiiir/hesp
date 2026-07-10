@@ -13,7 +13,7 @@ const csp = [
   "font-src 'self'",
   "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.pexels.com https://image.pollinations.ai https://*.google-analytics.com https://*.googletagmanager.com",
   "connect-src 'self' https://va.vercel-insights.com https://*.neon.tech https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
-  "frame-src https://www.google.com",
+  "frame-src https://www.google.com https://www.googletagmanager.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

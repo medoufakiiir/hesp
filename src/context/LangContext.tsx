@@ -1,6 +1,7 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react"
+import React, { createContext, useContext } from "react"
+import { useLocale } from "next-intl"
 
 type Lang = "EN" | "AR"
 
@@ -226,30 +227,22 @@ const LangContext = createContext<LangContextType>({
 })
 
 export function LangProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("EN")
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l)
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = l === "AR" ? "ar" : "en"
-      document.documentElement.dir = l === "AR" ? "rtl" : "ltr"
-    }
-  }, [])
-
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.dir = lang === "AR" ? "rtl" : "ltr"
-      document.documentElement.lang = lang === "AR" ? "ar" : "en"
-    }
-  }, [lang])
-
+  // The language follows the URL locale (/en/... vs /ar/...) via next-intl.
+  // This provider used to hold its own client state that always started as
+  // "EN", so every useLang() consumer (stats, TwoWorlds, ClosingCTA, ...)
+  // rendered English on /ar pages. <html dir/lang> is owned by the [locale]
+  // layout, so no document mutation is needed here anymore.
+  const locale = useLocale()
+  const lang: Lang = locale === "ar" ? "AR" : "EN"
   const isArabic = lang === "AR"
 
   return (
     <LangContext.Provider
       value={{
         lang,
-        setLang,
+        // Switching languages is done by navigating to the other locale's
+        // URL (next-intl routing); kept as a no-op for interface stability.
+        setLang: () => {},
         t: translations[lang] as Translations["EN"],
         isArabic,
         dir: isArabic ? "rtl" : "ltr",

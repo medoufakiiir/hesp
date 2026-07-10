@@ -150,7 +150,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {/* End Google Tag Manager (noscript) */}
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200]
           focus:bg-brand-amber focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold">
-          Skip to content
+          {locale === "ar" ? "التخطي إلى المحتوى" : "Skip to content"}
         </a>
         <VisitorTracker />
         <NextIntlClientProvider locale={locale} messages={messages}>

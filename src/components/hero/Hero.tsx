@@ -180,7 +180,7 @@ export default function Hero() {
           <button
             key={i}
             onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
+            aria-label={isArabic ? `الانتقال إلى الشريحة ${i + 1}` : `Go to slide ${i + 1}`}
             className={`rounded-full transition-all duration-500 ${
               active === i ? "w-8 h-2 bg-brand-amber shadow-lg shadow-brand-amber/50" : "w-2 h-2 bg-brand-white/15 hover:bg-brand-white/40"
             }`}
@@ -192,10 +192,12 @@ export default function Hero() {
       <button
         onClick={() => document.getElementById("stats")?.scrollIntoView({ behavior: "smooth" })}
         className="absolute bottom-24 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-2 group"
-        aria-label="Scroll to explore"
+        aria-label={isArabic ? "مرر للاستكشاف" : "Scroll to explore"}
       >
-        <span className="text-brand-white/20 text-[9px] uppercase tracking-[0.3em] font-bold group-hover:text-brand-amber/60 transition-colors">
-          Scroll to explore
+        <span className={`text-brand-white/20 text-[9px] font-bold group-hover:text-brand-amber/60 transition-colors ${
+          isArabic ? "font-arabic" : "uppercase tracking-[0.3em]"
+        }`}>
+          {isArabic ? "مرر للاستكشاف" : "Scroll to explore"}
         </span>
         <span className="w-5 h-8 rounded-full border border-brand-white/15 flex justify-center pt-1.5">
           <span className="hero-particle w-1 h-2 bg-brand-amber rounded-full" />
