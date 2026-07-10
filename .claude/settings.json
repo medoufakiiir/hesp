@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/home/tanga/Desktop/hesp1/messages/en.json'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(vercel env *)",
+      "Bash(git commit -m ' *)",
+      "Bash(vercel --prod)",
+      "Bash(git commit -m 'feat: install Google Tag Manager \\(GTM-5K37FD8C\\) on public site *)",
+      "Bash(curl -s -o /tmp/claude-1000/-home-tanga-Desktop-hesp1/efa525c1-f109-4674-98f7-d018ced16166/scratchpad/embed.html -w \"%{http_code}\" \"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.7!2d46.7627519!3d24.6326533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f07b0f39f08b7%3A0x412abe6d37e9d8d6!2sRiyada%20Ventures%20For%20Heavy%20Equipment%20Spare%20Parts%20%26%20Aftermarket%20Solutions!5e0!3m2!1sen!2ssa!4v1720000000000\")"
+    ]
+  }
+}
