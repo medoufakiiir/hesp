@@ -66,9 +66,17 @@ const homeFaqs = [
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  // AR gets a native Arabic title/description targeting the exact market query
+  // "قطع غيار معدات ثقيلة" (highest-volume, low-difficulty term for this niche
+  // in the SA database) instead of reusing the English metadata on /ar.
+  const isAr = locale === "ar"
   return buildMetadata({
-    title: "Heavy Equipment Spare Parts Saudi Arabia | HESP",
-    description: "Saudi Arabia's premier heavy equipment spare parts supplier. CAT, Komatsu, Volvo, JCB, Hitachi parts. Fast delivery across KSA. قطع غيار المعدات الثقيلة — توصيل سريع.",
+    title: isAr
+      ? "قطع غيار معدات ثقيلة في السعودية | ريادة فنتشرز HESP"
+      : "Heavy Equipment Spare Parts Saudi Arabia | HESP",
+    description: isAr
+      ? "ريادة فنتشرز HESP — مورد قطع غيار معدات ثقيلة في السعودية. قطع غيار كاتربيلر وكوماتسو وفولفو وJCB وهيتاشي أصلية وبديلة مع توصيل سريع إلى الرياض وجدة والدمام. اطلب عرض سعر الآن."
+      : "Saudi Arabia's premier heavy equipment spare parts supplier. CAT, Komatsu, Volvo, JCB, Hitachi parts. Fast delivery across KSA. قطع غيار المعدات الثقيلة — توصيل سريع.",
     path: "",
     locale,
     keywords: [

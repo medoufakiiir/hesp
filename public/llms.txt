@@ -1,0 +1,28 @@
+# Riyada Ventures — HESP (Heavy Equipment Spare Parts)
+
+> Saudi Arabia's B2B supplier of OEM and aftermarket spare parts for heavy
+> construction, mining, and power equipment. Genuine and OEM-quality parts for
+> Caterpillar (CAT), Komatsu, Volvo CE, JCB, Hitachi, Doosan, Bobcat, Cummins,
+> Perkins, Liebherr, John Deere, and Deutz. Bilingual site (English/Arabic).
+> Riyadh warehouse — same-day pickup, 48-hour delivery across Saudi Arabia,
+> shipping to the wider GCC. Quote/RFQ sales model (no online checkout).
+
+Arabic name: ريادة فنتشرز — قطع غيار المعدات الثقيلة
+
+## Key pages
+
+- [Home (EN)](https://hesp.riyada-ventures.com/en): company overview and featured parts
+- [Home (AR)](https://hesp.riyada-ventures.com/ar): الصفحة الرئيسية
+- [Products catalog](https://hesp.riyada-ventures.com/en/products): all part categories — engine, hydraulic, filters, undercarriage, attachments, cooling, electrical
+- [Brands](https://hesp.riyada-ventures.com/en/brands): the 12+ OEM brands we stock parts for
+- [Request a quote](https://hesp.riyada-ventures.com/en/quote): RFQ form — the primary way to buy
+- [Blog](https://hesp.riyada-ventures.com/en/blog): maintenance guides and parts know-how
+- [Contact](https://hesp.riyada-ventures.com/en/contact): Al Faisaliyyah, Riyadh 12882, Saudi Arabia · +966 55 228 2868 · info@riyada-ventures.com
+
+## Facts
+
+- Business type: B2B distributor/supplier of heavy equipment spare parts
+- Location: Riyadh, Saudi Arabia (serves SA, AE, KW, QA, BH, OM)
+- Hours: Sunday–Thursday 08:00–18:00 (AST)
+- Currency: SAR; VAT registered; CR available on request
+- Sitemap: https://hesp.riyada-ventures.com/sitemap.xml

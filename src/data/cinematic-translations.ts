@@ -5,7 +5,7 @@ export const cinematicText = {
     },
     hero: {
       frames: [
-        { headline: "Your Fleet's\nLifeline", sub: "Premium OEM spare parts for every machine in your fleet" },
+        { headline: "Your Fleet's\nLifeline", sub: "Premium OEM heavy equipment spare parts for every machine in your fleet" },
         { headline: "Parts That\nMove Earth", sub: "Bulldozer components engineered to outlast the toughest terrain" },
         { headline: "Precision\nLifting Power", sub: "Crane and lifting components trusted on Saudi mega-projects" },
         { headline: "Built for\nSaudi Terrain", sub: "Loader parts tested against desert heat and sandstorms" },
@@ -54,7 +54,7 @@ export const cinematicText = {
     },
     hero: {
       frames: [
-        { headline: "شريان الحياة\nلأسطولك", sub: "قطع غيار أصلية متميزة لكل آلة في أسطولك" },
+        { headline: "شريان الحياة\nلأسطولك", sub: "قطع غيار معدات ثقيلة أصلية لكل آلة في أسطولك" },
         { headline: "قطع تحرك\nالأرض", sub: "مكونات جرافات مصممة لتتحمل أقسى التضاريس" },
         { headline: "قوة الرفع\nبدقة عالية", sub: "مكونات رافعات موثوقة في المشاريع الكبرى بالسعودية" },
         { headline: "صُنعت\nللتضاريس السعودية", sub: "قطع لودرات مختبرة ضد حرارة الصحراء والعواصف الرملية" },

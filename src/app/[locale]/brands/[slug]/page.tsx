@@ -13,9 +13,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     || await prisma.brand.findUnique({ where: { slug } })
   if (!brand) return {}
 
+  const isAr = locale === "ar"
   const name = "name" in brand ? brand.name : (brand as any).nameEn
-  const title = ("metaTitleEN" in brand && brand.metaTitleEN) || `${name} Parts | Heavy Equipment Spare Parts`
-  const desc = ("metaDescEN" in brand && brand.metaDescEN) || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`
+  const nameAr = ("nameAR" in brand && (brand as any).nameAR) || (brand as any).nameAr || name
+  const title = isAr
+    ? (("metaTitleAR" in brand && (brand as any).metaTitleAR) || `قطع غيار ${nameAr} في السعودية | ${name}`)
+    : (("metaTitleEN" in brand && brand.metaTitleEN) || `${name} Parts | Heavy Equipment Spare Parts`)
+  const desc = isAr
+    ? (("metaDescAR" in brand && (brand as any).metaDescAR) || `قطع غيار ${nameAr} أصلية وبديلة للمعدات الثقيلة في السعودية — حفارات ولودرات وجرافات مع توصيل سريع. اطلب عرض سعر الآن.`)
+    : (("metaDescEN" in brand && brand.metaDescEN) || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`)
   const keywords = [
     `${name} parts`,
     `${name} spare parts Saudi Arabia`,

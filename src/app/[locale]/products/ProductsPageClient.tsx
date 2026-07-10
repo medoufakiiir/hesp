@@ -218,7 +218,7 @@ export default function ProductsPageClient({ productsData, categoriesData, brand
                   whileHover={{ y: -8, rotateX: -2, scale: 1.02 }}
                   style={{ transformStyle: "preserve-3d" }}
                 >
-                  <Link href={`/products/${product.category}`}>
+                  <Link href={`/parts/${encodeURIComponent(product.partNumber)}`}>
                     <div className="group rounded-2xl overflow-hidden cursor-pointer
                       bg-gradient-to-br from-white/[0.05] via-white/[0.02] to-transparent
                       backdrop-blur-sm border border-white/[0.06]

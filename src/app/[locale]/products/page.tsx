@@ -6,9 +6,14 @@ import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const isAr = locale === "ar"
   return buildMetadata({
-    title: "Heavy Equipment Spare Parts Catalog | HESP",
-    description: "Browse our complete catalog of heavy equipment spare parts. Excavator, bulldozer, crane, loader, and engine parts for CAT, Komatsu, Volvo, JCB, Hitachi. تصفح كتالوج قطع غيار المعدات الثقيلة.",
+    title: isAr
+      ? "كتالوج قطع غيار المعدات الثقيلة | ريادة فنتشرز HESP"
+      : "Heavy Equipment Spare Parts Catalog | HESP",
+    description: isAr
+      ? "تصفح كتالوج قطع غيار المعدات الثقيلة الكامل: قطع حفارات وجرافات ورافعات ولودرات ومحركات لكاتربيلر وكوماتسو وفولفو وJCB وهيتاشي. توصيل سريع في جميع أنحاء المملكة."
+      : "Browse our complete catalog of heavy equipment spare parts. Excavator, bulldozer, crane, loader, and engine parts for CAT, Komatsu, Volvo, JCB, Hitachi. تصفح كتالوج قطع غيار المعدات الثقيلة.",
     path: "/products",
     locale,
     keywords: [

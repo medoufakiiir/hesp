@@ -74,6 +74,15 @@ export default function Hero() {
     startAutoplay() // reset autoplay timing on manual navigation
   }
 
+  // Shared headline styling: only slide 0 may be the page's single <h1> —
+  // every extra slide renders a <p> so the page never ships multiple h1s.
+  const headlineCls = `text-brand-white leading-[0.9] whitespace-pre-line ${
+    isArabic
+      ? "font-arabic font-bold text-[clamp(2.5rem,8vw,6rem)]"
+      : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,9vw,7rem)]"
+  }`
+  const headlineShadow = { textShadow: "0 0 60px rgba(217,119,6,0.3), 0 4px 30px rgba(0,0,0,0.7)" }
+
   return (
     <section
       className="relative h-screen w-full overflow-hidden bg-brand-iron"
@@ -142,16 +151,11 @@ export default function Hero() {
                 active === i ? "opacity-100 translate-y-0 blur-0" : "opacity-0 translate-y-6 blur-sm"
               }`}
             >
-              <h1
-                className={`text-brand-white leading-[0.9] whitespace-pre-line ${
-                  isArabic
-                    ? "font-arabic font-bold text-[clamp(2.5rem,8vw,6rem)]"
-                    : "font-display font-extrabold uppercase tracking-tight text-[clamp(3rem,9vw,7rem)]"
-                }`}
-                style={{ textShadow: "0 0 60px rgba(217,119,6,0.3), 0 4px 30px rgba(0,0,0,0.7)" }}
-              >
-                {frame.headline}
-              </h1>
+              {i === 0 ? (
+                <h1 className={headlineCls} style={headlineShadow}>{frame.headline}</h1>
+              ) : (
+                <p className={headlineCls} style={headlineShadow}>{frame.headline}</p>
+              )}
               <p
                 className="text-brand-white/50 text-sm sm:text-base lg:text-lg mt-6 max-w-xl mx-auto"
                 style={{ textShadow: "0 2px 15px rgba(0,0,0,0.8)" }}

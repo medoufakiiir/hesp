@@ -13,9 +13,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const dbCat = !sc ? await prisma.category.findUnique({ where: { slug } }) : null
   if (!sc && !dbCat) return {}
 
-  const name = sc?.nameEN || dbCat?.nameEn || ""
-  const title = sc?.metaTitleEN || `${name} | Heavy Equipment Spare Parts`
-  const desc = sc?.metaDescEN || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`
+  // Locale-aware: /ar pages get the Arabic meta fields (falling back to a
+  // generated Arabic title) instead of reusing the English metadata.
+  const isAr = locale === "ar"
+  const name = isAr
+    ? (sc?.nameAR || dbCat?.nameAr || "")
+    : (sc?.nameEN || dbCat?.nameEn || "")
+  const title = isAr
+    ? (sc?.metaTitleAR || `قطع غيار ${name} للمعدات الثقيلة | السعودية`)
+    : (sc?.metaTitleEN || `${name} | Heavy Equipment Spare Parts`)
+  const desc = isAr
+    ? (sc?.metaDescAR || `تصفح قطع غيار ${name} للمعدات الثقيلة — أصلية وبديلة مع توصيل سريع في جميع أنحاء السعودية. اطلب عرض سعر الآن.`)
+    : (sc?.metaDescEN || `Browse ${name} spare parts for heavy equipment. Fast delivery across Saudi Arabia.`)
   const keywords = sc
     ? [...sc.keywordsEN, ...sc.keywordsAR]
     : [`${name} parts`, `${name} parts Saudi Arabia`, `${name} parts Riyadh`, "heavy equipment spare parts", `قطع غيار ${name}`]

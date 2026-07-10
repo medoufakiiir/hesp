@@ -7,7 +7,10 @@ export const revalidate = 3600
 
 type RouteDef = {
   path: string
-  lastModified: string
+  /** Only set when a real DB timestamp exists. Static routes omit it: stamping
+   * them with the regeneration time made all 178 URLs claim to change hourly,
+   * which teaches Google to distrust the field entirely. */
+  lastModified?: string
   changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>
   priority: number
 }
@@ -20,7 +23,7 @@ function localizedEntries(route: RouteDef): MetadataRoute.Sitemap {
   )
   return routing.locales.map((locale) => ({
     url: `${SITE_URL}/${locale}${route.path}`,
-    lastModified: route.lastModified,
+    ...(route.lastModified ? { lastModified: route.lastModified } : {}),
     changeFrequency: route.changeFrequency,
     priority: route.priority,
     alternates: { languages },
@@ -28,33 +31,47 @@ function localizedEntries(route: RouteDef): MetadataRoute.Sitemap {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date().toISOString()
-
-  const [categories, brands, posts] = await Promise.all([
-    prisma.category.findMany({ select: { slug: true } }),
-    prisma.brand.findMany({ select: { slug: true } }),
+  const [categories, brands, posts, parts] = await Promise.all([
+    prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
+    prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
     prisma.blogPost.findMany({
       where: { published: true },
       select: { slug: true, publishedAt: true, updatedAt: true },
     }),
+    prisma.part.findMany({
+      where: { isActive: true },
+      select: { sku: true, updatedAt: true },
+    }),
   ])
 
   const routes: RouteDef[] = [
-    { path: "", lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { path: "/products", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { path: "/brands", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { path: "/about", lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { path: "/contact", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { path: "/quote", lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { path: "/blog", lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { path: "/terms", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { path: "/privacy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { path: "/returns-policy", lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { path: "", changeFrequency: "weekly", priority: 1 },
+    { path: "/products", changeFrequency: "weekly", priority: 0.9 },
+    { path: "/brands", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/about", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/contact", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/quote", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
+    { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
+    { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
+    { path: "/returns-policy", changeFrequency: "yearly", priority: 0.3 },
     ...categories.map((c): RouteDef => ({
-      path: `/products/${c.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.85,
+      path: `/products/${c.slug}`,
+      lastModified: c.updatedAt.toISOString(),
+      changeFrequency: "weekly",
+      priority: 0.85,
     })),
     ...brands.map((b): RouteDef => ({
-      path: `/brands/${b.slug}`, lastModified: now, changeFrequency: "monthly", priority: 0.75,
+      path: `/brands/${b.slug}`,
+      lastModified: b.updatedAt.toISOString(),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    })),
+    ...parts.map((p): RouteDef => ({
+      path: `/parts/${encodeURIComponent(p.sku)}`,
+      lastModified: p.updatedAt.toISOString(),
+      changeFrequency: "monthly",
+      priority: 0.7,
     })),
     ...posts.map((p): RouteDef => ({
       path: `/blog/${p.slug}`,

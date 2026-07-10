@@ -58,7 +58,7 @@ export default function FeaturedProducts({ productsData }: { productsData: Produ
               whileHover={{ y: -10, rotateX: -2, scale: 1.02 }}
               style={{ transformStyle: "preserve-3d" }}
             >
-              <Link href={`/products/${product.category}`}>
+              <Link href={`/parts/${encodeURIComponent(product.partNumber)}`}>
                 <div className="group rounded-2xl overflow-hidden cursor-pointer relative
                   bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-transparent
                   backdrop-blur-sm border border-white/[0.06]

@@ -112,7 +112,12 @@ export default function CategoryPageClient({ category, products, otherCategories
                       </span>
                     </div>
                     <h3 className={`text-brand-white font-semibold text-sm mb-1 ${isArabic ? "font-arabic text-right" : ""}`}>
-                      {isArabic ? product.nameAR : product.nameEN}
+                      <Link
+                        href={`/parts/${encodeURIComponent(product.partNumber)}`}
+                        className="hover:text-brand-amber transition-colors"
+                      >
+                        {isArabic ? product.nameAR : product.nameEN}
+                      </Link>
                     </h3>
                     <p className={`text-brand-muted text-xs line-clamp-2 mb-3 ${isArabic ? "font-arabic text-right" : ""}`}>
                       {isArabic ? product.descriptionAR : product.descriptionEN}

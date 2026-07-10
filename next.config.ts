@@ -6,11 +6,13 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
 
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+  // googletagmanager/google-analytics entries: without them the CSP silently
+  // blocks the GA4 gtag.js script and its collect beacons (GA shows no data).
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.pexels.com https://image.pollinations.ai",
-  "connect-src 'self' https://va.vercel-insights.com https://*.neon.tech",
+  "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com https://images.pexels.com https://image.pollinations.ai https://*.google-analytics.com https://*.googletagmanager.com",
+  "connect-src 'self' https://va.vercel-insights.com https://*.neon.tech https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
   "frame-src https://www.google.com",
   "object-src 'none'",
   "base-uri 'self'",
