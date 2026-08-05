@@ -44,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categories = fallbackCategories.map((c) => ({ slug: c.slug, updatedAt: new Date() }))
     brands = fallbackBrands.map((b) => ({ slug: b.slug, updatedAt: new Date() }))
     posts = fallbackPosts.map((p) => ({ slug: p.slug, publishedAt: new Date(p.date), updatedAt: new Date(p.date) }))
-    parts = fallbackProducts.map((p) => ({ sku: p.sku || p.id || "", updatedAt: new Date() }))
+parts = fallbackProducts.map((p) => ({ sku: p.partNumber || p.id || "", updatedAt: new Date() }))
   } else {
     const results = await Promise.all([
       prisma.category.findMany({ select: { slug: true, updatedAt: true } }),

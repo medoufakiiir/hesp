@@ -49,7 +49,7 @@ export async function GET() {
         ? `\n      <enclosure url="${escapeXml(image)}" type="image/jpeg" length="0" />\n      <media:content url="${escapeXml(image)}" medium="image" />`
         : ""
       const categories = (p.keywords || [])
-        .map((k) => `\n      <category>${escapeXml(k)}</category>`)
+        .map((k: string) => `\n      <category>${escapeXml(k)}</category>`)
         .join("")
 
       return `    <item>

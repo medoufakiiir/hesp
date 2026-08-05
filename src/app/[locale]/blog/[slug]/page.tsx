@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  let postData: any = null
+  let post: any = null
   let relatedRaw: any[] = []
 
   if (!process.env.DATABASE_URL) {
