@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/db"
+import { getBlogBySlug, blogPosts } from "@/data/blog"
 import { articleJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
@@ -10,8 +11,15 @@ export const revalidate = 60
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
-  const post = await prisma.blogPost.findUnique({ where: { slug } })
-  if (!post || !post.published) return {}
+  let post: any = null
+  if (!process.env.DATABASE_URL) {
+    post = getBlogBySlug(slug)
+    if (!post) return {}
+  } else {
+    const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
+    if (!dbPost || !dbPost.published) return {}
+    post = dbPost
+  }
 
   const title = post.metaTitleEn || post.titleEn
   const description = post.metaDescEn || post.excerptEn || ""
@@ -33,16 +41,28 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  const post = await prisma.blogPost.findUnique({ where: { slug } })
-  if (!post || !post.published) notFound()
+  let postData: any = null
+  let relatedRaw: any[] = []
 
-  const relatedRaw = await prisma.blogPost.findMany({
-    where: { published: true, slug: { not: slug } },
-    orderBy: { publishedAt: "desc" },
-    take: 2,
-  })
+  if (!process.env.DATABASE_URL) {
+    const p = getBlogBySlug(slug)
+    if (!p) notFound()
+    post = p
+    // take two other sample posts
+    relatedRaw = blogPosts.filter((b) => b.slug !== slug).slice(0, 2)
+  } else {
+    const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
+    if (!dbPost || !dbPost.published) notFound()
+    post = dbPost
 
-  const toClient = (p: typeof post) => ({
+    relatedRaw = await prisma.blogPost.findMany({
+      where: { published: true, slug: { not: slug } },
+      orderBy: { publishedAt: "desc" },
+      take: 2,
+    })
+  }
+
+  const toClient = (p: any) => ({
     id: p.id,
     slug: p.slug,
     titleEN: p.titleEn,

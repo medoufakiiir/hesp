@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { prisma } from "@/lib/db"
+import { blogPosts } from "@/data/blog"
 import BlogPageClient from "./BlogPageClient"
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 
@@ -32,12 +33,35 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-  })
+  let postsData = [] as any
 
-  const postsData = posts.map((p) => ({
+  if (!process.env.DATABASE_URL) {
+    // Fallback to bundled sample posts when DATABASE_URL is not provided
+    postsData = blogPosts.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      titleEN: p.titleEN,
+      titleAR: p.titleAR,
+      excerptEN: p.excerptEN,
+      excerptAR: p.excerptAR,
+      contentEN: p.contentEN,
+      contentAR: p.contentAR,
+      image: p.image,
+      date: p.date,
+      author: p.author,
+      tags: p.tags,
+      metaTitleEN: p.metaTitleEN,
+      metaTitleAR: p.metaTitleAR,
+      metaDescEN: p.metaDescEN,
+      metaDescAR: p.metaDescAR,
+    }))
+  } else {
+    const posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+    })
+
+    postsData = posts.map((p) => ({
     id: p.id,
     slug: p.slug,
     titleEN: p.titleEn,
@@ -55,6 +79,7 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
     metaDescEN: p.metaDescEn || "",
     metaDescAR: p.metaDescAr || "",
   }))
+  }
 
   return (
     <>
