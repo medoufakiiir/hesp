@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next"
 import { prisma } from "@/lib/db"
 import { SITE_URL } from "@/lib/seo"
 import { routing } from "@/i18n/routing"
+import { categories as fallbackCategories } from "@/data/categories"
+import { brands as fallbackBrands } from "@/data/brands"
+import { products as fallbackProducts } from "@/data/products"
+import { blogPosts as fallbackPosts } from "@/data/blog"
 
 export const revalidate = 3600
 
@@ -31,18 +35,35 @@ function localizedEntries(route: RouteDef): MetadataRoute.Sitemap {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, brands, posts, parts] = await Promise.all([
-    prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
-    prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
-    prisma.blogPost.findMany({
-      where: { published: true },
-      select: { slug: true, publishedAt: true, updatedAt: true },
-    }),
-    prisma.part.findMany({
-      where: { isActive: true },
-      select: { sku: true, updatedAt: true },
-    }),
-  ])
+  let categories: { slug: string; updatedAt: Date }[] = []
+  let brands: { slug: string; updatedAt: Date }[] = []
+  let posts: { slug: string; publishedAt?: Date | null; updatedAt?: Date | null }[] = []
+  let parts: { sku: string; updatedAt: Date }[] = []
+
+  if (!process.env.DATABASE_URL) {
+    categories = fallbackCategories.map((c) => ({ slug: c.slug, updatedAt: new Date() }))
+    brands = fallbackBrands.map((b) => ({ slug: b.slug, updatedAt: new Date() }))
+    posts = fallbackPosts.map((p) => ({ slug: p.slug, publishedAt: new Date(p.date), updatedAt: new Date(p.date) }))
+    parts = fallbackProducts.map((p) => ({ sku: p.sku || p.id || "", updatedAt: new Date() }))
+  } else {
+    const results = await Promise.all([
+      prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
+      prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
+      prisma.blogPost.findMany({
+        where: { published: true },
+        select: { slug: true, publishedAt: true, updatedAt: true },
+      }),
+      prisma.part.findMany({
+        where: { isActive: true },
+        select: { sku: true, updatedAt: true },
+      }),
+    ])
+
+    categories = results[0]
+    brands = results[1]
+    posts = results[2]
+    parts = results[3]
+  }
 
   const routes: RouteDef[] = [
     { path: "", changeFrequency: "weekly", priority: 1 },

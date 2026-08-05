@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db"
+import { blogPosts } from "@/data/blog"
 
 // Regenerate the feed at most once per minute so newly published posts
 // are picked up quickly by automation tools (Make / Zapier / etc.).
@@ -20,11 +21,20 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  const posts = await prisma.blogPost.findMany({
-    where: { published: true },
-    orderBy: { publishedAt: "desc" },
-    take: 50,
-  })
+  let posts: any[] = []
+  if (!process.env.DATABASE_URL) {
+    posts = blogPosts.slice(0, 50).map((p) => ({
+      ...p,
+      publishedAt: new Date(p.date),
+      createdAt: new Date(p.date),
+    }))
+  } else {
+    posts = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      take: 50,
+    })
+  }
 
   const items = posts
     .map((p) => {
