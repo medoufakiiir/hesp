@@ -35,7 +35,18 @@ export const revalidate = 300
 
 export default async function BrandsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const rawBrands = await prisma.brand.findMany({ orderBy: { nameEn: "asc" } })
+
+  let rawBrands: { id: string; slug: string; nameEn: string; nameAr: string; logoUrl: string | null }[] = []
+  if (!process.env.DATABASE_URL) {
+    // Fallback to the bundled static brands catalog when DATABASE_URL is not provided
+    // (e.g. first deploy on a fresh Vercel account before env vars are added).
+    rawBrands = staticBrands.map((b) => ({
+      id: b.id, slug: b.slug, nameEn: b.name, nameAr: b.nameAR, logoUrl: null,
+    }))
+  } else {
+    rawBrands = await prisma.brand.findMany({ orderBy: { nameEn: "asc" } })
+  }
+
   const brands = rawBrands.map((b) => {
     // The DB Brand model only stores name/slug/logo. The rich copy (description,
     // country, founded) lives in the static catalog — merge it in by slug so the

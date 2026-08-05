@@ -3,6 +3,9 @@ import { prisma } from "@/lib/db"
 import ProductsPageClient from "./ProductsPageClient"
 import { breadcrumbJsonLd, buildMetadata, productListJsonLd } from "@/lib/seo"
 import { getCategoryImage, getProductImage } from "@/data/catalog-assets"
+import { products as fallbackProducts } from "@/data/products"
+import { categories as fallbackCategories } from "@/data/categories"
+import { brands as fallbackBrands } from "@/data/brands"
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -41,15 +44,40 @@ export const revalidate = 300
 
 export default async function ProductsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const [rawParts, rawCategories, rawBrands] = await Promise.all([
-    prisma.part.findMany({
-      where: { isActive: true },
-      orderBy: { createdAt: "desc" },
-      include: { category: true, brand: true, images: { take: 1 } },
-    }),
-    prisma.category.findMany({ orderBy: { nameEn: "asc" } }),
-    prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
-  ])
+let rawParts: any[] = []
+  let rawCategories: any[] = []
+  let rawBrands: any[] = []
+
+  if (!process.env.DATABASE_URL) {
+    // Fallback to the bundled static catalog when DATABASE_URL is not provided
+    // (e.g. first deploy on a fresh Vercel account before env vars are added).
+    rawParts = fallbackProducts.map((p) => ({
+      id: p.id, sku: p.partNumber, nameEn: p.nameEN, nameAr: p.nameAR,
+      descriptionEn: p.descriptionEN || null, descriptionAr: p.descriptionAR || null,
+      category: { slug: p.category }, brand: { slug: p.brand }, images: [],
+      stockQty: p.inStock ? 10 : 0, listPrice: p.featured ? 100 : null, categoryId: p.category,
+    }))
+    rawCategories = fallbackCategories.map((c) => ({
+      id: c.id, slug: c.slug, nameEn: c.nameEN, nameAr: c.nameAR,
+      parentId: null, image: c.image,
+    }))
+    rawBrands = fallbackBrands.map((b) => ({
+      id: b.id, slug: b.slug, nameEn: b.name, nameAr: b.nameAR,
+    }))
+  } else {
+    const results = await Promise.all([
+      prisma.part.findMany({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+        include: { category: true, brand: true, images: { take: 1 } },
+      }),
+      prisma.category.findMany({ orderBy: { nameEn: "asc" } }),
+      prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
+    ])
+    rawParts = results[0]
+    rawCategories = results[1]
+    rawBrands = results[2]
+  }
 
   const products = rawParts.map((p) => ({
     id: p.id, slug: p.sku, nameEN: p.nameEn, nameAR: p.nameAr,

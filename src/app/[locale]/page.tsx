@@ -112,29 +112,64 @@ export const revalidate = 300
 
 export default async function Home() {
   const { prisma } = await import("@/lib/db")
-  const [rawCategories, rawFeaturedParts, rawBrands] = await Promise.all([
-    prisma.category.findMany({ where: { slug: { in: [...HOMEPAGE_CATEGORY_SLUGS] } } }),
-    prisma.part.findMany({
-      where: {
-        isActive: true,
-        category: { slug: { in: [...FEATURED_PRODUCT_CATEGORY_SLUGS] } },
-      },
-      orderBy: { listPrice: "desc" },
-      include: { category: true, brand: true, images: { take: 1 } },
-    }),
-    prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
-  ])
-  // Real part counts per homepage category (aggregating each parent's children).
-  const catCounts = await Promise.all(
-    HOMEPAGE_CATEGORY_SLUGS.map((slug) =>
-      prisma.part.count({
-        where: { isActive: true, category: { OR: [{ slug }, { parent: { slug } }] } },
-      })
+
+  let rawCategories: any[] = []
+  let rawFeaturedParts: any[] = []
+  let rawBrands: any[] = []
+  let countBySlug: Record<string, number> = {}
+
+  if (!process.env.DATABASE_URL) {
+    // Fallback to the bundled static catalog when DATABASE_URL is not provided
+    // (e.g. first deploy on a fresh Vercel account before env vars are added).
+    const { products: fallbackProducts } = await import("@/data/products")
+    const { categories: fallbackCategories } = await import("@/data/categories")
+    const { brands: fallbackBrands } = await import("@/data/brands")
+    rawCategories = fallbackCategories
+      .filter((c) => (HOMEPAGE_CATEGORY_SLUGS as readonly string[]).includes(c.slug))
+      .map((c) => ({ id: c.id, slug: c.slug, nameEn: c.nameEN, nameAr: c.nameAR }))
+    rawFeaturedParts = fallbackProducts
+      .filter((p) => (FEATURED_PRODUCT_CATEGORY_SLUGS as readonly string[]).includes(p.category))
+      .map((p) => ({
+        id: p.id, sku: p.partNumber, nameEn: p.nameEN, nameAr: p.nameAR,
+        descriptionEn: p.descriptionEN || null, descriptionAr: p.descriptionAR || null,
+        category: { slug: p.category }, brand: { slug: p.brand }, images: [],
+        stockQty: p.inStock ? 10 : 0, listPrice: p.featured ? 100 : null,
+      }))
+    rawBrands = fallbackBrands.slice(0, 12).map((b) => ({
+      id: b.id, slug: b.slug, nameEn: b.name, nameAr: b.nameAR,
+    }))
+    countBySlug = Object.fromEntries(
+      HOMEPAGE_CATEGORY_SLUGS.map((slug) => [slug, fallbackProducts.filter((p) => p.category === slug).length])
     )
-  )
-  const countBySlug: Record<string, number> = Object.fromEntries(
-    HOMEPAGE_CATEGORY_SLUGS.map((slug, i) => [slug, catCounts[i]])
-  )
+  } else {
+    const [cats, featuredParts, brands] = await Promise.all([
+      prisma.category.findMany({ where: { slug: { in: [...HOMEPAGE_CATEGORY_SLUGS] } } }),
+      prisma.part.findMany({
+        where: {
+          isActive: true,
+          category: { slug: { in: [...FEATURED_PRODUCT_CATEGORY_SLUGS] } },
+        },
+        orderBy: { listPrice: "desc" },
+        include: { category: true, brand: true, images: { take: 1 } },
+      }),
+      prisma.brand.findMany({ orderBy: { nameEn: "asc" } }),
+    ])
+    rawCategories = cats
+    rawFeaturedParts = featuredParts
+    rawBrands = brands
+
+    // Real part counts per homepage category (aggregating each parent's children).
+    const catCounts = await Promise.all(
+      HOMEPAGE_CATEGORY_SLUGS.map((slug) =>
+        prisma.part.count({
+          where: { isActive: true, category: { OR: [{ slug }, { parent: { slug } }] } },
+        })
+      )
+    )
+    countBySlug = Object.fromEntries(
+      HOMEPAGE_CATEGORY_SLUGS.map((slug, i) => [slug, catCounts[i]])
+    )
+  }
   // Order the curated categories explicitly (findMany order isn't guaranteed).
   const cats = HOMEPAGE_CATEGORY_SLUGS
     .map((slug) => rawCategories.find((c) => c.slug === slug))
