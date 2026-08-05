@@ -21,10 +21,22 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  let posts: any[] = []
+let posts: any[] = []
   if (!process.env.DATABASE_URL) {
+    // Fallback to bundled sample posts when DATABASE_URL is not provided.
+    // The static BlogPost uses *uppercase* suffix field names (titleEN, excerptEN,
+    // metaDescEN) and `image`/`tags`, so normalize them to the DB shape the
+    // renderer below expects (titleEn, excerptEn, metaDescEn, coverImageUrl, keywords).
     posts = blogPosts.slice(0, 50).map((p) => ({
-      ...p,
+      slug: p.slug,
+      titleEn: p.titleEN,
+      titleAr: p.titleAR,
+      excerptEn: p.excerptEN,
+      excerptAr: p.excerptAR,
+      metaDescEn: p.metaDescEN,
+      metaDescAr: p.metaDescAR,
+      coverImageUrl: p.image,
+      keywords: p.tags,
       publishedAt: new Date(p.date),
       createdAt: new Date(p.date),
     }))
