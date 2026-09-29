@@ -1,5 +1,7 @@
-// Batch 4 — Buying guides (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 4 — Buying guides (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "cat-parts-book-serial-number-lookup",
     titleEn: "How to Use Your CAT Serial Number to Find the Exact Right Part",

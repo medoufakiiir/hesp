@@ -1,5 +1,7 @@
-// Batch 1 — Brand guides (10 posts). Seeded as drafts (published: false).
-export const posts = [
+// Batch 1 — Brand guides (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "doosan-spare-parts-saudi-arabia-guide",
     titleEn: "Doosan Spare Parts in Saudi Arabia: The Complete Guide (DX225, Wheel Loaders & More)",

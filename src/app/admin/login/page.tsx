@@ -34,11 +34,25 @@ export default function AdminLoginPage() {
     if (isLocked) return
     setError("")
 
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    })
+    let result: Awaited<ReturnType<typeof signIn>> | null = null
+    try {
+      result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      })
+    } catch {
+      // The auth endpoint crashed instead of answering (e.g. AUTH_SECRET unset).
+      result = { error: "Configuration", code: undefined, status: 500, ok: false, url: null }
+    }
+
+    if (result?.error && result.error !== "CredentialsSignin") {
+      // "Configuration" etc. — a server-side problem (usually AUTH_SECRET or
+      // DATABASE_URL missing in the Vercel project), not a wrong password.
+      // Don't count it as a failed attempt.
+      setError("Sign-in is unavailable: the server's auth settings are incomplete (AUTH_SECRET / DATABASE_URL). Contact the site administrator.")
+      return
+    }
 
     if (result?.error) {
       const newAttempts = attempts + 1

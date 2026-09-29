@@ -1,5 +1,7 @@
-// Batch 3 — Maintenance how-tos (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 3 — Maintenance how-tos (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "excavator-hydraulic-pump-failure-signs",
     titleEn: "7 Early Signs Your Excavator's Hydraulic Pump Is Failing",
@@ -663,4 +665,3 @@ HESP supplies hydraulic hose assemblies, fittings and protective sleeves for all
 توفر HESP تجميعات خراطيم الهيدروليك والوصلات والأغلفة الواقية لكل المعدات الشائعة في السعودية — أرسل صوراً وقياسات، أو موديل المعدة والدائرة، وسنبني التجميعة الدقيقة ونوصلها سريعاً.`,
   },
 ];
-// (batch 3 continues in batch-03b for the tenth post? No — exactly 10 posts above.)

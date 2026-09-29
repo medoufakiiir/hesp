@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { Plus, Pencil, Trash2, FileText, X, Eye, Globe, EyeOff } from "lucide-react"
-import { createPost, updatePost, deletePost, togglePublish } from "@/actions/blog"
+import { Plus, Pencil, Trash2, FileText, X, Eye, Globe, EyeOff, AlertTriangle, RotateCcw } from "lucide-react"
+import { createPost, updatePost, deletePost, togglePublish, restoreBundledPosts } from "@/actions/blog"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -25,7 +25,13 @@ const emptyForm = {
   published: false,
 }
 
-export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
+export default function AdminBlogClient({ posts, dbReady, missingCount }: {
+  posts: BlogPost[]
+  /** False when the database is unset/unreachable — posts shown are the bundled, read-only ones. */
+  dbReady: boolean
+  /** Bundled articles not yet in the database. */
+  missingCount: number
+}) {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState(emptyForm)
@@ -83,6 +89,20 @@ export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
     })
   }
 
+  const [restoreMsg, setRestoreMsg] = useState("")
+  const handleRestore = () => {
+    setRestoreMsg("")
+    startTransition(async () => {
+      try {
+        const { restored } = await restoreBundledPosts()
+        setRestoreMsg(`Restored ${restored} post${restored === 1 ? "" : "s"}.`)
+        router.refresh()
+      } catch (err: unknown) {
+        setRestoreMsg(err instanceof Error ? err.message : "Restore failed")
+      }
+    })
+  }
+
   const addTag = () => {
     if (tagInput.trim() && !form.keywords.includes(tagInput.trim())) {
       setForm({ ...form, keywords: [...form.keywords, tagInput.trim()] })
@@ -99,11 +119,36 @@ export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
             {posts.filter((p) => p.published).length} published · {posts.filter((p) => !p.published).length} drafts
           </p>
         </div>
-        <button onClick={() => { setForm(emptyForm); setEditingId(null); setError(""); setShowForm(true) }}
+        <button onClick={() => { setForm(emptyForm); setEditingId(null); setError(""); setShowForm(true) }} disabled={!dbReady}
           className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-5 py-3 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer">
           <Plus size={16} /> New Post
         </button>
       </div>
+
+      {!dbReady && (
+        <div className="flex items-start gap-3 mb-6 p-4 rounded-2xl border border-red-500/30 bg-red-500/10 text-sm text-brand-white">
+          <AlertTriangle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
+          <p>
+            The database is not connected (check <code className="text-brand-amber">DATABASE_URL</code> in the
+            Vercel project settings). The public blog is serving the {posts.length} bundled articles; editing is
+            disabled until the database is back.
+          </p>
+        </div>
+      )}
+      {dbReady && missingCount > 0 && (
+        <div className="flex flex-wrap items-center gap-3 mb-6 p-4 rounded-2xl border border-brand-amber/30 bg-brand-amber/10 text-sm text-brand-white">
+          <AlertTriangle size={18} className="text-brand-amber flex-shrink-0" />
+          <p className="flex-grow">
+            {missingCount} bundled article{missingCount === 1 ? " is" : "s are"} missing from the database
+            {posts.length > 0 ? " and not shown on the public blog" : ""}.
+          </p>
+          <button onClick={handleRestore} disabled={isPending}
+            className="flex items-center gap-2 bg-brand-amber text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl hover:bg-brand-gold transition-colors cursor-pointer disabled:opacity-50">
+            <RotateCcw size={14} /> Restore as published
+          </button>
+        </div>
+      )}
+      {restoreMsg && <p className="mb-6 text-sm text-brand-amber">{restoreMsg}</p>}
 
       {posts.length === 0 ? (
         <div className="p-16 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06] text-center">
@@ -131,7 +176,7 @@ export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <button onClick={() => handleTogglePublish(post.id)} disabled={isPending}
+                <button onClick={() => handleTogglePublish(post.id)} disabled={isPending || !dbReady}
                   title={post.published ? "Unpublish" : "Publish"}
                   className="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors cursor-pointer">
                   {post.published ? <EyeOff size={14} className="text-brand-muted" /> : <Globe size={14} className="text-green-400" />}
@@ -142,11 +187,11 @@ export default function AdminBlogClient({ posts }: { posts: BlogPost[] }) {
                     <Eye size={14} className="text-brand-muted" />
                   </Link>
                 )}
-                <button onClick={() => handleEdit(post)}
+                <button onClick={() => handleEdit(post)} disabled={!dbReady}
                   className="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-brand-amber/20 flex items-center justify-center transition-colors cursor-pointer">
                   <Pencil size={14} className="text-brand-muted" />
                 </button>
-                <button onClick={() => handleDelete(post.id)} disabled={isPending}
+                <button onClick={() => handleDelete(post.id)} disabled={isPending || !dbReady}
                   className="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-red-500/20 flex items-center justify-center transition-colors cursor-pointer">
                   <Trash2 size={14} className="text-brand-muted" />
                 </button>

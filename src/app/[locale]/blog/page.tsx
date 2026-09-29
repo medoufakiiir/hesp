@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-import { prisma } from "@/lib/db"
-import { blogPosts } from "@/data/blog"
+import { getPublishedPosts, toBlogPostData } from "@/lib/blog"
 import BlogPageClient from "./BlogPageClient"
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 
@@ -33,53 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  let postsData = [] as any
-
-  if (!process.env.DATABASE_URL) {
-    // Fallback to bundled sample posts when DATABASE_URL is not provided
-    postsData = blogPosts.map((p) => ({
-      id: p.id,
-      slug: p.slug,
-      titleEN: p.titleEN,
-      titleAR: p.titleAR,
-      excerptEN: p.excerptEN,
-      excerptAR: p.excerptAR,
-      contentEN: p.contentEN,
-      contentAR: p.contentAR,
-      image: p.image,
-      date: p.date,
-      author: p.author,
-      tags: p.tags,
-      metaTitleEN: p.metaTitleEN,
-      metaTitleAR: p.metaTitleAR,
-      metaDescEN: p.metaDescEN,
-      metaDescAR: p.metaDescAR,
-    }))
-  } else {
-    const posts = await prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { publishedAt: "desc" },
-    })
-
-    postsData = posts.map((p) => ({
-    id: p.id,
-    slug: p.slug,
-    titleEN: p.titleEn,
-    titleAR: p.titleAr,
-    excerptEN: p.excerptEn || "",
-    excerptAR: p.excerptAr || "",
-    contentEN: p.bodyEn,
-    contentAR: p.bodyAr,
-    image: p.coverImageUrl || "/images/equipment/workshop.jpg",
-    date: (p.publishedAt || p.createdAt).toISOString().split("T")[0],
-    author: "Riyada Engineering Team",
-    tags: p.keywords,
-    metaTitleEN: p.metaTitleEn || "",
-    metaTitleAR: p.metaTitleAr || "",
-    metaDescEN: p.metaDescEn || "",
-    metaDescAR: p.metaDescAr || "",
-  }))
-  }
+  const postsData = (await getPublishedPosts()).map(toBlogPostData)
 
   return (
     <>
