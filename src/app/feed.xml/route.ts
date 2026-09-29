@@ -1,5 +1,4 @@
-import { prisma } from "@/lib/db"
-import { blogPosts } from "@/data/blog"
+import { getPublishedPosts } from "@/lib/blog"
 
 // Regenerate the feed at most once per minute so newly published posts
 // are picked up quickly by automation tools (Make / Zapier / etc.).
@@ -21,32 +20,7 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-let posts: any[] = []
-  if (!process.env.DATABASE_URL) {
-    // Fallback to bundled sample posts when DATABASE_URL is not provided.
-    // The static BlogPost uses *uppercase* suffix field names (titleEN, excerptEN,
-    // metaDescEN) and `image`/`tags`, so normalize them to the DB shape the
-    // renderer below expects (titleEn, excerptEn, metaDescEn, coverImageUrl, keywords).
-    posts = blogPosts.slice(0, 50).map((p) => ({
-      slug: p.slug,
-      titleEn: p.titleEN,
-      titleAr: p.titleAR,
-      excerptEn: p.excerptEN,
-      excerptAr: p.excerptAR,
-      metaDescEn: p.metaDescEN,
-      metaDescAr: p.metaDescAR,
-      coverImageUrl: p.image,
-      keywords: p.tags,
-      publishedAt: new Date(p.date),
-      createdAt: new Date(p.date),
-    }))
-  } else {
-    posts = await prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { publishedAt: "desc" },
-      take: 50,
-    })
-  }
+  const posts = (await getPublishedPosts()).slice(0, 50)
 
   const items = posts
     .map((p) => {
@@ -61,7 +35,7 @@ let posts: any[] = []
         ? `\n      <enclosure url="${escapeXml(image)}" type="image/jpeg" length="0" />\n      <media:content url="${escapeXml(image)}" medium="image" />`
         : ""
       const categories = (p.keywords || [])
-        .map((k: string) => `\n      <category>${escapeXml(k)}</category>`)
+        .map((k) => `\n      <category>${escapeXml(k)}</category>`)
         .join("")
 
       return `    <item>

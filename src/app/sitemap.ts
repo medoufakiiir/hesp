@@ -5,7 +5,7 @@ import { routing } from "@/i18n/routing"
 import { categories as fallbackCategories } from "@/data/categories"
 import { brands as fallbackBrands } from "@/data/brands"
 import { products as fallbackProducts } from "@/data/products"
-import { blogPosts as fallbackPosts } from "@/data/blog"
+import { getPublishedPosts } from "@/lib/blog"
 
 export const revalidate = 3600
 
@@ -43,16 +43,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!process.env.DATABASE_URL) {
     categories = fallbackCategories.map((c) => ({ slug: c.slug, updatedAt: new Date() }))
     brands = fallbackBrands.map((b) => ({ slug: b.slug, updatedAt: new Date() }))
-    posts = fallbackPosts.map((p) => ({ slug: p.slug, publishedAt: new Date(p.date), updatedAt: new Date(p.date) }))
 parts = fallbackProducts.map((p) => ({ sku: p.partNumber || p.id || "", updatedAt: new Date() }))
   } else {
     const results = await Promise.all([
       prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
       prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
-      prisma.blogPost.findMany({
-        where: { published: true },
-        select: { slug: true, publishedAt: true, updatedAt: true },
-      }),
       prisma.part.findMany({
         where: { isActive: true },
         select: { sku: true, updatedAt: true },
@@ -61,9 +56,12 @@ parts = fallbackProducts.map((p) => ({ sku: p.partNumber || p.id || "", updatedA
 
     categories = results[0]
     brands = results[1]
-    posts = results[2]
-    parts = results[3]
+    parts = results[2]
   }
+
+  // Blog posts fall back to the bundled articles when the DB is empty or
+  // unreachable, independently of the catalog data above.
+  posts = await getPublishedPosts()
 
   const routes: RouteDef[] = [
     { path: "", changeFrequency: "weekly", priority: 1 },

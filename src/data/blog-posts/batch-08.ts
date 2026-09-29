@@ -1,5 +1,7 @@
-// Batch 8 — Equipment-type guides (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 8 — Equipment-type guides (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "mini-excavator-parts-guide",
     titleEn: "Mini Excavator Parts Guide: Keeping the Compact Fleet Digging",

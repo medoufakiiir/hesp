@@ -1,5 +1,7 @@
-// Batch 2 — Arabic-first commercial topics (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 2 — Arabic-first commercial topics (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "tashleeh-vs-new-heavy-equipment-parts",
     titleEn: "Tashleeh (Scrapyard) Parts vs New: The True Cost for Saudi Equipment Owners",

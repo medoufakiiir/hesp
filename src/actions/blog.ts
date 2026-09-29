@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { canManageBlog, canDelete } from "@/lib/rbac"
+import { missingBundledPosts } from "@/lib/blog"
 
 const BlogSchema = z.object({
   slug: z.string().min(1).max(300).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid slug"),
@@ -130,4 +131,27 @@ export async function togglePublish(id: string) {
 
   revalidatePath("/admin/blog")
   revalidatePath("/blog")
+}
+
+/**
+ * Re-inserts any bundled article (src/data/blog-posts) whose slug is missing
+ * from the database, as published. Existing rows are never touched, so posts
+ * an admin edited, unpublished or wrote from scratch are left alone. Used to
+ * repopulate a fresh database, e.g. after moving the project to a new
+ * Vercel account.
+ */
+export async function restoreBundledPosts() {
+  await requireBlogRole()
+
+  const existing = await prisma.blogPost.findMany({ select: { slug: true } })
+  const missing = missingBundledPosts(existing.map((p) => p.slug))
+  if (missing.length > 0) {
+    await prisma.blogPost.createMany({ data: missing, skipDuplicates: true })
+  }
+
+  revalidatePath("/admin/blog")
+  revalidatePath("/[locale]/blog", "layout")
+  revalidatePath("/feed.xml")
+  revalidatePath("/sitemap.xml")
+  return { restored: missing.length }
 }

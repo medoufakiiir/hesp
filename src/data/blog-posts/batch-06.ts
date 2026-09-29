@@ -1,5 +1,7 @@
-// Batch 6 — Industry verticals (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 6 — Industry verticals (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "mining-equipment-parts-saudi-maaden",
     titleEn: "Mining Equipment Parts in Saudi Arabia: Supporting the Kingdom's Third Pillar",

@@ -1,5 +1,7 @@
-// Batch 7 — Vision 2030 / giga projects (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 7 — Vision 2030 / giga projects (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "neom-construction-equipment-parts-supply",
     titleEn: "Supplying Parts to NEOM Contractors: How the Giga-Project Supply Chain Works",

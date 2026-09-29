@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { prisma } from "@/lib/db"
-import { getBlogBySlug, blogPosts } from "@/data/blog"
+import { getPublishedPost, getPublishedPosts, toBlogPostData } from "@/lib/blog"
 import { articleJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo"
 import BlogPostClient from "./BlogPostClient"
 
@@ -11,15 +10,8 @@ export const revalidate = 60
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params
-  let post: any = null
-  if (!process.env.DATABASE_URL) {
-    post = getBlogBySlug(slug)
-    if (!post) return {}
-  } else {
-    const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
-    if (!dbPost || !dbPost.published) return {}
-    post = dbPost
-  }
+  const post = await getPublishedPost(slug)
+  if (!post) return {}
 
   const title = post.metaTitleEn || post.titleEn
   const description = post.metaDescEn || post.excerptEn || ""
@@ -41,48 +33,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogPostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  let post: any = null
-  let relatedRaw: any[] = []
+  const post = await getPublishedPost(slug)
+  if (!post) notFound()
 
-  if (!process.env.DATABASE_URL) {
-    const p = getBlogBySlug(slug)
-    if (!p) notFound()
-    post = p
-    // take two other sample posts
-    relatedRaw = blogPosts.filter((b) => b.slug !== slug).slice(0, 2)
-  } else {
-    const dbPost = await prisma.blogPost.findUnique({ where: { slug } })
-    if (!dbPost || !dbPost.published) notFound()
-    post = dbPost
-
-    relatedRaw = await prisma.blogPost.findMany({
-      where: { published: true, slug: { not: slug } },
-      orderBy: { publishedAt: "desc" },
-      take: 2,
-    })
-  }
-
-  const toClient = (p: any) => ({
-    id: p.id,
-    slug: p.slug,
-    titleEN: p.titleEn,
-    titleAR: p.titleAr,
-    excerptEN: p.excerptEn || "",
-    excerptAR: p.excerptAr || "",
-    contentEN: p.bodyEn,
-    contentAR: p.bodyAr,
-    image: p.coverImageUrl || "/images/equipment/workshop.jpg",
-    date: (p.publishedAt || p.createdAt).toISOString().split("T")[0],
-    author: "Riyada Engineering Team",
-    tags: p.keywords,
-    metaTitleEN: p.metaTitleEn || "",
-    metaTitleAR: p.metaTitleAr || "",
-    metaDescEN: p.metaDescEn || "",
-    metaDescAR: p.metaDescAr || "",
-  })
-
-  const postData = toClient(post)
-  const related = relatedRaw.map(toClient)
+  const related = (await getPublishedPosts())
+    .filter((p) => p.slug !== slug)
+    .slice(0, 2)
+    .map(toBlogPostData)
+  const postData = toBlogPostData(post)
 
   return (
     <>

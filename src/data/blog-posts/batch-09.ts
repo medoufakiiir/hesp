@@ -1,5 +1,7 @@
-// Batch 9 — Parts deep-dives (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 9 — Parts deep-dives (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "hydraulic-cylinder-repair-vs-replace",
     titleEn: "Hydraulic Cylinder Repair vs Replace: The Decision Framework",

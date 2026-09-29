@@ -1,5 +1,7 @@
-// Batch 5 — Geographic (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 5 — Geographic (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "heavy-equipment-parts-riyadh-guide",
     titleEn: "Heavy Equipment Parts in Riyadh: Where the Capital's Fleets Get Their Parts",

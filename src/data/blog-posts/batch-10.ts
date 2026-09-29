@@ -1,5 +1,7 @@
-// Batch 10 — Operations & strategy (10 posts). Seeded as drafts.
-export const posts = [
+// Batch 10 — Operations & strategy (10 posts). Bundled with the app (see index.ts).
+import type { BlogSeedPost } from "./types"
+
+export const posts: BlogSeedPost[] = [
   {
     slug: "true-cost-equipment-downtime-saudi",
     titleEn: "The True Cost of Equipment Downtime in Saudi Arabia: A Calculation Every Fleet Should Run",
